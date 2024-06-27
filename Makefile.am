@@ -4,12 +4,8 @@ LDADD=Fonts/libFonts.a GUI/libGUI.a Device/libDevice.a -llgpio -lm -lproc2
 # clean out dead code (in linkers view)
 AM_LDFLAGS=-Wl,--gc-sections 
 
-bin_PROGRAMS = clear hello fulldemo showfonts strawman
+bin_PROGRAMS = strawman
 
-hello_SOURCES     = hello.c      DEV_Config.c ImageData.c
-clear_SOURCES     = clear.c      DEV_Config.c ImageData.c
-fulldemo_SOURCES  = fulldemo.c   DEV_Config.c ImageData.c
-showfonts_SOURCES = showfonts.c  DEV_Config.c
 strawman_SOURCES  = strawman.c   DEV_Config.c gadgets.c
 
 

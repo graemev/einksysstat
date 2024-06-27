@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 /* Colours on the eInk display works a tad oddly,

@@ -28,8 +28,9 @@
 #
 ******************************************************************************/
 
-#include "EPD_Test.h"
 #include "EPD_1in54b_V2.h"  
+#include <GUI_Paint.h>
+
 #include "time.h"
 #include <libproc2/misc.h>
 #include <sys/statvfs.h>
