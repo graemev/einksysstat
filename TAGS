@@ -1,0 +1,2901 @@
+
+clear.c,32
+int EPD_1in54b_V2_test(34,1517
+
+config.h.in,215
+#undef PACKAGE4,87
+#undef PACKAGE_BUGREPORT7,182
+#undef PACKAGE_NAME10,255
+#undef PACKAGE_STRING13,335
+#undef PACKAGE_TARNAME16,417
+#undef PACKAGE_URL19,489
+#undef PACKAGE_VERSION22,554
+#undef VERSION25,610
+
+hello.c,32
+int EPD_1in54b_V2_test(34,1517
+
+/home/graeme/src/gpv-eink/src/Fonts/TAGS,include
+
+/home/graeme/src/gpv-eink/src/GUI/TAGS,include
+
+/home/graeme/src/gpv-eink/src/Device/TAGS,include
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_Paint.c,667
+PAINT Paint;86,3765
+void Paint_NewImage(96,4147
+void Paint_SelectImage(127,5142
+void Paint_SetRotate(137,5436
+void Paint_SetMirroring(152,5997
+void Paint_SetScale(164,6456
+void Paint_SetPixel(189,7488
+void Paint_Clear(266,9837
+void Paint_ClearWindows(301,10949
+void Paint_DrawPoint(320,11618
+void Paint_DrawLine(358,13241
+void Paint_DrawRectangle(416,15323
+void Paint_DrawCircle(449,16784
+void Paint_DrawChar(518,20335
+void Paint_DrawString_EN(567,22670
+void Paint_DrawString_CN(612,24327
+#define  ARRAY_LEN 707,28910
+void Paint_DrawNum(708,28933
+void Paint_DrawNumDecimals(751,30365
+void Paint_DrawTime(810,32106
+void Paint_DrawBitMap(836,33846
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+fulldemo.c,18
+int main(34,1517
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+hello.c,18
+int main(34,1517
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+clear.c,18
+int main(34,1517
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_Paint.c,667
+PAINT Paint;86,3765
+void Paint_NewImage(96,4147
+void Paint_SelectImage(127,5142
+void Paint_SetRotate(137,5436
+void Paint_SetMirroring(152,5997
+void Paint_SetScale(164,6456
+void Paint_SetPixel(189,7488
+void Paint_Clear(266,9837
+void Paint_ClearWindows(301,10949
+void Paint_DrawPoint(320,11618
+void Paint_DrawLine(358,13241
+void Paint_DrawRectangle(416,15323
+void Paint_DrawCircle(449,16784
+void Paint_DrawChar(518,20335
+void Paint_DrawString_EN(567,22670
+void Paint_DrawString_CN(615,24411
+#define  ARRAY_LEN 710,28994
+void Paint_DrawNum(711,29017
+void Paint_DrawNumDecimals(754,30449
+void Paint_DrawTime(813,32190
+void Paint_DrawBitMap(839,33930
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+fulldemo.c,18
+int main(34,1517
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+hello.c,18
+int main(34,1517
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+gadgets.h,169
+#define _GADGETS_H_31,1459
+enum Eink_colour57,2276
+    is_black_on_grey,59,2297
+    is_red_on_grey,60,2370
+    is_black_on_red,61,2440
+    is_red_on_black,62,2503
+
+eink_sysstat.h,33
+#define _EINK_SYSSTAT_H_31,1469
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+clear.c,18
+int main(34,1517
+
+showfonts.c,87
+static void init_screen(34,1517
+static void close_and_exit(68,2451
+int main(83,2837
+
+gadgets.c,346
+static enum Eink_colour  gadget_colour 40,1634
+static UBYTE            *red_image;red_image42,1694
+static UBYTE            *black_image;black_image43,1730
+static void init_screen(46,1770
+enum Eink_colour ga_set_colour(84,2752
+enum Eink_colour ga_get_colour(91,2864
+void ga_init(96,2926
+int ga_hostname(114,3314
+void ga_render(201,5044
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+strawman.c,87
+static void init_screen(36,1637
+static void close_and_exit(71,2528
+int main(92,2927
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_Paint.c,667
+PAINT Paint;86,3765
+void Paint_NewImage(96,4147
+void Paint_SelectImage(127,5142
+void Paint_SetRotate(137,5436
+void Paint_SetMirroring(152,5997
+void Paint_SetScale(164,6456
+void Paint_SetPixel(189,7488
+void Paint_Clear(266,9837
+void Paint_ClearWindows(301,10949
+void Paint_DrawPoint(320,11618
+void Paint_DrawLine(358,13241
+void Paint_DrawRectangle(416,15323
+void Paint_DrawCircle(449,16784
+void Paint_DrawChar(518,20335
+void Paint_DrawString_EN(567,22670
+void Paint_DrawString_CN(615,24411
+#define  ARRAY_LEN 710,28994
+void Paint_DrawNum(711,29017
+void Paint_DrawNumDecimals(754,30449
+void Paint_DrawTime(813,32190
+void Paint_DrawBitMap(839,33930
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+fulldemo.c,18
+int main(34,1517
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+hello.c,18
+int main(34,1517
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+gadgets.h,169
+#define _GADGETS_H_31,1459
+enum Eink_colour57,2276
+    is_black_on_grey,59,2297
+    is_red_on_grey,60,2370
+    is_black_on_red,61,2440
+    is_red_on_black,62,2503
+
+eink_sysstat.h,33
+#define _EINK_SYSSTAT_H_31,1469
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+clear.c,18
+int main(34,1517
+
+showfonts.c,87
+static void init_screen(34,1517
+static void close_and_exit(68,2451
+int main(83,2837
+
+gadgets.c,346
+static enum Eink_colour  gadget_colour 40,1634
+static UBYTE            *red_image;red_image42,1694
+static UBYTE            *black_image;black_image43,1730
+static void init_images(46,1770
+enum Eink_colour ga_set_colour(84,2752
+enum Eink_colour ga_get_colour(91,2864
+void ga_init(96,2926
+int ga_hostname(124,3578
+void ga_render(211,5308
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+strawman.c,54
+static void close_and_exit(40,1641
+int main(61,2040
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_Paint.c,667
+PAINT Paint;86,3765
+void Paint_NewImage(96,4147
+void Paint_SelectImage(127,5142
+void Paint_SetRotate(137,5436
+void Paint_SetMirroring(152,5997
+void Paint_SetScale(164,6456
+void Paint_SetPixel(189,7488
+void Paint_Clear(266,9837
+void Paint_ClearWindows(301,10949
+void Paint_DrawPoint(320,11618
+void Paint_DrawLine(358,13241
+void Paint_DrawRectangle(416,15323
+void Paint_DrawCircle(449,16784
+void Paint_DrawChar(518,20335
+void Paint_DrawString_EN(567,22670
+void Paint_DrawString_CN(615,24411
+#define  ARRAY_LEN 710,28994
+void Paint_DrawNum(711,29017
+void Paint_DrawNumDecimals(754,30449
+void Paint_DrawTime(813,32190
+void Paint_DrawBitMap(839,33930
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+fulldemo.c,18
+int main(34,1517
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+hello.c,18
+int main(34,1517
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+gadgets.h,169
+#define _GADGETS_H_31,1459
+enum Eink_colour57,2276
+    is_black_on_grey,59,2297
+    is_red_on_grey,60,2370
+    is_black_on_red,61,2440
+    is_red_on_black,62,2503
+
+eink_sysstat.h,33
+#define _EINK_SYSSTAT_H_31,1469
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+clear.c,18
+int main(34,1517
+
+showfonts.c,87
+static void init_screen(34,1517
+static void close_and_exit(68,2451
+int main(83,2837
+
+gadgets.c,483
+static enum Eink_colour  gadget_colour 40,1634
+static UBYTE            *red_image;red_image42,1694
+static UBYTE            *black_image;black_image43,1730
+static void init_display(45,1769
+static void init_images(58,1971
+enum Eink_colour ga_set_colour(87,2766
+enum Eink_colour ga_get_colour(94,2878
+void ga_display_init(99,2940
+void ga_image_init(110,3073
+void ga_image_release(129,3468
+void ga_display_release(141,3618
+void ga_render(157,4009
+int ga_hostname(169,4349
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+strawman.c,18
+int main(45,1646
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_Paint.c,667
+PAINT Paint;86,3765
+void Paint_NewImage(96,4147
+void Paint_SelectImage(127,5142
+void Paint_SetRotate(137,5436
+void Paint_SetMirroring(152,5997
+void Paint_SetScale(164,6456
+void Paint_SetPixel(189,7488
+void Paint_Clear(266,9837
+void Paint_ClearWindows(301,10949
+void Paint_DrawPoint(320,11618
+void Paint_DrawLine(358,13241
+void Paint_DrawRectangle(416,15323
+void Paint_DrawCircle(449,16784
+void Paint_DrawChar(518,20335
+void Paint_DrawString_EN(567,22670
+void Paint_DrawString_CN(615,24411
+#define  ARRAY_LEN 710,28994
+void Paint_DrawNum(711,29017
+void Paint_DrawNumDecimals(754,30449
+void Paint_DrawTime(813,32190
+void Paint_DrawBitMap(839,33930
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+fulldemo.c,18
+int main(34,1517
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+hello.c,18
+int main(34,1517
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+gadgets.h,169
+#define _GADGETS_H_31,1459
+enum Eink_colour57,2276
+    is_black_on_grey,59,2297
+    is_red_on_grey,60,2370
+    is_black_on_red,61,2440
+    is_red_on_black,62,2503
+
+eink_sysstat.h,33
+#define _EINK_SYSSTAT_H_31,1469
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+clear.c,18
+int main(34,1517
+
+showfonts.c,87
+static void init_screen(34,1517
+static void close_and_exit(68,2451
+int main(83,2837
+
+gadgets.c,483
+static enum Eink_colour  gadget_colour 40,1634
+static UBYTE            *red_image;red_image42,1694
+static UBYTE            *black_image;black_image43,1730
+static void init_display(45,1769
+static void init_images(58,1971
+enum Eink_colour ga_set_colour(87,2766
+enum Eink_colour ga_get_colour(94,2878
+void ga_display_init(99,2940
+void ga_image_init(110,3073
+void ga_image_release(129,3468
+void ga_display_release(141,3618
+void ga_render(157,4009
+int ga_hostname(169,4349
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+strawman.c,18
+int main(45,1646
+
+hello.c,18
+int main(34,1517
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+eink_sysstat.h,33
+#define _EINK_SYSSTAT_H_31,1469
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+gadgets.h,169
+#define _GADGETS_H_31,1459
+enum Eink_colour57,2276
+    is_black_on_grey,59,2297
+    is_red_on_grey,60,2370
+    is_black_on_red,61,2440
+    is_red_on_black,62,2503
+
+gadgets.c,735
+static enum Eink_colour  gadget_colour 43,1663
+static UBYTE            *red_image;red_image45,1723
+static UBYTE            *black_image;black_image46,1759
+static struct gc 48,1798
+  UWORD black_fg;50,1836
+  UWORD black_bg;51,1854
+  UWORD red_fg;52,1872
+  UWORD red_bg;53,1888
+} gc;54,1904
+static void init_display(56,1911
+static void init_images(69,2113
+enum Eink_colour ga_set_colour(110,3175
+enum Eink_colour ga_get_colour(149,4129
+void ga_display_init(154,4191
+void ga_image_init(165,4324
+void ga_image_release(196,5076
+void ga_display_release(208,5226
+void ga_render(224,5618
+sFONT *get_font(get_font229,5733
+int ga_hostname(264,6396
+int ga_timestamp(299,7236
+int ga_uptime(328,7908
+int ga_meter(389,9152
+
+fulldemo.c,18
+int main(34,1517
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+showfonts.c,87
+static void init_screen(34,1517
+static void close_and_exit(68,2451
+int main(83,2837
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_Paint.c,669
+PAINT Paint;92,3965
+void Paint_NewImage(102,4347
+void Paint_SelectImage(133,5342
+void Paint_SetRotate(143,5636
+void Paint_SetMirroring(158,6197
+void Paint_SetScale(170,6656
+void Paint_SetPixel(195,7688
+void Paint_Clear(272,10037
+void Paint_ClearWindows(307,11149
+void Paint_DrawPoint(326,11818
+void Paint_DrawLine(364,13441
+void Paint_DrawRectangle(422,15523
+void Paint_DrawCircle(455,16984
+void Paint_DrawChar(524,20535
+void Paint_DrawString_EN(573,22870
+void Paint_DrawString_CN(621,24611
+#define  ARRAY_LEN 716,29194
+void Paint_DrawNum(717,29217
+void Paint_DrawNumDecimals(760,30649
+void Paint_DrawTime(819,32390
+void Paint_DrawBitMap(845,34130
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+clear.c,18
+int main(34,1517
+
+strawman.c,18
+int main(45,1646
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
+
+hello.c,18
+int main(34,1517
+
+ImageData.c,2670
+const unsigned char flagimage[flagimage35,1422
+const unsigned char gImage_2in13_2[gImage_2in13_213480,686904
+const unsigned char gImage_1in02d[gImage_1in02d13740,707245
+const unsigned char gImage_1in54[gImage_1in5413905,720292
+const unsigned char gImage_1in54b_Black[gImage_1in54b_Black14220,745688
+const unsigned char gImage_1in54b_Red[gImage_1in54b_Red14536,771088
+const unsigned char gImage_1in54c_Black[gImage_1in54c_Black14852,796487
+const unsigned char gImage_1in54c_Yellow[gImage_1in54c_Yellow15035,811194
+const unsigned char gImage_2in7[gImage_2in715220,825905
+const unsigned char gImage_2in7b_Red[gImage_2in7b_Red15586,855393
+const unsigned char gImage_2in7b_Black[gImage_2in7b_Black15952,884882
+const unsigned char gImage_2in7_4Gray[gImage_2in7_4Gray16319,914374
+const unsigned char gImage_2in7_4Gray1[gImage_2in7_4Gray117048,973270
+const unsigned char gImage_2in9[gImage_2in917780,1032170
+const unsigned char gImage_2in9bc_b[gImage_2in9bc_b18079,1056225
+const unsigned char gImage_2in9bc_ry[gImage_2in9bc_ry18378,1080285
+const unsigned char gImage_2in13[gImage_2in1318680,1104349
+const unsigned char gImage_2in13b_b[gImage_2in13b_b18933,1124679
+const unsigned char gImage_2in13b_r[gImage_2in13b_r19109,1138715
+const unsigned char gImage_2in13c_b[gImage_2in13c_b19285,1152751
+const unsigned char gImage_2in13c_y[gImage_2in13c_y19460,1166786
+const unsigned char gImage_2in13d[gImage_2in13d19635,1180821
+const unsigned char gImage_4in2[gImage_4in219811,1194859
+const unsigned char gImage_4in2_4Gray[gImage_4in2_4Gray20752,1270877
+const unsigned char gImage_4in2_4Gray1[gImage_4in2_4Gray122630,1422842
+const unsigned char gImage_4in2bc_b[gImage_4in2bc_b24509,1574809
+const unsigned char gImage_4in2bc_ry[gImage_4in2bc_ry25450,1650831
+const unsigned char gImage_5in83[gImage_5in8326391,1726854
+const unsigned char gImage_5in83_V2[gImage_5in83_V228495,1897035
+const unsigned char gImage_5in83bc_b[gImage_5in83bc_b30929,2093952
+const unsigned char gImage_5in83bc_ry[gImage_5in83bc_ry33032,2264141
+const unsigned char gImage_5in83b_V2_b[gImage_5in83b_V2_b35135,2434331
+const unsigned char gImage_5in83b_V2_r[gImage_5in83b_V2_r37569,2631251
+const unsigned char gImage_5in84[gImage_5in8440003,2828171
+const unsigned char gImage_7in5[gImage_7in541543,2952671
+const unsigned char gImage_7in5_V2[gImage_7in5_V243466,3108270
+const unsigned char gImage_7in5bc_b[gImage_7in5bc_b46469,3351357
+const unsigned char gImage_7in5bc_ry[gImage_7in5bc_ry48392,3506965
+const unsigned char gImage_7in5_V2_b[gImage_7in5_V2_b50315,3662574
+const unsigned char gImage_7in5_V2_ry[gImage_7in5_V2_ry53318,3905663
+
+eink_sysstat.h,33
+#define _EINK_SYSSTAT_H_31,1469
+
+Junk/dev_hardware_SPI.h,1134
+#define __DEV_HARDWARE_SPI_32,1505
+#define DEV_HARDWARE_SPI_DEBUG 36,1555
+#define DEV_HARDWARE_SPI_Debug(38,1615
+#define DEV_HARDWARE_SPI_Debug(40,1703
+#define SPI_CPHA 43,1754
+#define SPI_CPOL 44,1783
+#define SPI_MODE_0 45,1812
+#define SPI_MODE_1 46,1842
+#define SPI_MODE_2 47,1879
+#define SPI_MODE_3 48,1916
+    SPI_MODE0 51,1975
+    SPI_MODE1 52,2031
+    SPI_MODE2 53,2087
+    SPI_MODE3 54,2143
+}SPIMode;SPIMode55,2199
+    DISABLE 58,2224
+    ENABLE 59,2242
+}SPICSEN;SPICSEN60,2259
+    SPI_CS_Mode_LOW 63,2284
+    SPI_CS_Mode_HIGH 64,2336
+    SPI_CS_Mode_NONE 65,2388
+}SPIChipSelect;SPIChipSelect66,2449
+    SPI_BIT_ORDER_LSBFIRST 70,2481
+    SPI_BIT_ORDER_MSBFIRST 71,2532
+}SPIBitOrder;SPIBitOrder72,2583
+    SPI_3WIRE_Mode 76,2613
+    SPI_4WIRE_Mode 77,2637
+}BusMode;BusMode78,2660
+typedef struct SPIStruct 84,2704
+    uint16_t SCLK_PIN;86,2742
+    uint16_t MOSI_PIN;87,2765
+    uint16_t MISO_PIN;88,2788
+    uint16_t CS0_PIN;90,2816
+    uint16_t CS1_PIN;91,2838
+    uint32_t speed;94,2870
+    uint16_t mode;95,2890
+    uint16_t delay;96,2909
+    int fd;97,2929
+} HARDWARE_SPI;98,2944
+
+Junk/dev_hardware_SPI.c,759
+HARDWARE_SPI hardware_SPI;47,1755
+static uint8_t bits 49,1783
+#define SPI_CS_HIGH 53,1902
+#define SPI_LSB_FIRST 54,1967
+#define SPI_3WIRE 55,2019
+#define SPI_LOOP 56,2097
+#define SPI_NO_CS 57,2159
+#define SPI_READY 58,2271
+struct spi_ioc_transfer tr;61,2368
+void DEV_HARDWARE_SPI_begin(72,2679
+void DEV_HARDWARE_SPI_beginSet(107,3836
+void DEV_HARDWARE_SPI_end(139,4864
+int DEV_HARDWARE_SPI_setSpeed(154,5337
+int DEV_HARDWARE_SPI_Mode(191,6428
+int DEV_HARDWARE_SPI_CSEN(215,7082
+int DEV_HARDWARE_SPI_ChipSelect(242,7795
+int DEV_HARDWARE_SPI_SetBitOrder(273,8769
+int DEV_HARDWARE_SPI_SetBusMode(304,9785
+void DEV_HARDWARE_SPI_SetDataInterval(325,10466
+uint8_t DEV_HARDWARE_SPI_TransferByte(337,10834
+int DEV_HARDWARE_SPI_Transfer(355,11430
+
+gadgets.h,169
+#define _GADGETS_H_31,1459
+enum Eink_colour57,2276
+    is_black_on_grey,59,2297
+    is_red_on_grey,60,2370
+    is_black_on_red,61,2440
+    is_red_on_black,62,2503
+
+gadgets.c,735
+static enum Eink_colour  gadget_colour 43,1663
+static UBYTE            *red_image;red_image45,1723
+static UBYTE            *black_image;black_image46,1759
+static struct gc 48,1798
+  UWORD black_fg;50,1836
+  UWORD black_bg;51,1854
+  UWORD red_fg;52,1872
+  UWORD red_bg;53,1888
+} gc;54,1904
+static void init_display(56,1911
+static void init_images(69,2113
+enum Eink_colour ga_set_colour(110,3175
+enum Eink_colour ga_get_colour(149,4129
+void ga_display_init(154,4191
+void ga_image_init(165,4324
+void ga_image_release(196,5076
+void ga_display_release(208,5226
+void ga_render(224,5618
+sFONT *get_font(get_font229,5733
+int ga_hostname(264,6396
+int ga_timestamp(299,7236
+int ga_uptime(328,7908
+int ga_meter(389,9152
+
+fulldemo.c,18
+int main(34,1517
+
+config.h,304
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
+
+showfonts.c,87
+static void init_screen(34,1517
+static void close_and_exit(68,2451
+int main(83,2837
+
+Debug.h,74
+#define __DEBUG_H36,1644
+	#define Debug(41,1693
+	#define Debug(43,1765
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+Device/Junk/EPD_1in54_V2.h,107
+#define __EPD_1IN54_V2_H_31,1464
+#define EPD_1IN54_V2_WIDTH 36,1538
+#define EPD_1IN54_V2_HEIGHT 37,1575
+
+Device/Junk/EPD_1in54_V2.c,832
+unsigned char WF_Full_1IN54[WF_Full_1IN5434,1506
+unsigned char WF_PARTIAL_1IN54_0[WF_PARTIAL_1IN54_058,2472
+static void EPD_1IN54_V2_Reset(85,3388
+static void EPD_1IN54_V2_SendCommand(100,3835
+static void EPD_1IN54_V2_SendData(113,4244
+static void EPD_1IN54_V2_ReadBusy(125,4653
+static void EPD_1IN54_V2_TurnOnDisplay(138,5080
+static void EPD_1IN54_V2_TurnOnDisplayPart(150,5464
+static void EPD_1IN54_V2_Lut(158,5652
+static void EPD_1IN54_V2_SetLut(166,5818
+static void EPD_1IN54_V2_SetWindows(185,6256
+static void EPD_1IN54_V2_SetCursor(198,6773
+void EPD_1IN54_V2_Init(212,7319
+void EPD_1IN54_V2_Init_Partial(250,8470
+void EPD_1IN54_V2_Clear(281,9401
+void EPD_1IN54_V2_Display(306,10222
+void EPD_1IN54_V2_DisplayPartBaseImage(328,11005
+void EPD_1IN54_V2_DisplayPart(356,11953
+void EPD_1IN54_V2_Sleep(377,12641
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2119
+void DEV_SPI_WriteByte(104,2604
+void DEV_SPI_Write_nByte(127,3035
+void DEV_GPIO_Mode(158,3664
+void DEV_Delay_ms(207,4800
+static int DEV_Equipment_Testing(232,5144
+void DEV_GPIO_Init(282,6254
+void DEV_SPI_SendnData(316,7033
+void DEV_SPI_SendData(326,7197
+UBYTE DEV_SPI_ReadData(350,7718
+UBYTE DEV_Module_Init(379,8386
+void DEV_Module_Exit(482,11439
+
+GUI/GUI_BMPfile.c,176
+UBYTE GUI_ReadBmp(58,2324
+UBYTE GUI_ReadBmp_4Gray(143,5618
+UBYTE GUI_ReadBmp_16Gray(208,8317
+UBYTE GUI_ReadBmp_RGB_7Color(289,11158
+UBYTE GUI_ReadBmp_RGB_4Color(368,14288
+
+GUI/GUI_Paint.c,669
+PAINT Paint;92,3965
+void Paint_NewImage(102,4347
+void Paint_SelectImage(133,5342
+void Paint_SetRotate(143,5636
+void Paint_SetMirroring(158,6197
+void Paint_SetScale(170,6656
+void Paint_SetPixel(195,7688
+void Paint_Clear(272,10037
+void Paint_ClearWindows(307,11149
+void Paint_DrawPoint(326,11818
+void Paint_DrawLine(364,13441
+void Paint_DrawRectangle(422,15523
+void Paint_DrawCircle(455,16984
+void Paint_DrawChar(524,20535
+void Paint_DrawString_EN(573,22870
+void Paint_DrawString_CN(621,24611
+#define  ARRAY_LEN 716,29194
+void Paint_DrawNum(717,29217
+void Paint_DrawNumDecimals(760,30649
+void Paint_DrawTime(819,32390
+void Paint_DrawBitMap(845,34130
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
+
+GUI/GUI_BMPfile.h,898
+#define __GUI_BMPFILE_H46,2113
+typedef struct BMP_FILE_HEADER 56,2273
+    UWORD bType;57,2306
+    UDOUBLE bSize;58,2348
+    UWORD bReserved1;59,2395
+    UWORD bReserved2;60,2454
+    UDOUBLE bOffset;61,2513
+} __attribute__ ((packed)) BMPFILEHEADER;62,2627
+typedef struct BMP_INFO 65,2719
+    UDOUBLE biInfoSize;66,2745
+    UDOUBLE biWidth;67,2799
+    UDOUBLE biHeight;68,2853
+    UWORD biPlanes;69,2908
+    UWORD biBitCount;70,2973
+    UDOUBLE biCompression;71,3033
+    UDOUBLE bimpImageSize;72,3081
+    UDOUBLE biXPelsPerMeter;73,3144
+    UDOUBLE biYPelsPerMeter;74,3197
+    UDOUBLE biClrUsed;75,3248
+    UDOUBLE biClrImportant;76,3305
+} __attribute__ ((packed)) BMPINFOHEADER;77,3367
+typedef struct RGB_QUAD 80,3436
+    UBYTE rgbBlue;81,3462
+    UBYTE rgbGreen;82,3512
+    UBYTE rgbRed;83,3562
+    UBYTE rgbReversed;84,3611
+} __attribute__ ((packed)) BMPRGBQUAD;85,3661
+
+clear.c,18
+int main(34,1517
+
+strawman.c,18
+int main(45,1646
+
+EPD_Test.h,29
+#define _EPD_TEST_H_31,1451
+
+ImageData.h,30
+#define _IMAGEDATA_H_33,1419
