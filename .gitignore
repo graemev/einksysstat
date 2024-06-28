@@ -2,6 +2,8 @@
 #*
 *~
 *.a
+testdata
+strawman
 
 # http://www.gnu.org/software/automake
 

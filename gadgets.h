@@ -96,7 +96,7 @@ int		 ga_uptime    (UWORD xstart, UWORD ystart, int fsize);
 int		 ga_meter     (UWORD xstart, UWORD ystart, int fsize, int value, enum Eink_colour colour);
 int              ga_df        (UWORD ystart, int fsize, char *device, char * label, enum df_units units, int cutoff);
 int		 ga_age       (UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, enum age_units units, int cutoff);
-
+int		 ga_file      (UWORD xstart, UWORD ystart, int fsize, char *filename, int lines);
 
 #endif
 

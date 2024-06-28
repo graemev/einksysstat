@@ -58,7 +58,8 @@ int main(void)
     ga_df(105,24,"/dev/nvme0n1p3/lost+found", "NV2",  df_best,20);          /* line 105 */
     ga_age(0,130, 24,"/boot/firmware/config.txt", "BACKUP1",  age_days,20); /* line 130 */
     ga_age(0,155, 24,"/home/graeme/src",          "BACKUP2",  age_days,180); /* line 155 */
-
+    ga_file(0, 180, 8, "/etc/motm", 0);                                      /* line 180 */
+    
 #if 0
 
     ga_set_colour(is_black_on_red);

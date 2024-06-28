@@ -35,7 +35,7 @@
 #include <libproc2/misc.h>
 #include <sys/statvfs.h>
 #include <sys/stat.h>
-
+#include <sys/param.h>
 
 #include "gadgets.h"
 
@@ -54,21 +54,6 @@ static struct gc  // Gadget colours
   UWORD red_fg;
   UWORD red_bg;
 } gc;
-
-static int font_width(int fsize)  // Not the obvious value you might guess
-{
-  int width;
-
-  switch (fsize)
-    {
-    case (8):  width=6;  break;
-    case (12): width=7;  break;
-    case (16): width=11; break;
-    case (24): width=17; break;
-    default:   width=-1;
-    }
-  return width;
-}
 
 
 static void init_display()
@@ -274,6 +259,30 @@ sFONT *get_font(int fsize)
     }
   return font;
 }
+
+
+static int font_width(int fsize)  // Not the obvious value you might guess
+{
+  sFONT *font;
+  int   width;
+
+  font  = get_font(fsize);
+  width = font->Width;
+
+  return width;
+}
+
+static int font_height(int fsize)  // Not the obvious value you might guess
+{
+  sFONT *font;
+  int   height;
+
+  font   = get_font(fsize);
+  height = font->Height;
+
+  return height;
+}
+
 
 
 /* ======================================== The Gadets proper ==================================
@@ -668,7 +677,89 @@ int ga_age(UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, 
   ga_text(xstart, ystart, fsize, buffer, colour);
 }
 
+/* int ga_file(UWORD xstart, UWORD ystart, int fsize, char *filename, int lines)
+ *
+ * Display some lines from a file.
+ *
+ * UWORD xstart - X co-ord
+ * UWORD ystart - Y co-ord
+ * int   fsize  - Font size (8,12,16,20,24 Only)
+ * char *filename - file where text comes from
+ * int   lines  - number of liines to show 0 = maximum possible
+ */
 
+
+
+
+
+int ga_file(UWORD xstart, UWORD ystart, int fsize, char *filename, int lines)
+{
+  int    xspace;
+  int    yspace;
+  int    max_cols;
+  int    max_lines;
+  FILE  *f;
+  size_t buffer_size = 256;
+  char  *buffer;
+  size_t n;
+  int	 rc=0;
+  int	 i;
+  int	 offset;
+  int	 char_width;
+  int	 char_height;
+  char	*p;
+  
+  
+  xspace = 200-xstart;
+  yspace = 200-ystart;
+
+  char_width  = font_width(fsize);
+  char_height = font_height(fsize);
+
+  
+  max_cols = xspace/char_width;
+  max_lines = yspace/char_height;
+
+  if (lines !=0 && lines < max_lines)  // caller may limit
+    max_lines = lines;
+
+  buffer=malloc(buffer_size);
+
+  if ((f=fopen(filename, "r")) == NULL)
+    {
+      strncpy(buffer, strerror(errno), MIN(buffer_size, max_cols));
+      ga_text (xstart, ystart, fsize, buffer, gadget_colour);
+    }
+  else
+    {
+      offset=0;
+      for (i=0; i<max_lines; ++i)
+	{
+	  if ((n = getline(&buffer, &buffer_size, f)) == -1)
+	    {
+	      perror(filename);
+	      n  = 0;
+	      rc = errno;
+	    }
+
+	  buffer[n-1]='\0'; // Remove the Newline (it kills Eink library)
+	  
+	  if (n>max_cols)
+	    buffer[max_cols]='\0';
+
+
+	  /* turns out the libary BARFS (segfault) for characters outside range (they could check!) */
+	  for (p=buffer; *p; ++p)
+	    {
+	      if (*p < ' ' || *p > '~')
+		(*p) = '.';
+	    }
+	  
+	  ga_text (xstart  , ystart+offset, fsize, buffer, gadget_colour);
+	  offset += char_height;
+	}
+    }
+}
 
 
 /* /usr/include/libproc2/misc.h */
