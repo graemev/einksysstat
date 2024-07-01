@@ -36,6 +36,7 @@
 #include <sys/statvfs.h>
 #include <sys/stat.h>
 #include <sys/param.h>
+#include <unistd.h>
 
 #include "gadgets.h"
 
@@ -56,18 +57,28 @@ static struct gc  // Gadget colours
 } gc;
 
 
-static void init_display()
+static void init_module()   // Twiddles with GPIO Pins to make display active
 {
-  Debug("Initalise Display\n");
+  Debug("Initalise Module\n");
   if(DEV_Module_Init()!=0)
     {
       fprintf(stderr, "Failed to initalise display\n");
       exit(1);
     }
-  
+}
+
+static void init_display()   // Twiddles with GPIO Pins to make display active
+{
+  Debug("Initalise 1IN54B_V2\n");
   EPD_1IN54B_V2_Init();
 }
 
+/*
+ * init_images(UBYTE **black, UBYTE **red) -- NB malloc(3)s space for red & black arrays (freed in ga_image_release())
+ * UBYTE **black
+ * UBYTE **red
+ *
+ */
 
 static void init_images(UBYTE **black, UBYTE **red)
 {
@@ -154,23 +165,46 @@ enum Eink_colour ga_set_colour(enum Eink_colour colour)
   return gadget_colour;
 }
 
-enum Eink_colour ga_get_colour()
-{
-  return gadget_colour;
-}
 
-void ga_display_init()
-{
-  Debug("ga_display_init start\n");
+/*
+ * ga_init_module() - Logically initally setup module (eg enable the SPI pins)
+ */
 
-  init_display();
+void ga_init_module()
+{
+  Debug("ga_init_module start\n");
+
+  init_module(); // Twiddle with GPIO pins to setup the module
   
-  Debug("ga_display_init end\n");
+  Debug("ga_init_module end\n");
   
   return;
 }
 
-void ga_image_init(enum Eink_colour colour, UWORD rotate)
+
+/*
+ * ga_init_display() - Logically initally setup display [1IN54B_V2] (eg enable the SPI pins) Only ever done once
+ */
+
+void ga_init_display()
+{
+  Debug("ga_init_display start\n");
+
+  init_display(); // Twiddle with GPIO pins to setup the display
+  
+  Debug("ga_init_display end\n");
+  
+  return;
+}
+
+/*
+ * ga_image_init(enum Eink_colour colour, UWORD rotate)
+ *   enum Eink_colour colour	- default colour used on internal data structures (e.g is_black_on_grey)
+ *   UWORD rotate		- e.g. 90 only 0, 90, 180 or 270 degrees allowed
+ */
+
+
+void ga_init_image(enum Eink_colour colour, UWORD rotate)
 {
   struct timespec start={0,0}, finish={0,0}; 
   
@@ -191,17 +225,20 @@ void ga_image_init(enum Eink_colour colour, UWORD rotate)
   Paint_Clear(0XFF);
   Paint_SelectImage(red_image);
   Paint_Clear(0xFF);
-  Debug("ga_image_init done 0XFF\n");
+  Debug("ga_init_image done 0XFF\n");
 
   clock_gettime(CLOCK_REALTIME,&finish);
 
-  Debug("%ld Seconds to do ga_image_init\n",finish.tv_sec-start.tv_sec);
+  Debug("%ld Seconds to do ga_init_image\n",finish.tv_sec-start.tv_sec);
   
   return;
 }
 
+/*
+ * ga_image_release() - NB it free(3)s memory allocated in init_images(UBYTE **black, UBYTE **red)
+ */
 
-void ga_image_release()
+void ga_release_image()
 {
   EPD_1IN54B_V2_Sleep();
   free(black_image);
@@ -213,7 +250,7 @@ void ga_image_release()
 }
 
 
-void ga_display_release()
+void ga_release_module()
 {
   struct timespec start={0,0}, finish={0,0};
   clock_gettime(CLOCK_REALTIME,&start);
@@ -233,6 +270,26 @@ void ga_render()  // Take the images abd display on the eInk
 {
   EPD_1IN54B_V2_Display(black_image, red_image);
 }
+
+void ga_clear()  // Just clear the screen (not full setup) then clear out teh red & black images
+{
+  EPD_1IN54B_V2_Clear();
+
+  Debug("Writing 0X00\n");
+  Paint_SelectImage(black_image);
+  Paint_Clear(0X00);
+  Paint_SelectImage(red_image);
+  Paint_Clear(0x00);
+
+  Debug("Writing 0XFF\n");
+  Paint_SelectImage(black_image);
+  Paint_Clear(0XFF);
+  Paint_SelectImage(red_image);
+  Paint_Clear(0xFF);
+
+}
+
+
 
 sFONT *get_font(int fsize)
 {
@@ -759,6 +816,29 @@ int ga_file(UWORD xstart, UWORD ystart, int fsize, char *filename, int lines)
 	  offset += char_height;
 	}
     }
+
+  free(buffer); // needed to be dynamic as getline MAY have reallocated (probably didn't)
+  
+}
+
+
+/*
+ * ga_sleep - Just a regular sleep, put thread to sleep for some seconds (used to control screen updates (e.g once an hour)
+ * unsigned int seconds - how long to sleep
+ *
+ * Before going to sleep, it releases the module (which puts it in a low power mode), then reinits the module once awake.
+ *
+ *
+ */
+
+int ga_sleep(unsigned int seconds)
+{
+  ga_release_module();
+  Debug("Going to sleep (%d sec)\n", seconds);
+  sleep(seconds);
+  Debug("Awoke from sleep\n");
+
+  // ga_init_module();  GPV TBD
 }
 
 

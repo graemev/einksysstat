@@ -1,12 +1,12 @@
 /*****************************************************************************
-* | File      	:	eink_sysstat.h
-* | Author      :	Graeme Vetterlein
-* | Function    :	e-Paper Display system status
+* | File      	:   strawman.c
+* | Author      :   Graeme Vetterlein
+* | Function    :   1.54inch B e-paper PoC display NAS stats on e-Ink panel
 * | Info        :
 *----------------
 * |	This version:   V0.1
-* | Date        :   2024-0620
-* | Info        :   
+* | Date        :   2024-06-20
+* | Info        :
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documnetation files (the "Software"), to deal
@@ -27,16 +27,56 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#ifndef _EINK_SYSSTAT_H_
-#define _EINK_SYSSTAT_H_
 
-#include "DEV_Config.h"   // Use libgpio (or wiringpi or bcm2835_lib or dev_lib
-#include "GUI_Paint.h"	  // All the drawing on canvas routines
-#include "fonts.h"	  // Actual bitmaps of Fonts (various sizes)
-#include "gadgets.h"	  // Gadgets to display stats
-#include "actions.h"
-
-#include "Debug.h"
+#include "eink_sysstat.h"
+#include "EPD_1in54b_V2.h"  // Hardware specific routines (e.g. what pins to toggle to move canvas onto actual display)
+#include "time.h"
 
 
-#endif
+
+
+
+
+
+
+
+
+
+int main(void)
+{
+  struct timespec start={0,0}, finish={0,0};
+
+
+  fprintf(stderr, "Init 1\n");
+  
+  if(DEV_Module_Init()!=0)
+    {
+      fprintf(stderr, "Failed to initalise display\n");
+      exit(1);
+    }
+  fprintf(stderr, "Init 1 Done\n");
+
+
+
+  
+  fprintf(stderr, "Exit 1\n");
+  DEV_Module_Exit();
+  fprintf(stderr, "Exit 1 done\n");
+
+  fprintf(stderr, "Init 2\n");
+  if(DEV_Module_Init()!=0)
+    {
+      fprintf(stderr, "Failed to initalise display\n");
+      exit(1);
+    }
+  fprintf(stderr, "Init 2 Done\n");
+
+  fprintf(stderr, "Exit 2\n");
+  DEV_Module_Exit();
+  fprintf(stderr, "Exit 2 Done\n");
+  
+
+  
+  return 0;
+}
+

@@ -44,8 +44,9 @@
 
 int main(void)
 {
-    ga_display_init();
-    ga_image_init(is_black_on_grey, 90);
+    ga_init_module();
+    ga_init_display();
+    ga_init_image(is_black_on_grey, 90);
 
     ga_hostname(0,0,12);                    /* line 0 */
     ga_timestamp(75,0,12);
@@ -92,8 +93,8 @@ int main(void)
 
     fprintf(stderr, "Are we there yet? ...can you see image?\n");
 
-    ga_image_release();
-    ga_display_release();
+    ga_release_image();
+    ga_release_module();
     
     return 0;
 }

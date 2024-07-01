@@ -1,12 +1,12 @@
 /*****************************************************************************
-* | File      	:	gadgets.h
-* | Author      :	Graeme Vetterlein
-* | Function    :	e-Paper Display system status
-* | Info        :
+* | File	:	gadgets.h
+* | Author	:	Graeme Vetterlein
+* | Function	:	e-Paper Display system status
+* | Info	:
 *----------------
-* |	This version:   V0.1
-* | Date        :   2024-0620
-* | Info        :   
+* |	This version:	V0.1
+* | Date	:   2024-0620
+* | Info	:   
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documnetation files (the "Software"), to deal
@@ -36,13 +36,15 @@
 #include <stdlib.h>
 
 
+#include "DEV_Config.h"
+
 /* Colours on the eInk display works a tad oddly,
    Both WHITE and RED are defined to be "ON" (0xFF)
    While BLACK is defined to be "off (0x00) 
 
    There are 2 images (red_image and black_image) ...to get BLACK , BOTH must be OFF
-                                                     to get RED , only the red_image (pixel) must be on
-                                                     to get WHITE , only the black_image (pixel) must be on
+						     to get RED , only the red_image (pixel) must be on
+						     to get WHITE , only the black_image (pixel) must be on
 
    To add the confusion, while RED is just "the colour Red", "BLACK" means the backround colour of the display
    which is actually a light grey (so almost white) so "BLACK" means a "light grey" while "WHITE" means diaplsy as black
@@ -58,10 +60,10 @@
 
 enum Eink_colour
   {
-    is_black_on_grey,   // Black Letters on a grey backgound (ie Normal)
-    is_red_on_grey,     // Red Letters on a grey backgound (ie Alert)
-    is_black_on_red,    // INVERTED Color ... a red background
-    is_red_on_black,    // INVERTED Color ... a black background
+    is_black_on_grey,	// Black Letters on a grey backgound (ie Normal)
+    is_red_on_grey,	// Red Letters on a grey backgound (ie Alert)
+    is_black_on_red,	// INVERTED Color ... a red background
+    is_red_on_black,	// INVERTED Color ... a black background
   };
 
 /* how to show remaining free space */
@@ -80,23 +82,27 @@ enum age_units
     age_days,
   };
 
-enum Eink_colour ga_set_colour(enum Eink_colour colour);
-enum Eink_colour ga_get_colour();
-void		 ga_display_init();
-void             ga_image_init      (enum Eink_colour colour, UWORD rotate);
-void		 ga_render    ();
-void		 ga_image_release   ();
-void		 ga_display_release   ();
+enum Eink_colour	ga_set_colour(enum Eink_colour colour);
 
+extern void		ga_init_display();
+extern void		ga_init_module();
+extern void		ga_init_image	    (enum Eink_colour colour, UWORD rotate);
+extern void		ga_release_image   ();
+extern void		ga_release_module  ();
 
-int		 ga_text      (UWORD xstart, UWORD ystart, int fsize, char text[], enum Eink_colour colour);
-int		 ga_hostname  (UWORD Xstart, UWORD Ystart, int fsize);
-int		 ga_timestamp (UWORD xstart, UWORD ystart, int fsize);
-int		 ga_uptime    (UWORD xstart, UWORD ystart, int fsize);
-int		 ga_meter     (UWORD xstart, UWORD ystart, int fsize, int value, enum Eink_colour colour);
-int              ga_df        (UWORD ystart, int fsize, char *device, char * label, enum df_units units, int cutoff);
-int		 ga_age       (UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, enum age_units units, int cutoff);
-int		 ga_file      (UWORD xstart, UWORD ystart, int fsize, char *filename, int lines);
+extern void		ga_render ();
+extern void		ga_clear();
+
+extern int		ga_text      (UWORD xstart, UWORD ystart, int fsize, char text[], enum Eink_colour colour);
+extern int		ga_hostname  (UWORD Xstart, UWORD Ystart, int fsize);
+extern int		ga_timestamp (UWORD xstart, UWORD ystart, int fsize);
+extern int		ga_uptime    (UWORD xstart, UWORD ystart, int fsize);
+extern int		ga_meter     (UWORD xstart, UWORD ystart, int fsize, int value, enum Eink_colour colour);
+extern int		ga_df	     (              UWORD ystart, int fsize, char *device, char * label, enum df_units units, int cutoff);
+extern int		ga_age	     (UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, enum age_units units, int cutoff);
+extern int		ga_file      (UWORD xstart, UWORD ystart, int fsize, char *filename, int lines);
+
+extern int		ga_sleep     (unsigned int seconds);
 
 #endif
 
