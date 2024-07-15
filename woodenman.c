@@ -55,7 +55,7 @@ static struct action actions[] =
     DEF_FILE(0, 180, 8, "/etc/motm", 0),                                      /* line 180 */
 
     DEF_RENDER(),
-    DEF_SLEEP(2),       // Do we really need to do this?
+    DEF_SLEEP(5),
 
     DEF_CLEAR(),
   };
@@ -87,6 +87,18 @@ int main(void)
 	  Debug("Done action: %s\n", str_action(&(actions[i])));
 	}
     }
+
+
+  /* three stages to exit & cleanup:
+   *
+   * 1: Free up the memory we used to store images
+   * 2: put the eInk device into a deepsleep
+   * 3: Power off the module connected to GPIO pins (and free up the pins)
+   *
+   * Right now 3 is not possible (but is required) becasue the sample code was just comments
+   * and the device is not documented.
+   */
+
   
   Debug("Release image arrays (free(3)\n");
   ga_release_image();		      // NB free(3)s memory

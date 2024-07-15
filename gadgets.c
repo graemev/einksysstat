@@ -28,7 +28,7 @@
 #
 ******************************************************************************/
 
-#include "EPD_1in54b_V2.h"  
+#include "device.h"  
 #include <GUI_Paint.h>
 
 #include "time.h"
@@ -60,7 +60,7 @@ static struct gc  // Gadget colours
 static void init_module()   // Twiddles with GPIO Pins to make display active
 {
   Debug("Initalise Module\n");
-  if(DEV_Module_Init()!=0)
+  if(module_turn_on()!=0)
     {
       fprintf(stderr, "Failed to initalise display\n");
       exit(1);
@@ -70,8 +70,17 @@ static void init_module()   // Twiddles with GPIO Pins to make display active
 static void init_display()   // Twiddles with GPIO Pins to make display active
 {
   Debug("Initalise 1IN54B_V2\n");
-  EPD_1IN54B_V2_Init();
+  eink_init();
 }
+
+static void sleep_display()   // Twiddles with GPIO Pins to make display inactive (deep sleep)
+{
+  Debug("Sleep 1IN54B_V2\n");
+  eink_deepsleep();
+}
+
+
+
 
 /*
  * init_images(UBYTE **black, UBYTE **red) -- NB malloc(3)s space for red & black arrays (freed in ga_image_release())
@@ -88,7 +97,7 @@ static void init_images(UBYTE **black, UBYTE **red)
 
   /* create the RED and BLACK images */
   
-  UWORD image_size = ((EPD_1IN54B_V2_WIDTH % 8 == 0)? (EPD_1IN54B_V2_WIDTH / 8 ): (EPD_1IN54B_V2_WIDTH / 8 + 1)) * EPD_1IN54B_V2_HEIGHT;
+  UWORD image_size = ((EINK_WIDTH % 8 == 0)? (EINK_WIDTH / 8 ): (EINK_WIDTH / 8 + 1)) * EINK_HEIGHT;
 
   if((*black = (UBYTE *)malloc(image_size)) == NULL)
     {
@@ -105,8 +114,8 @@ static void init_images(UBYTE **black, UBYTE **red)
   /* Fill in default values, height, width, rotation etc */
   
   Debug("NewImage:black_image and red_image\r\n");
-  Paint_NewImage(*black, EPD_1IN54B_V2_WIDTH, EPD_1IN54B_V2_HEIGHT, 90, WHITE);
-  Paint_NewImage(*red  , EPD_1IN54B_V2_WIDTH, EPD_1IN54B_V2_HEIGHT, 90, WHITE);
+  Paint_NewImage(*black, EINK_WIDTH, EINK_HEIGHT, 90, WHITE);
+  Paint_NewImage(*red  , EINK_WIDTH, EINK_HEIGHT, 90, WHITE);
 
   clock_gettime(CLOCK_REALTIME,&finish);
 
@@ -240,7 +249,6 @@ void ga_init_image(enum Eink_colour colour, UWORD rotate)
 
 void ga_release_image()
 {
-  EPD_1IN54B_V2_Sleep();
   free(black_image);
   free(red_image);
   black_image = NULL;
@@ -254,10 +262,10 @@ void ga_release_module()
 {
   struct timespec start={0,0}, finish={0,0};
   clock_gettime(CLOCK_REALTIME,&start);
-  DEV_Delay_ms(2000);//important, at least 2s
+  gpio_delay(2000);//important, at least 2s
   // close 5V
   Debug("close 5V, Module enters 0 power consumption ...\r\n");
-  DEV_Module_Exit();
+  module_turn_off();
   clock_gettime(CLOCK_REALTIME,&finish);
   
   Debug("%ld Seconds to ga_display_release\n",finish.tv_sec-start.tv_sec);
@@ -268,12 +276,12 @@ void ga_release_module()
 
 void ga_render()  // Take the images abd display on the eInk
 {
-  EPD_1IN54B_V2_Display(black_image, red_image);
+  eink_display(black_image, red_image);
 }
 
 void ga_clear()  // Just clear the screen (not full setup) then clear out teh red & black images
 {
-  EPD_1IN54B_V2_Clear();
+  eink_clear();
 
   Debug("Writing 0X00\n");
   Paint_SelectImage(black_image);
@@ -833,12 +841,13 @@ int ga_file(UWORD xstart, UWORD ystart, int fsize, char *filename, int lines)
 
 int ga_sleep(unsigned int seconds)
 {
-  ga_release_module();
+  sleep_display();
+
   Debug("Going to sleep (%d sec)\n", seconds);
   sleep(seconds);
   Debug("Awoke from sleep\n");
 
-  // ga_init_module();  GPV TBD
+  init_display(); 
 }
 
 

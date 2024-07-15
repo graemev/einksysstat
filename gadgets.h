@@ -60,6 +60,7 @@
 
 enum Eink_colour
   {
+    is_no_colour,
     is_black_on_grey,	// Black Letters on a grey backgound (ie Normal)
     is_red_on_grey,	// Red Letters on a grey backgound (ie Alert)
     is_black_on_red,	// INVERTED Color ... a red background
@@ -69,6 +70,7 @@ enum Eink_colour
 /* how to show remaining free space */
 enum df_units
   {
+    df_none,
     df_meg,
     df_geg,
     df_best,
@@ -77,6 +79,7 @@ enum df_units
 
 enum age_units
   {
+    age_none,
     age_minutes,
     age_hours,
     age_days,

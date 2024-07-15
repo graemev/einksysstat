@@ -5,6 +5,8 @@ TAGS
 *.a
 testdata
 strawman
+*.old
+*.sed
 
 # http://www.gnu.org/software/automake
 

@@ -50,7 +50,7 @@ int EPD_SCLK_PIN;
 /**
  * GPIO read and write
 **/
-void DEV_Digital_Write(UWORD Pin, UBYTE Value)
+void DEV_Digital_Write(UWORD Pin, UBYTE Value)  // Write value to Pin
 {
 #ifdef RPI
 #ifdef USE_BCM2835_LIB
@@ -155,7 +155,7 @@ void DEV_SPI_Write_nByte(uint8_t *pData, uint32_t Len)
 /**
  * GPIO Mode
 **/
-void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
+void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)   // Mode0 == Input , Mode1 == Output
 {
 #ifdef RPI
 #ifdef USE_BCM2835_LIB
@@ -300,20 +300,20 @@ void DEV_GPIO_Init(void)
 	EPD_SCLK_PIN    = SPI0_SCLK;
 #endif
 
-    DEV_GPIO_Mode(EPD_BUSY_PIN, 0);
-	DEV_GPIO_Mode(EPD_RST_PIN, 1);
-	DEV_GPIO_Mode(EPD_DC_PIN, 1);
-	DEV_GPIO_Mode(EPD_CS_PIN, 1);
-    DEV_GPIO_Mode(EPD_PWR_PIN, 1);
+	DEV_GPIO_Mode(EPD_BUSY_PIN, 0);      // BUSY= Input
+	DEV_GPIO_Mode(EPD_RST_PIN, 1);       // RST = Output
+	DEV_GPIO_Mode(EPD_DC_PIN, 1);        // DC  = Output
+	DEV_GPIO_Mode(EPD_CS_PIN, 1);        // CS  = Output
+    DEV_GPIO_Mode(EPD_PWR_PIN, 1);           // PWR = Output
     // DEV_GPIO_Mode(EPD_MOSI_PIN, 0);
 	// DEV_GPIO_Mode(EPD_SCLK_PIN, 1);
 
-	DEV_Digital_Write(EPD_CS_PIN, 1);
-    DEV_Digital_Write(EPD_PWR_PIN, 1);
+    DEV_Digital_Write(EPD_CS_PIN, 1);        // write 1 to CS
+    DEV_Digital_Write(EPD_PWR_PIN, 1);       // write 1 to PWR (turn on power?)
     
 }
 
-void DEV_SPI_SendnData(UBYTE *Reg)
+void DEV_SPI_SendnData(UBYTE *Reg)           // This looks to be totally flawed (sizeof(reg) will be size of a data pointer ...probaly not what they want
 {
     UDOUBLE size;
     size = sizeof(Reg);
@@ -427,7 +427,7 @@ UBYTE DEV_Module_Init(void)
         return -1;
     }
 
-    if(fgets(buffer, sizeof(buffer), fp) != NULL)
+    if(fgets(buffer, sizeof(buffer), fp) != NULL)  // If it is a Raspberry PI5
     {
         GPIO_Handle = lgGpiochipOpen(4);
         if (GPIO_Handle < 0)
@@ -436,7 +436,7 @@ UBYTE DEV_Module_Init(void)
             return -1;
         }
     }
-    else
+    else					   // Not a PI5 (probably assumes PI4 here)
     {
         GPIO_Handle = lgGpiochipOpen(0);
         if (GPIO_Handle < 0)

@@ -28,7 +28,7 @@
 #
 ******************************************************************************/
 
-#include "eink_sysstat.h"
+#include "old_eink_sysstat.h"
 #include "EPD_1in54b_V2.h"  // Hardware specific routines (e.g. what pins to toggle to move canvas onto actual display)
 #include "time.h"
 

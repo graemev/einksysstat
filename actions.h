@@ -14,6 +14,7 @@
 
 enum verb
   {
+    do_noverb = 0,
     do_none,
     do_label,
     do_loop,
@@ -128,7 +129,10 @@ struct args_sleep
 
 struct action
 {
-  enum verb verb;
+  enum   verb     verb;
+  struct action * next;
+  struct action * prev;
+
   union
   {
     struct args_init       init_image;

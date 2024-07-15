@@ -1,14 +1,19 @@
 SUBDIRS=Fonts GUI Device
 AM_CPPFLAGS=-I Fonts -I GUI -I Device 
-LDADD=Fonts/libFonts.a GUI/libGUI.a Device/libDevice.a -llgpio -lm -lproc2
+paperman_LDADD=Fonts/libFonts.a GUI/libGUI.a Device/libDevice.a -llgpio -lm -lproc2
+strawman_LDADD=Fonts/libFonts.a GUI/libGUI.a Device/libDevice.a -llgpio -lm -lproc2
+woodenman_LDADD=Fonts/libFonts.a GUI/libGUI.a                   -llgpio -lm -lproc2
+parse_LDADD=Fonts/libFonts.a GUI/libGUI.a                   -llgpio -lm -lproc2
+
 # clean out dead code (in linkers view)
 AM_LDFLAGS=-Wl,--gc-sections 
 
-bin_PROGRAMS = strawman woodenman paperman
+bin_PROGRAMS = strawman woodenman paperman parse
 
-paperman_SOURCES   = paperman.c   DEV_Config.c gadgets.c
-strawman_SOURCES   = strawman.c   DEV_Config.c gadgets.c
-woodenman_SOURCES  = woodenman.c  DEV_Config.c gadgets.c actions.c
+paperman_SOURCES   = paperman.c   DEV_Config.c old_gadgets.c
+strawman_SOURCES   = strawman.c   DEV_Config.c old_gadgets.c
+woodenman_SOURCES  = woodenman.c  module.c     device.c gadgets.c actions.c
+parse_SOURCES      = parse.c      module.c     device.c gadgets.c actions.c
 
 
 DEBUG = -D DEBUG
