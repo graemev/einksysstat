@@ -1,3 +1,6 @@
+#ifndef _ACTIONS_H_
+#define _ACTIONS_H_
+
 /*
  * Actions allow you to use gadgets
  */
@@ -225,3 +228,5 @@ struct action
 
 void   do_action (struct action * action);
 char * str_action(struct action * action);
+
+#endif

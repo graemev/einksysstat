@@ -1,3 +1,4 @@
+/* -*- Mode: c; tab-width: 2;c-basic-offset: 2; c-default-style: "gnu" -*- */
 /*
  * parse.c: Parse the config file
  *
@@ -28,7 +29,7 @@
  */
 
 
-#include "parse.h"
+#include "parse_utils.h"
 
 
 
@@ -41,17 +42,17 @@ struct lookup
 
 /*
  *
- * Really we don't wnat alpha we want "national" (includes _ # $ @)
+ * Really we don't want alpha we want "national" (includes _ # $ @)
  */
 
 /* used to tokenise keywords */
-int parse_word(FILE *stream, struct lookup lookup[])
+static int parse_word(FILE *stream, struct lookup lookup[])
 {
   int            c;
 
   int  i=0;
   char buffer[64];  // No words bigger than 63
-
+	
   while ((c=fgetc(stream)) != EOF && (isalpha(c) || strchr("_-$#@" ,c ) != NULL) && i <= 63)
     {
       buffer[i++]=c;
@@ -119,7 +120,7 @@ struct
     {NULL      , df_none},
   };
 
- enum df_units parse_df_unit(FILE *stream)
+ enum df_units parse_df_units(FILE *stream)
  {
    int i;
 
@@ -194,6 +195,13 @@ struct
  }
 
 
+char * str_colour(enum  Eink_colour colour)
+{
+	return(colour_lookup[colour].name);
+}
+
+
+
 
 
 struct
@@ -202,6 +210,7 @@ struct
   enum  age_units   age;
 } age_lookup[] =
   {
+    {"age_none"   , age_none},
 
     {"age_minutes", age_minutes},
     {"age_hours"  , age_hours},
@@ -224,9 +233,10 @@ struct
    return (age_lookup[i].age);
  }
 
-
-
-
+char * str_age(enum  age_units   age)
+{
+	return(age_lookup[age].name);
+}
 
 
 
@@ -269,6 +279,11 @@ enum verb parse_verb(FILE *stream)
    return (verb_lookup[i].verb);
 }
 
+
+char * str_verb(enum verb verb)
+{
+	return(verb_lookup[verb].name);
+}
 
 
 // This guy POPS when he sees an unguarded (matching) quote
@@ -589,7 +604,7 @@ struct action * parse_df(FILE *stream)
 
   gobble_chars(stream, " ,\t");
 
-  if ((units=parse_df_unit(stream)) == df_none)     // df_units
+  if ((units=parse_df_units(stream)) == df_none)     // df_units
     syntax_error(stream, "DF units");
 
   gobble_chars(stream, " ,\t");
@@ -620,8 +635,8 @@ struct action * parse_df(FILE *stream)
   p->args.df.units  = units;
   p->args.df.cutoff = cutoff;
 
-  strncpy(p->args.df.label, label,  64);
-  strncpy(p->args.df.device,device, 64);
+  strncpy(p->args.df.label, label,  40);
+  strncpy(p->args.df.device,device, 40);
 
   return p;
 }
@@ -744,50 +759,3 @@ int parse_file(FILE *stream)
 }
 
 
-
-
-
-int main(int argc, char*argv[], char*argp[])
-{
-  FILE *stream;
-
-  struct action *p;
-
-  
-
-  stream = fopen(argv[1], "r");
-
-  parse_file(stream);
-
-
-  for (p=start; p; p=p->next)
-    {
-      Debug("Node %p: next=%p, prev=%p verb=%s:\n", p, p->next, p-> prev, str_action(p));
-
-      switch (p->verb)
-	{
-	case(do_hostname):
-	  Debug("    %s: xstart %d: ystart %d, fsize %d\n",
-		str_action(p), p->args.hostname.xstart, p->args.hostname.ystart, p->args.hostname.fsize);
-	  break;
-	case(do_timestamp):
-	  Debug("    %s: xstart %d: ystart %d, fsize %d\n",
-		str_action(p), p->args.timestamp.xstart, p->args.timestamp.ystart, p->args.timestamp.fsize);
-	case(do_df):
-	  Debug("    %s: ystart %d, fsize %d, units %s, cutoff %d\n",
-		str_action(p),
-		p->args.df.ystart,
-		p->args.df.fsize,
-		str_df_units(p->args.df.units),
-		p->args.df.cutoff);
-	  Debug("            device  %s, label %s\n",
-		p->args.df.device, 
-		p->args.df.label);
-	  break;
-	default:
-	  Debug("TBD\n");
-	}
-      
-    }
-  
-}
