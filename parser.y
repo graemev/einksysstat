@@ -26,7 +26,8 @@
 #include <stdio.h>  // printf.
 #include <stdlib.h> // getenv.
 #include <string.h> // strcmp.
-    
+
+#include "Debug.h"
 #include "gadgets.h"
 #include "actions.h"
 #include "parse_utils.h"
@@ -66,20 +67,21 @@
  }
 
 %union {
-	int               ival;
-	float             fval;
-        enum Eink_colour  colour;
-        enum df_units     df_unit;
-        enum age_units    age_unit;
-        char            * string;
+  int               ival;
+  float             fval;
+  enum Eink_colour  colour;
+  enum df_units     df_unit;
+  enum age_units    age_unit;
+  char            * string;
+  struct action   * action;
 }
 
 %token          T_NL "Newline"
-%token          T_SEMI
-%token          T_WS
+%token          T_SEMI "A semicolon"
+%token          T_WS "whitespace"
 
-%token<ival>    T_INT
-%token<string>  T_STRING
+%token<ival>    T_INT "an Integer"
+%token<string>  T_STRING "a quoted String"
 %token<string>  T_BAD_STRING
 
 
@@ -108,6 +110,22 @@
 %type<df_unit>  df_arg
 
 
+%type<action>   init
+%type<action>   hostname
+%type<action>   timestamp
+%type<action>   uptime
+
+%type<action>   df
+%type<action>   age
+%type<action>   file
+%type<action>   render
+%type<action>   sleep
+%type<action>   clear
+%type<action>   loop
+
+
+
+
 %start actions
 
 %%
@@ -123,6 +141,7 @@ new_action:  T_NL {}                  /* blank line */
 | action T_SEMI T_NL {} /* tidy up and exit */
 | action ';' T_NL {} /* tidy up and exit */
 | action  ',' T_NL {}  /* tidy up and exit */
+| error
 ;
 
  
@@ -174,18 +193,18 @@ clear_verb:      T_CLEAR       { verb = "clear";};
 loop_verb:       T_LOOP        { verb = "loop";};
 
 
-init:       init_verb      '('  T_COLOUR  rotate_arg    ')'  { fprintf(stderr, "******INIT (%s;%d)\n",   $3, str_colour($4));} ;
-hostname:   hostname_verb  '('  T_INT  int_arg  int_arg ')'  { fprintf(stderr, "******HOSTNAME (%d;%d;%d)\n",   $3, $4, $5);} ;
-timestamp:  timestamp_verb '('  T_INT  int_arg  int_arg ')'  { fprintf(stderr, "******TIMESTAMP  (%d;%d;%d)\n", $3, $4, $5);} ;
-uptime:     uptime_verb    '('  T_INT  int_arg  int_arg ')'  { fprintf(stderr, "******UPTIME  (%d;%d;%d)\n",    $3, $4, $5);} ;
+init:       init_verb      '('  T_COLOUR  rotate_arg    ')'  { $$=new_action_init($3, $4);        Debug(fprintf(stderr, "******INIT (%s;%d)\n",   $3, str_colour($4))); } ;
+hostname:   hostname_verb  '('  T_INT  int_arg  int_arg ')'  { $$=new_action_hostname($3,$4,$5);  Debug(fprintf(stderr, "******HOSTNAME (%d;%d;%d)\n",    $3, $4, $5)); } ;
+timestamp:  timestamp_verb '('  T_INT  int_arg  int_arg ')'  { $$=new_action_timestamp($3,$4,$5); Debug(fprintf(stderr, "******TIMESTAMP  (%d;%d;%d)\n",  $3, $4, $5)); } ;
+uptime:     uptime_verb    '('  T_INT  int_arg  int_arg ')'  { $$=new_action_uptime($3,$4,$5);    Debug(fprintf(stderr, "******UPTIME  (%d;%d;%d)\n",     $3, $4, $5)); } ;
 
-df:         df_verb        '('  T_INT  int_arg  string_arg   string_arg  df_arg int_arg ')'         { fprintf(stderr, "******DF   (%d;%d;%s;%s;%s;%d)\n"   ,    $3, $4, $5, $6, str_df_units($7),$8);} ;
-age:	    age_verb       '('  T_INT  int_arg  int_arg  string_arg   string_arg age_arg int_arg ')'  { fprintf(stderr, "******AGE  (%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7,              str_age($8),$9);} ;
-file:       file_verb      '('  T_INT  int_arg  int_arg string_arg   int_arg ')'                      { fprintf(stderr, "******FILE (%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7);} ;
-render:     render_verb    '('  ')'							   { fprintf(stderr, "******RENDER ()\n");} ;
-sleep:      sleep_verb     '('  T_INT ')'						   { fprintf(stderr, "******SLEEP (%d)\n", $3);} ;
-clear:      clear_verb     '('  ')'							   { fprintf(stderr, "******CLEAR ()\n");} ;
-loop:       loop_verb      '('  ')'							   { fprintf(stderr, "******LOOP ()\n");} ;
+df:         df_verb        '('  T_INT  int_arg  string_arg   string_arg  df_arg int_arg ')'           { $$=new_action_df($3,$4,$5,$6,$7,$8);     Debug(fprintf(stderr, "******DF   (%d;%d;%s;%s;%s;%d)\n"   ,  $3, $4, $5, $6, str_df_units($7),$8));} ;
+age:	    age_verb       '('  T_INT  int_arg  int_arg  string_arg   string_arg age_arg int_arg ')'  { $$=new_action_age($3,$4,$5,$6,$7,$8,$9); Debug(fprintf(stderr, "******AGE  (%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7, str_age($8),$9)); } ;
+file:       file_verb      '('  T_INT  int_arg  int_arg string_arg   int_arg ')'                      { $$=new_action_file($3,$4,$5,$6,$7);      Debug( fprintf(stderr, "******FILE (%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7));                } ;
+render:     render_verb    '('  ')'							 { $$=new_action_render();            Debug(fprintf(stderr, "******RENDER ()\n")) ;     } ;
+sleep:      sleep_verb     '('  T_INT ')'					 { $$=new_action_sleep($3);           Debug(fprintf(stderr, "******SLEEP (%d)\n", $3)); } ;
+clear:      clear_verb     '('  ')'							 { $$=new_action_clear();             Debug(fprintf(stderr, "******CLEAR ()\n"));       } ;
+loop:       loop_verb      '('  ')'							 { $$=new_action_loop();              Debug(fprintf(stderr, "******LOOP ()\n")) ;       } ;
 
 %%
 
@@ -209,7 +228,7 @@ gpv_location_print(FILE *yyo, YYLTYPE const * const yylocp)
     {
       res += YYFPRINTF (yyo, "On line:%d", yylocp->first_line);
       if (0 <= yylocp->first_column)
-	  res += YYFPRINTF (yyo, " @ column%c:%d", ((multicol)?'s':' '), yylocp->first_column);
+		res += YYFPRINTF (yyo, " @ column%c:%d", ((multicol)?'s':' '), yylocp->first_column);
     }
   if (0 <= yylocp->last_line)
     {
@@ -233,17 +252,3 @@ void yyerror (const YYLTYPE *loc, int *nerrs, const char *msg)
   ++*nerrs;
 }
 
-int main (int argc, const char *argv[])
-{
-  // Possibly enable parser runtime debugging.
-  yydebug = !!getenv ("YYDEBUG");
-  // Enable parse traces on option -p.
-  for (int i = 1; i < argc; ++i)
-    if (strcmp (argv[i], "-p") == 0)
-      yydebug = 1;
-
-  int nerrs = 0;
-  yyparse (&nerrs);
-  // Exit on failure if there were errors.
-  return !!nerrs;
-}

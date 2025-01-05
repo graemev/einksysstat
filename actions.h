@@ -64,7 +64,7 @@ struct args_text
   UWORD            ystart;
   int              fsize;
   enum Eink_colour colour;
-  char             text[];   // Note, last agg (not same as method)
+  char             text[MAX_DISPLAY];   // Note, last agg (not same as method)
 };
 
 struct args_hostname
@@ -228,5 +228,84 @@ struct action
 
 void   do_action (struct action * action);
 char * str_action(struct action * action);
+
+
+
+struct action * new_action_init		(enum Eink_colour colour,
+					 UWORD            rotate
+					 );
+
+struct action * new_action_text		(UWORD            xstart,
+					 UWORD            ystart,
+					 int              fsize,
+					 enum Eink_colour colour,
+					 char             text[]  
+					 );
+
+struct action * new_action_hostname	(UWORD            xstart,
+					 UWORD            ystart,
+					 int              fsize
+					 );
+
+struct action * new_action_timestamp	(UWORD           xstart,
+					 UWORD            ystart,
+					 int              fsize
+					 );
+
+
+
+struct action * new_action_uptime	(UWORD            xstart,
+					 UWORD            ystart,
+					 int              fsize
+					 );
+
+
+struct action * new_action_meter	(UWORD            xstart,
+					 UWORD            ystart,
+					 int              fsize,
+					 int              value,
+					 enum Eink_colour colour
+					 );
+
+struct action * new_action_df		(UWORD            ystart,
+					 int	          fsize,
+					 char	          device[MAX_PATHNAME],
+					 char	          label[MAX_DISPLAY],
+					 enum df_units    units,
+					 int	          cutoff
+					 );
+
+struct action * new_action_age		(UWORD		   xstart,
+					 UWORD		   ystart,
+					 int	           fsize,
+					 char		   filename[MAX_PATHNAME],
+					 char		   label[MAX_DISPLAY],
+					 enum age_units    units,
+					 int               cutoff
+					 );
+
+
+
+struct action * new_action_file		(UWORD		   xstart,
+					 UWORD		   ystart,
+					 int		   fsize,
+					 char		   filename[MAX_PATHNAME],
+					 int		   lines
+					 );
+
+
+struct action * new_action_render	();
+struct action * new_action_clear	();
+struct action * new_action_loop		();
+
+
+
+
+struct action * new_action_sleep	(int		   seconds);
+
+
+
+void delete_action			(struct action * action);
+
 
 #endif

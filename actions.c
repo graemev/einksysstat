@@ -197,3 +197,362 @@ char * str_action(struct action * action)
     }
   return p;
 }
+
+
+/* ====== INIT ====== */
+
+struct action * new_action_init(enum Eink_colour colour,
+				UWORD            rotate
+				)
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action init:");
+      exit(1);
+    }
+
+  p->verb = do_init_image;
+  
+  p->args.init_image.colour=colour;
+  p->args.init_image.rotate=rotate;
+
+  return p;
+  
+}
+
+/* ====== TEXT ====== */
+
+
+struct action * new_action_text(UWORD            xstart,
+				UWORD            ystart,
+				int              fsize,
+				enum Eink_colour colour,
+				char             text[]   // Note, last agg (not same as method)
+				)
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action text:");
+      exit(1);
+    }
+
+  p->verb = do_text;
+  
+  p->args.text.xstart=xstart;
+  p->args.text.ystart=ystart;
+  p->args.text.fsize =fsize;
+  p->args.text.colour=colour;
+  strncpy(p->args.text.text, text, MAX_DISPLAY);
+
+  return p;
+  
+}
+
+/* ====== HOSTNAME ====== */
+
+
+struct action * new_action_hostname(UWORD            xstart,
+				    UWORD            ystart,
+				    int              fsize
+				    )
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action hostname:");
+      exit(1);
+    }
+
+  p->verb = do_hostname;
+  
+  p->args.hostname.xstart=xstart;
+  p->args.hostname.ystart=ystart;
+  p->args.hostname.fsize =fsize;
+
+  return p;
+  
+}
+
+/* ====== TIMESTAMP ====== */
+
+
+struct action * new_action_timestamp(UWORD           xstart,
+				    UWORD            ystart,
+				    int              fsize
+				    )
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action timestamp:");
+      exit(1);
+    }
+
+  p->verb = do_timestamp;
+  
+  p->args.timestamp.xstart=xstart;
+  p->args.timestamp.ystart=ystart;
+  p->args.timestamp.fsize =fsize;
+
+  return p;
+  
+}
+
+/* ====== UPTIME ====== */
+
+
+struct action * new_action_uptime(UWORD            xstart,
+				  UWORD            ystart,
+				  int              fsize
+				  )
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action uptime:");
+      exit(1);
+    }
+
+  p->verb = do_uptime;
+  
+  p->args.uptime.xstart=xstart;
+  p->args.uptime.ystart=ystart;
+  p->args.uptime.fsize =fsize;
+
+  return p;
+  
+}
+
+/* ====== METER ====== */
+
+
+struct action * new_action_meter(UWORD            xstart,
+				 UWORD            ystart,
+				 int              fsize,
+				 int              value,
+				 enum Eink_colour colour
+				 )
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action meter:");
+      exit(1);
+    }
+
+  p->verb = do_meter;
+  
+  p->args.meter.xstart=xstart;
+  p->args.meter.ystart=ystart;
+  p->args.meter.fsize =fsize;
+  p->args.meter.value =value;
+  p->args.meter.colour=colour;
+
+  return p;
+  
+}
+
+
+/* ====== DF ====== */
+
+
+struct action * new_action_df		(UWORD            ystart,
+					 int	          fsize,
+					 char	          device[MAX_PATHNAME],
+					 char	          label[MAX_DISPLAY],
+					 enum df_units    units,
+					 int	          cutoff)
+
+
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action df:");
+      exit(1);
+    }
+
+  p->verb = do_df;
+  
+  p->args.df.ystart=ystart;
+  p->args.df.fsize =fsize;
+
+  p->args.df.units =units;
+  p->args.df.cutoff=cutoff;
+  strncpy(p->args.df.label, label, MAX_DISPLAY);
+  strncpy(p->args.df.device,device, MAX_PATHNAME);
+
+  return p;
+  
+}
+
+/* ====== AGE ====== */
+
+struct action * new_action_age		(UWORD		   xstart,
+					 UWORD		   ystart,
+					 int	           fsize,
+					 char		   filename[MAX_PATHNAME],
+					 char		   label[MAX_DISPLAY],
+					 enum age_units    units,
+					 int               cutoff
+					 )
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action age:");
+      exit(1);
+    }
+
+  p->verb = do_age;
+  
+  p->args.age.xstart=xstart;
+  p->args.age.ystart=ystart;
+  p->args.age.fsize =fsize;
+
+  p->args.age.units =units;
+  p->args.age.cutoff=cutoff;
+  strncpy(p->args.age.label, label, MAX_DISPLAY);
+  strncpy(p->args.age.filename, filename, MAX_PATHNAME);
+
+  return p;
+  
+}
+
+/* ====== FILE ====== */
+
+
+struct action * new_action_file		(UWORD		   xstart,
+					 UWORD		   ystart,
+					 int		   fsize,
+					 char		   filename[MAX_PATHNAME],
+					 int		   lines
+					 )
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action file:");
+      exit(1);
+    }
+
+  p->verb = do_file;
+  
+  p->args.file.xstart=xstart;
+  p->args.file.ystart=ystart;
+  p->args.file.fsize =fsize;
+
+  p->args.file.lines =lines;
+  strncpy(p->args.file.filename, filename, MAX_PATHNAME);
+
+  return p;
+  
+}
+
+
+/* ====== SLEEP ====== */
+
+
+struct action * new_action_sleep(int		   seconds)
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action sleep:");
+      exit(1);
+    }
+
+  p->verb = do_sleep;
+  
+  p->args.sleep.seconds=seconds;
+
+  return p;
+  
+}
+
+/* ====== RENDER ====== */
+
+
+struct action * new_action_render()
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action render:");
+      exit(1);
+    }
+
+  p->verb = do_render;
+  
+
+  return p;
+  
+}
+
+/* ====== CLEAR ====== */
+
+
+struct action * new_action_clear()
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action clear:");
+      exit(1);
+    }
+
+  p->verb = do_clear;
+  
+
+  return p;
+  
+}
+
+/* ====== LOOP ====== */
+
+
+struct action * new_action_loop()
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action loop:");
+      exit(1);
+    }
+
+  p->verb = do_loop;
+  
+
+  return p;
+  
+}
+
+
+
+
+
+
+void delete_action(struct action * action)
+{
+  free(action);
+}

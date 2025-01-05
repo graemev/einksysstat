@@ -8,6 +8,16 @@ strawman
 *.old
 *.sed
 
+JUNK/*
+ironman
+paperman
+woodenman
+demoparser
+parser.c
+parser.h
+lexer.c
+parser.output
+
 # http://www.gnu.org/software/automake
 
 Makefile.in
