@@ -4,11 +4,12 @@
  UPTIME(0,13,16),
  
      
- DF(30 ,24,"/lost+found",               "root", df_best,20),
+ DF(30 ,24,'/lost+found',               "root", df_best,20),
  DF(55 ,24,"/boot/firmware/config.txt", "SD",   df_best,20),           # line  55
  DF(80 ,24,"/Q/mount/rest3/lost+found", "NV1",  df_best,20),           # line  80
- DF(105,24,"/dev/nvme0n1p3/lost+found", "NV2",  df_best,20),           # line 105
- 
+ DF(105,24,"/dev/nvme0n1p3/lost+found", "NV2",  df_best 20),           # line 105
+
+# BAD(105,44)
      
  AGE(0,130, 24,"/boot/firmware/config.txt", "BACKUP1",  age_days,20),  # line 130
  AGE(0,155, 24,"/home/graeme/src",          "BACKUP2",  age_days,180), # line 155
@@ -27,13 +28,13 @@
  uptime(0,13,16)
      
  df(30 ,24,"/lost+found",               "root", best,20)
- df(55 ,24,"/boot/firmware/config.txt", "sd",   G,20)           # line  55
+ df(55 ,24,"/boot/firmware/config.txt", "sd",   pcent,20)           # line  55
  df(80 ,24,"/q/mount/rest3/lost+found", "nv1",  MB,20)           # line  80
  df(105,24,"/dev/nvme0n1p3/lost+found", "nv2",  best,20)           # line 105
  
      
  age(0,130, 24,"/boot/firmware/config.txt", "backup1",  days,20)  # line 130
- age(0,155, 24,"/home/graeme/src",          "backup2",  hours,180) # line 155
+ text(0,155, 24,"IRONMAN\"text",          is_red_on_grey) # line 155
  file(0, 180, 8, "/etc/motm", 0)                                      # line 180
  
  render()

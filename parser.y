@@ -16,7 +16,8 @@
 
   #define YYLOCATION_PRINT(gpvFile, gpvLoc)  gpv_location_print(gpvFile, gpvLoc)
 
-  static int gpv_location_print(FILE *yyo, YYLTYPE const * const yylocp);
+  static int    gpv_location_print(FILE *yyo, YYLTYPE const * const yylocp);
+  static char * flatten_string(char * in);
 
 }
 
@@ -27,10 +28,14 @@
 #include <stdlib.h> // getenv.
 #include <string.h> // strcmp.
 
+#include "config.h"
+  
 #include "Debug.h"
 #include "gadgets.h"
 #include "actions.h"
-#include "parse_utils.h"
+
+#include "chain.h"
+#include "dump_utils.h"
 }
 
 // Include the header in the implementation rather than duplicating it.
@@ -98,6 +103,11 @@
 %token          T_LOOP
 %token          T_CLEAR
 
+%token          T_METER
+%token          T_TEXT
+
+
+
 %token<colour>  T_COLOUR
 %token<df_unit> T_DF_UNIT
 %token<age_unit>T_AGE_UNIT
@@ -108,6 +118,7 @@
 %type<string>   string_arg
 %type<age_unit> age_arg
 %type<df_unit>  df_arg
+%type<colour>   colour_arg
 
 
 %type<action>   init
@@ -123,6 +134,12 @@
 %type<action>   clear
 %type<action>   loop
 
+%type<action>   meter
+%type<action>   text
+
+%type<action>   action
+%type<action>   new_action
+
 
 
 
@@ -133,15 +150,15 @@
    /* ------------------------ rules -section ---------------------- */
 
 actions:
-| actions new_action {verb = "None";}
+| actions new_action {if ($2  != &no_action) enchain($2); verb = "None"; }
 
 
-new_action:  T_NL {}                  /* blank line */
-| action T_NL {}        /* tidy up and exit */
-| action T_SEMI T_NL {} /* tidy up and exit */
-| action ';' T_NL {} /* tidy up and exit */
-| action  ',' T_NL {}  /* tidy up and exit */
-| error
+new_action:  T_NL               {$$=&no_action; }                  /* blank line */
+|            action T_NL        {$$=$1;}        /* tidy up and exit */
+|            action T_SEMI T_NL {$$=$1;} /* tidy up and exit */
+|            action ';' T_NL    {$$=$1;} /* tidy up and exit */
+|            action  ',' T_NL   {$$=$1;}  /* tidy up and exit */
+|            error              { $$=&no_action; }
 ;
 
  
@@ -156,6 +173,8 @@ action: init
 | sleep
 | loop
 | clear
+| meter
+| text
 
 ;
 
@@ -170,12 +189,15 @@ df_arg:              T_DF_UNIT
 age_arg:             T_AGE_UNIT
 |                ',' T_AGE_UNIT { $$=$2; }
 ;
-string_arg:          T_STRING
-|                ',' T_STRING { $$=strndup($2,64); }
+string_arg:          T_STRING {$$=strndup(flatten_string($1),64);}
+|                ',' T_STRING {$$=strndup(flatten_string($2),64);}
 ;
 
 rotate_arg:          T_ROTATE
 |                ',' T_ROTATE { $$=$2; }
+;
+colour_arg:          T_COLOUR
+|                ',' T_COLOUR { $$=$2; }
 ;
 
     
@@ -191,24 +213,105 @@ render_verb:     T_RENDER      { verb = "render";};
 sleep_verb:      T_SLEEP       { verb = "sleep";};
 clear_verb:      T_CLEAR       { verb = "clear";};
 loop_verb:       T_LOOP        { verb = "loop";};
+meter_verb:      T_METER       { verb = "meter";};
+text_verb:       T_TEXT        { verb = "text";};
 
 
-init:       init_verb      '('  T_COLOUR  rotate_arg    ')'  { $$=new_action_init($3, $4);        Debug(fprintf(stderr, "******INIT (%s;%d)\n",   $3, str_colour($4))); } ;
-hostname:   hostname_verb  '('  T_INT  int_arg  int_arg ')'  { $$=new_action_hostname($3,$4,$5);  Debug(fprintf(stderr, "******HOSTNAME (%d;%d;%d)\n",    $3, $4, $5)); } ;
-timestamp:  timestamp_verb '('  T_INT  int_arg  int_arg ')'  { $$=new_action_timestamp($3,$4,$5); Debug(fprintf(stderr, "******TIMESTAMP  (%d;%d;%d)\n",  $3, $4, $5)); } ;
-uptime:     uptime_verb    '('  T_INT  int_arg  int_arg ')'  { $$=new_action_uptime($3,$4,$5);    Debug(fprintf(stderr, "******UPTIME  (%d;%d;%d)\n",     $3, $4, $5)); } ;
+init:       init_verb      '('  T_COLOUR  rotate_arg    ')'  { $$=new_action_init($3, $4);        Debug("******INIT     (%s;%d)\n",   $3, str_colour($4)); } ;
+hostname:   hostname_verb  '('  T_INT  int_arg  int_arg ')'  { $$=new_action_hostname($3,$4,$5);  Debug("******HOSTNAME (%d;%d;%d)\n",    $3, $4, $5); } ;
+timestamp:  timestamp_verb '('  T_INT  int_arg  int_arg ')'  { $$=new_action_timestamp($3,$4,$5); Debug("******TIMESTAMP(%d;%d;%d)\n",  $3, $4, $5); } ;
+uptime:     uptime_verb    '('  T_INT  int_arg  int_arg ')'  { $$=new_action_uptime($3,$4,$5);    Debug("******UPTIME   (%d;%d;%d)\n",     $3, $4, $5); } ;
 
-df:         df_verb        '('  T_INT  int_arg  string_arg   string_arg  df_arg int_arg ')'           { $$=new_action_df($3,$4,$5,$6,$7,$8);     Debug(fprintf(stderr, "******DF   (%d;%d;%s;%s;%s;%d)\n"   ,  $3, $4, $5, $6, str_df_units($7),$8));} ;
-age:	    age_verb       '('  T_INT  int_arg  int_arg  string_arg   string_arg age_arg int_arg ')'  { $$=new_action_age($3,$4,$5,$6,$7,$8,$9); Debug(fprintf(stderr, "******AGE  (%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7, str_age($8),$9)); } ;
-file:       file_verb      '('  T_INT  int_arg  int_arg string_arg   int_arg ')'                      { $$=new_action_file($3,$4,$5,$6,$7);      Debug( fprintf(stderr, "******FILE (%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7));                } ;
-render:     render_verb    '('  ')'							 { $$=new_action_render();            Debug(fprintf(stderr, "******RENDER ()\n")) ;     } ;
-sleep:      sleep_verb     '('  T_INT ')'					 { $$=new_action_sleep($3);           Debug(fprintf(stderr, "******SLEEP (%d)\n", $3)); } ;
-clear:      clear_verb     '('  ')'							 { $$=new_action_clear();             Debug(fprintf(stderr, "******CLEAR ()\n"));       } ;
-loop:       loop_verb      '('  ')'							 { $$=new_action_loop();              Debug(fprintf(stderr, "******LOOP ()\n")) ;       } ;
+render:     render_verb    '('  ')'							 { $$=new_action_render();            Debug("******RENDER   ()\n") ;     } ;
+sleep:      sleep_verb     '('  T_INT ')'					 { $$=new_action_sleep($3);           Debug("******SLEEP    (%d)\n", $3); } ;
+clear:      clear_verb     '('  ')'							 { $$=new_action_clear();             Debug("******CLEAR    ()\n");       } ;
+loop:       loop_verb      '('  ')'							 { $$=new_action_loop();              Debug("******LOOP     ()\n") ;       } ;
+
+
+df:         df_verb        '('  T_INT  int_arg  string_arg   string_arg  df_arg int_arg ')'           { $$=new_action_df($3,$4,$5,$6,$7,$8);     Debug("******DF      (%d;%d;%s;%s;%s;%d)\n"   ,  $3, $4, $5, $6, str_df_units($7),$8);} ;
+age:	    age_verb       '('  T_INT  int_arg  int_arg  string_arg   string_arg age_arg int_arg ')'  { $$=new_action_age($3,$4,$5,$6,$7,$8,$9); Debug("******AGE     (%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7, str_age($8),$9); } ;
+file:       file_verb      '('  T_INT  int_arg  int_arg string_arg   int_arg ')'                      { $$=new_action_file($3,$4,$5,$6,$7);      Debug("******FILE    (%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7);                 } ;
+
+meter:      meter_verb     '('  T_INT  int_arg int_arg  int_arg  colour_arg ')'                       { $$=new_action_meter($3,$4,$5,$6,$7);     Debug("******METER   (%d;%d;%s;%d;%s)\n"      ,  $3, $4, $5, $6,str_colour($7));} ;
+text:       text_verb      '('  T_INT  int_arg int_arg  string_arg  colour_arg ')'                    { $$=new_action_text($3,$4,$5,$6,$7);      Debug("******TEXT    (%d;%d;%d;%s;%s)\n"      ,  $3, $4, $5, $6,str_colour($7));} ;
+
+
+
 
 %%
 
-/* ------------------------ user code -section ---------------------- */
+			/* ------------------------ user code -section ---------------------- */
+
+			/* WARNING, NOT REENTRANT!
+			 *
+			 * If the lexer eats a quited string, e.g in  text(0,155, 24,"IRONMAN\"text",  is_red_on_grey)
+			 * The ne actual sting it will pass up is "IRONMAN\"text" ...it contains double quotes at either
+			 * end and an actual backslash (and aother quote) inside the string (it is 15 bytes long)
+			 *
+			 * What we would like to pass into the eink tool is IRONMAN"text ..(12 bytes). Some other examples
+			 *
+			 *  "foo'&'bar"  ---> foo'&'bar  (single quotes are not special inside double quotes)
+			 *  'bar"&\ bat' ---> bar"& bat  (double quote is not special inside single, escaped space, is just space)
+			 *  "o'in\" qu'h" --> o'in" qu'h -->  (single quote need not be escaped or balanced, inner double qote needs escape
+			 *
+			 *
+			 */
+
+static char * flatten_string(char * in)
+{
+  static char  out[256];
+
+  char  special;
+  char  *pin;
+  char  *pout;
+  char  c;
+  
+  special=in[0];
+
+  if (special == '\"' || special == '\'')
+	pin=in+1;   // As expected, starts with single or double quote
+  else
+	{
+	  special='\0';
+	  pin=in;	// Naked string, no quotes, not what we expect
+	}
+  pout=out;
+
+  
+  while ((c=*pin++) && (pout<(out+255))) // not at final NULL
+
+	{
+	  if (c == '\\')
+		{
+		c=*pin++; // Potentially eats the final null (in a naked string ...unclear what we should do here??)
+
+		switch (c)  // These change to their escaped flavour (and \x is just x , and \\ is just \ )
+		  {
+		  case '\0':
+			pin--;   // step back again (we won't bypass a NULL due to an escape)
+			break;
+		  case 'n':
+			c='\n';
+			break;
+		  case 'r':
+			c='\r';
+			break;
+		  case '0':
+			c='\0';
+			break;
+		  }
+		}
+	  else if (c == special)
+		{
+		  *pout++='\0';
+		  break;
+		}
+	  *pout++ = c;  
+	}
+  *pout = '\0';
+
+  return out;
+}
 
 
 // Epilogue (C code).

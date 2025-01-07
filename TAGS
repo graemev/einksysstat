@@ -1,187 +1,129 @@
 
-DEV_Config.c,648
-int GPIO_Handle;35,1493
-int SPI_Handle;36,1510
-int EPD_RST_PIN;42,1550
-int EPD_DC_PIN;43,1567
-int EPD_CS_PIN;44,1583
-int EPD_BUSY_PIN;45,1599
-int EPD_PWR_PIN;46,1617
-int EPD_MOSI_PIN;47,1634
-int EPD_SCLK_PIN;48,1652
-void DEV_Digital_Write(53,1702
-UBYTE DEV_Digital_Read(76,2142
-void DEV_SPI_WriteByte(104,2627
-void DEV_SPI_Write_nByte(127,3058
-void DEV_GPIO_Mode(158,3687
-void DEV_Delay_ms(207,4861
-static int DEV_Equipment_Testing(232,5205
-void DEV_GPIO_Init(282,6315
-void DEV_SPI_SendnData(316,7273
-void DEV_SPI_SendData(326,7556
-UBYTE DEV_SPI_ReadData(350,8077
-UBYTE DEV_Module_Init(379,8745
-void DEV_Module_Exit(482,11875
+chain.c,200
+/* GLOBAL*/ struct action *action_chain action_chain23,658
+/* GLOBAL*/ int            action_count 24,706
+static struct action *chain_end chain_end27,753
+int enchain(32,842
+int dechain(62,1384
 
-DEV_Config.h,170
-#define _DEV_CONFIG_H_49,2048
-        #define LFLAGS 71,2455
-        #define NUM_MAXBUF 72,2480
-#define UBYTE 92,2805
-#define UWORD 93,2829
-#define UDOUBLE 94,2854
+demoparser.c,55
+#undef DEBUG5,99
+#define DEBUG 6,112
+int main 8,129
 
-Debug.h,73
-#define __DEBUG_H36,1644
-#define Debug(41,1693
-	#define Debug(43,1773
+parse_utils.c,1278
+struct lookup36,888
+  char                            *name;name38,904
+  enum       token 39,945
+  enum       token {zero=zero39,945
+  enum       token {zero=0, one=39,945
+static int parse_word(49,1103
+int	parse_int(73,1593
+  char          *name;name98,1934
+  enum df_units  unit;99,1957
+} df_lookup[df_lookup100,1980
+ enum df_units parse_df_units(123,2393
+  char             *name;name140,2557
+  enum  Eink_colour colour;141,2583
+} colour_lookup[colour_lookup142,2611
+ enum Eink_colour parse_colour(160,3112
+  char             *name;name175,3285
+  enum  age_units   age;176,3311
+} age_lookup[age_lookup177,3336
+ enum age_units parse_age(193,3625
+  char      *name;name206,3782
+  enum verb verb;207,3801
+} verb_lookup[verb_lookup208,3819
+enum verb parse_verb(234,4610
+int eat_string(246,4814
+int parse_text(279,5802
+static int lineno=312,6228
+void this_line(315,6251
+bool next_line(323,6393
+bool  skip_ws(337,6583
+bool  gobble_chars(365,7049
+void syntax_error(387,7527
+void validate 401,7803
+struct action * parse_hostname(424,8427
+struct action * parse_timestamp(477,9580
+struct action * parse_df(528,10719
+struct action * start 605,12401
+struct action * current 606,12433
+struct action * new 607,12466
+int parse_file(610,12501
 
-actions.c,51
-void do_action(24,275
-char * str_action(110,2634
-
-actions.h,3227
-#define _ACTIONS_H_2,20
-enum verb18,188
-    do_noverb 20,202
-    do_none,21,221
-    do_label,22,234
-    do_loop,23,248
-    do_init_module,24,261
-    do_init_display,25,281
-    do_init_image,26,302
-    do_release_image,27,321
-    do_release_module,28,343
-    do_render,29,366
-    do_clear,30,381
-    do_text,31,395
-    do_hostname,32,408
-    do_timestamp,33,425
-    do_uptime,34,443
-    do_meter,35,458
-    do_df,36,472
-    do_age,37,483
-    do_file,38,495
-    do_sleep,39,508
-#define MAX_DISPLAY 51,987
-#define MAX_PATHNAME 52,1011
-struct args_init55,1037
-  enum Eink_colour colour;57,1056
-  UWORD            rotate;58,1083
-struct args_text61,1114
-  UWORD            xstart;63,1133
-  UWORD            ystart;64,1160
-  int              fsize;65,1187
-  enum Eink_colour colour;66,1213
-  char             text[text67,1240
-struct args_hostname70,1312
-  UWORD            xstart;72,1335
-  UWORD		   ystart;73,1362
-  int		   fsize;74,1382
-struct args_timestamp76,1402
-  UWORD            xstart;78,1426
-  UWORD		   ystart;79,1453
-  int		   fsize;80,1473
-struct args_uptime82,1495
-  UWORD            xstart;84,1516
-  UWORD            ystart;85,1543
-  int              fsize;86,1570
-struct args_meter88,1599
-  UWORD            xstart;90,1619
-  UWORD            ystart;91,1646
-  int              fsize;92,1673
-  int              value;93,1699
-  enum Eink_colour colour;94,1725
-struct args_df96,1755
-  UWORD            ystart;98,1772
-  int		   fsize;99,1799
-  enum df_units    units;100,1816
-  int		   cutoff;101,1842
-  char		   label[label102,1860
-  char		   device[device103,1891
-struct args_age106,1928
-  UWORD		   xstart;108,1946
-  UWORD		   ystart;109,1966
-  int		   fsize;110,1986
-  enum age_units   units;111,2003
-  int              cutoff;112,2029
-  char		   label[label113,2056
-  char		   filename[filename114,2087
-struct args_file117,2126
-  UWORD		   xstart;119,2145
-  UWORD		   ystart;120,2165
-  int		   fsize;121,2185
-  int		   lines;122,2202
-  char		   filename[filename123,2219
-struct args_sleep126,2258
-  int		   seconds;128,2278
-struct action133,2303
-  enum   verb     verb;135,2319
-  struct action * next;136,2343
-  struct action * prev;137,2367
-    struct args_init       init_image;141,2404
-    struct args_text       text;142,2443
-    struct args_hostname   hostname;143,2476
-    struct args_timestamp  timestamp;144,2513
-    struct args_uptime     uptime;145,2551
-    struct args_meter      meter;146,2586
-    struct args_df         df;147,2620
-    struct args_age        age;148,2651
-    struct args_file       file;149,2683
-    struct args_sleep      sleep;150,2716
-  } args;151,2750
-#define A(160,2928
-#define A5(162,2974
-#define A4(163,3140
-#define A3(164,3287
-#define A2(165,3415
-#define A1(166,3524
-#define DEF_SET_COLOUR(172,3730
-#define DEF_INIT_IMAGE(178,3871
-#define DEF_IMAGE_RELEASE(181,3994
-#define DEF_RENDER(188,4112
-#define DEF_CLEAR(191,4151
-#define DEF_TEXT(194,4188
-#define DEF_HOSTNAME(197,4381
-#define DEF_TIMESTAMP(200,4531
-#define DEF_UPTIME(204,4688
-#define DEF_METER(207,4828
-#define DEF_DF(210,5035
-#define DEF_AGE(214,5253
-#define DEF_FILE(217,5512
-#define DEF_SLEEP(220,5715
-
-config.h,336
-#define DEBUG 5,152
-#define PACKAGE 8,191
-#define PACKAGE_BUGREPORT 11,298
-#define PACKAGE_NAME 14,406
-#define PACKAGE_STRING 17,498
-#define PACKAGE_TARNAME 20,596
-#define PACKAGE_URL 23,680
-#define PACKAGE_VERSION 26,749
-#define RPI 29,812
-#define USE_LGPIO_LIB 32,876
-#define VERSION 35,933
-#define YYTEXT_POINTER 39,1046
-
-device.c,250
-static void eink_reset(62,2411
-static void eink_sendcommand(77,2828
-static void eink_senddata(90,3207
-static void eink_readbusy(102,3586
-void eink_init(118,4011
-void eink_clear(162,5400
-void eink_display(187,6288
-void eink_deepsleep(218,7207
-
-device.h,85
-#define __DEVICE_H_53,2055
-#define EINK_WIDTH 58,2119
-#define EINK_HEIGHT 59,2148
+woodenman.c,64
+static struct action actions[actions34,1499
+int main(66,2567
 
 eink_sysstat.h,33
 #define _EINK_SYSSTAT_H_31,1469
+
+parse_utils.h,29
+#define _PARSE_UTILS_H_2,24
+
+actions.c,717
+void do_action(25,300
+char * str_action(111,2659
+struct action * new_action_init(205,3915
+struct action * new_action_text(229,4294
+struct action * new_action_hostname(259,4918
+struct action * new_action_timestamp(285,5377
+struct action * new_action_uptime(311,5838
+struct action * new_action_meter(337,6275
+struct action * new_action_df	368,6821
+struct action * new_action_age	402,7465
+struct action * new_action_file	437,8171
+struct action * new_action_sleep(469,8724
+struct action * new_action_render(491,9022
+struct action * new_action_clear(512,9274
+struct action * new_action_loop(533,9522
+struct action * new_action_none(557,9770
+void delete_action(579,9990
+char * str_struct_action(586,10056
+
+dump_utils.c,706
+struct lookup14,396
+  char                            *name;name16,412
+  enum       token 17,453
+  enum       token {zero=zero17,453
+  enum       token {zero=0, one=17,453
+  char          *name;name25,518
+  enum df_units  unit;26,541
+} df_lookup[df_lookup27,564
+char * str_df_units(52,979
+  char             *name;name88,1356
+  enum  Eink_colour colour;89,1382
+} colour_lookup[colour_lookup90,1410
+char * str_colour(109,1912
+  char             *name;name120,2018
+  enum  age_units   age;121,2044
+} age_lookup[age_lookup122,2069
+char * str_age(139,2359
+  char      *name;name147,2450
+  enum verb verb;148,2469
+} verb_lookup[verb_lookup149,2487
+static char * str_verb(176,3278
+
+gadgets.h,436
+#define _GADGETS_H_31,1422
+enum Eink_colour61,2239
+    is_no_colour,63,2260
+    is_black_on_grey,64,2278
+    is_red_on_grey,65,2349
+    is_black_on_red,66,2415
+    is_red_on_black,67,2475
+enum df_units71,2582
+    df_none,73,2600
+    df_meg,74,2613
+    df_geg,75,2625
+    df_best,76,2637
+    df_pcent,77,2650
+enum age_units80,2670
+    age_none,82,2689
+    age_minutes,83,2703
+    age_hours,84,2720
+    age_days,85,2735
 
 gadgets.c,1044
 static enum Eink_colour  gadget_colour 46,1746
@@ -219,25 +161,90 @@ int ga_age(685,16951
 int ga_file(760,18616
 int ga_sleep(842,20427
 
-gadgets.h,436
-#define _GADGETS_H_31,1422
-enum Eink_colour61,2239
-    is_no_colour,63,2260
-    is_black_on_grey,64,2278
-    is_red_on_grey,65,2349
-    is_black_on_red,66,2415
-    is_red_on_black,67,2475
-enum df_units71,2582
-    df_none,73,2600
-    df_meg,74,2613
-    df_geg,75,2625
-    df_best,76,2637
-    df_pcent,77,2650
-enum age_units80,2670
-    age_none,82,2689
-    age_minutes,83,2703
-    age_hours,84,2720
-    age_days,85,2735
+config.h,336
+#define DEBUG 5,152
+#define PACKAGE 8,191
+#define PACKAGE_BUGREPORT 11,298
+#define PACKAGE_NAME 14,406
+#define PACKAGE_STRING 17,498
+#define PACKAGE_TARNAME 20,596
+#define PACKAGE_URL 23,680
+#define PACKAGE_VERSION 26,749
+#define RPI 29,812
+#define USE_LGPIO_LIB 32,876
+#define VERSION 35,933
+#define YYTEXT_POINTER 39,1046
+
+module.h,124
+#define LFLAGS 80,2704
+#define NUM_MAXBUF 81,2721
+#define UBYTE 98,2941
+#define UWORD 99,2965
+#define UDOUBLE 100,2990
+
+ironman.c,154
+static void usage(45,1873
+static	    int		   debug=74,2740
+static	    int		   verbose=75,2768
+static int parse_action_file(79,2801
+int main(121,3272
+
+device.c,250
+static void eink_reset(62,2411
+static void eink_sendcommand(77,2828
+static void eink_senddata(90,3207
+static void eink_readbusy(102,3586
+void eink_init(118,4011
+void eink_clear(162,5400
+void eink_display(187,6288
+void eink_deepsleep(218,7207
+
+Fonts/font24.c,61
+const uint8_t Font24_Table 41,2174
+sFONT Font24 2514,96435
+
+Fonts/font16.c,74
+const uint8_t Font16_Table[Font16_Table45,2218
+sFONT Font16 1758,47818
+
+Fonts/font8.c,70
+const uint8_t Font8_Table[Font8_Table45,2216
+sFONT Font8 998,17247
+
+Fonts/font12CN.c,76
+const CH_CN Font12CN_Table[Font12CN_Table46,2219
+cFONT Font12CN 112,5020
+
+Fonts/font24CN.c,77
+const CH_CN Font24CN_Table[Font24CN_Table46,2219
+cFONT Font24CN 457,27253
+
+Fonts/font20.c,74
+const uint8_t Font20_Table[Font20_Table42,2216
+sFONT Font20 2136,64165
+
+Fonts/font12.c,74
+const uint8_t Font12_Table[Font12_Table45,2218
+sFONT Font12 1378,25626
+
+Fonts/fonts.h,485
+#define __FONTS_H40,2132
+#define MAX_HEIGHT_FONT 43,2183
+#define MAX_WIDTH_FONT 44,2218
+#define OFFSET_BITMAP 45,2253
+typedef struct _tFont55,2438
+  const uint8_t *table;table57,2466
+  uint16_t Width;58,2490
+  uint16_t Height;59,2508
+} sFONT;61,2530
+  const  char index[index67,2628
+}CH_CN;CH_CN69,2771
+  const CH_CN *table;table74,2802
+  uint16_t size;75,2824
+  uint16_t ASCII_Width;76,2841
+  uint16_t Width;77,2865
+  uint16_t Height;78,2883
+}cFONT;cFONT80,2905
 
 module.c,504
 static int detect_os(55,2021
@@ -259,15 +266,375 @@ void gpio_delay(234,5789
 void module_turn_off(246,6124
 void spi_writebyte(273,6715
 
-module.h,124
-#define LFLAGS 80,2704
-#define NUM_MAXBUF 81,2721
-#define UBYTE 98,2941
-#define UWORD 99,2965
-#define UDOUBLE 100,2990
+Debug.h,73
+#define __DEBUG_H36,1644
+#define Debug(41,1693
+	#define Debug(43,1773
+
+parser.h,1886
+# define YY_YY_PARSER_H_INCLUDED39,1762
+# define YYDEBUG 42,1832
+# define YYTOKENTYPE67,2234
+  enum yytokentype68,2255
+    YYEMPTY 70,2278
+    YYEOF 71,2296
+    YYerror 72,2352
+    YYUNDEF 73,2400
+    T_NL 74,2458
+    T_SEMI 75,2510
+    T_WS 76,2566
+    T_INT 77,2621
+    T_STRING 78,2676
+    T_BAD_STRING 79,2736
+    T_INIT 80,2791
+    T_HOSTNAME 81,2840
+    T_TIMESTAMP 82,2893
+    T_UPTIME 83,2947
+    T_DF 84,2998
+    T_AGE 85,3045
+    T_FILE 86,3093
+    T_RENDER 87,3142
+    T_SLEEP 88,3193
+    T_LABEL 89,3243
+    T_LOOP 90,3293
+    T_CLEAR 91,3342
+    T_METER 92,3392
+    T_TEXT 93,3442
+    T_COLOUR 94,3491
+    T_DF_UNIT 95,3542
+    T_AGE_UNIT 96,3594
+    T_ROTATE 97,3647
+  typedef enum yytokentype yytoken_kind_t;99,3703
+#define YYEMPTY 102,3773
+#define YYEOF 103,3792
+#define YYerror 104,3808
+#define YYUNDEF 105,3828
+#define T_NL 106,3848
+#define T_SEMI 107,3865
+#define T_WS 108,3884
+#define T_INT 109,3901
+#define T_STRING 110,3919
+#define T_BAD_STRING 111,3940
+#define T_INIT 112,3965
+#define T_HOSTNAME 113,3984
+#define T_TIMESTAMP 114,4007
+#define T_UPTIME 115,4031
+#define T_DF 116,4052
+#define T_AGE 117,4069
+#define T_FILE 118,4087
+#define T_RENDER 119,4106
+#define T_SLEEP 120,4127
+#define T_LABEL 121,4147
+#define T_LOOP 122,4167
+#define T_CLEAR 123,4186
+#define T_METER 124,4206
+#define T_TEXT 125,4226
+#define T_COLOUR 126,4245
+#define T_DF_UNIT 127,4266
+#define T_AGE_UNIT 128,4288
+#define T_ROTATE 129,4311
+union YYSTYPE133,4407
+typedef union YYSTYPE YYSTYPE;148,4665
+# define YYSTYPE_IS_TRIVIAL 149,4696
+# define YYSTYPE_IS_DECLARED 150,4726
+typedef struct YYLTYPE YYLTYPE;155,4842
+struct YYLTYPE156,4874
+  int first_line;158,4891
+  int first_column;159,4909
+  int last_line;160,4929
+  int last_column;161,4946
+# define YYLTYPE_IS_DECLARED 163,4968
+# define YYLTYPE_IS_TRIVIAL 164,4999
+
+parser.y,223
+  int               ival;75,
+  float             fval;76,
+  enum Eink_colour  colour;77,
+  enum df_units     df_unit;78,
+  enum age_units    age_unit;79,
+  char            * string;80,
+  struct action   * action;81,
+#define YY_DECL 12,
+  YY_DECL;13,
+  #define YYLOCATION_PRINT(17,
+
+old_gadgets.h,367
+#define _GADGETS_H_31,1422
+enum Eink_colour61,2239
+    is_black_on_grey,63,2260
+    is_red_on_grey,64,2331
+    is_black_on_red,65,2397
+    is_red_on_black,66,2457
+enum df_units70,2564
+    df_meg,72,2582
+    df_geg,73,2594
+    df_best,74,2606
+    df_pcent,75,2619
+enum age_units78,2639
+    age_minutes,80,2658
+    age_hours,81,2675
+    age_days,82,2690
+
+DEV_Config.h,170
+#define _DEV_CONFIG_H_49,2048
+        #define LFLAGS 71,2455
+        #define NUM_MAXBUF 72,2480
+#define UBYTE 92,2805
+#define UWORD 93,2829
+#define UDOUBLE 94,2854
+
+paperman.c,18
+int main(45,1650
+
+Device/EPD_1in54b_V2.c,316
+static void EPD_1IN54B_V2_Reset(38,1762
+static void EPD_1IN54B_V2_SendCommand(53,2212
+static void EPD_1IN54B_V2_SendData(66,2622
+static void EPD_1IN54B_V2_ReadBusy(78,3032
+void EPD_1IN54B_V2_Init(94,3474
+void EPD_1IN54B_V2_Clear(138,5015
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933
+
+Device/EPD_1in54b_V2.h,110
+#define __EPD_1IN54B_V2_H_32,1545
+#define EPD_1IN54B_V2_WIDTH 37,1620
+#define EPD_1IN54B_V2_HEIGHT 38,1658
+
+DEV_Config.c,648
+int GPIO_Handle;35,1493
+int SPI_Handle;36,1510
+int EPD_RST_PIN;42,1550
+int EPD_DC_PIN;43,1567
+int EPD_CS_PIN;44,1583
+int EPD_BUSY_PIN;45,1599
+int EPD_PWR_PIN;46,1617
+int EPD_MOSI_PIN;47,1634
+int EPD_SCLK_PIN;48,1652
+void DEV_Digital_Write(53,1702
+UBYTE DEV_Digital_Read(76,2142
+void DEV_SPI_WriteByte(104,2627
+void DEV_SPI_Write_nByte(127,3058
+void DEV_GPIO_Mode(158,3687
+void DEV_Delay_ms(207,4861
+static int DEV_Equipment_Testing(232,5205
+void DEV_GPIO_Init(282,6315
+void DEV_SPI_SendnData(316,7273
+void DEV_SPI_SendData(326,7556
+UBYTE DEV_SPI_ReadData(350,8077
+UBYTE DEV_Module_Init(379,8745
+void DEV_Module_Exit(482,11875
+
+device.h,85
+#define __DEVICE_H_53,2055
+#define EINK_WIDTH 58,2119
+#define EINK_HEIGHT 59,2148
+
+dump_utils.h,28
+#define _DUMP_UTILS_H_2,23
+
+GUI/GUI_Paint.c,669
+PAINT Paint;92,3965
+void Paint_NewImage(102,4347
+void Paint_SelectImage(133,5342
+void Paint_SetRotate(143,5636
+void Paint_SetMirroring(158,6197
+void Paint_SetScale(170,6656
+void Paint_SetPixel(195,7688
+void Paint_Clear(272,10037
+void Paint_ClearWindows(307,11149
+void Paint_DrawPoint(326,11818
+void Paint_DrawLine(364,13441
+void Paint_DrawRectangle(422,15523
+void Paint_DrawCircle(455,16984
+void Paint_DrawChar(524,20535
+void Paint_DrawString_EN(573,22870
+void Paint_DrawString_CN(621,24611
+#define  ARRAY_LEN 716,29194
+void Paint_DrawNum(717,29217
+void Paint_DrawNumDecimals(760,30649
+void Paint_DrawTime(819,32390
+void Paint_DrawBitMap(845,34130
+
+GUI/GUI_Paint.h,1649
+#define __GUI_PAINT_H71,3212
+    UBYTE *Image;Image80,3333
+    UWORD Width;81,3351
+    UWORD Height;82,3368
+    UWORD WidthMemory;83,3386
+    UWORD HeightMemory;84,3409
+    UWORD Color;85,3433
+    UWORD Rotate;86,3450
+    UWORD Mirror;87,3468
+    UWORD WidthByte;88,3486
+    UWORD HeightByte;89,3507
+    UWORD Scale;90,3529
+} PAINT;91,3546
+#define ROTATE_0 97,3602
+#define ROTATE_90 98,3632
+#define ROTATE_180 99,3663
+#define ROTATE_270 100,3695
+    MIRROR_NONE 106,3767
+    MIRROR_HORIZONTAL 107,3792
+    MIRROR_VERTICAL 108,3822
+    MIRROR_ORIGIN 109,3850
+} MIRROR_IMAGE;110,3876
+#define MIRROR_IMAGE_DFT 111,3892
+#define WHITE 116,3953
+#define BLACK 117,3981
+#define RED 118,4009
+#define IMAGE_BACKGROUND 120,4039
+#define FONT_FOREGROUND 121,4073
+#define FONT_BACKGROUND 122,4107
+#define  GRAY1 125,4157
+#define  GRAY2 126,4188
+#define  GRAY3 127,4208
+#define  GRAY4 128,4235
+    DOT_PIXEL_1X1 134,4312
+    DOT_PIXEL_2X2 135,4346
+    DOT_PIXEL_3X3 136,4378
+    DOT_PIXEL_4X4 137,4409
+    DOT_PIXEL_5X5 138,4440
+    DOT_PIXEL_6X6 139,4472
+    DOT_PIXEL_7X7 140,4504
+    DOT_PIXEL_8X8 141,4536
+} DOT_PIXEL;142,4568
+#define DOT_PIXEL_DFT 143,4581
+    DOT_FILL_AROUND 149,4688
+    DOT_FILL_RIGHTUP 150,4734
+} DOT_STYLE;151,4779
+#define DOT_STYLE_DFT 152,4792
+    LINE_STYLE_SOLID 158,4907
+    LINE_STYLE_DOTTED,159,4933
+} LINE_STYLE;160,4956
+    DRAW_FILL_EMPTY 166,5027
+    DRAW_FILL_FULL,167,5052
+} DRAW_FILL;168,5072
+    UWORD Year;174,5151
+    UBYTE  Month;175,5175
+    UBYTE  Day;176,5202
+    UBYTE  Hour;177,5229
+    UBYTE  Min;178,5256
+    UBYTE  Sec;179,5283
+} PAINT_TIME;180,5310
 
 old_eink_sysstat.h,33
 #define _EINK_SYSSTAT_H_31,1469
+
+strawman.c,18
+int main(45,1646
+
+actions.h,3269
+#define _ACTIONS_H_2,20
+enum verb18,188
+    do_noverb 20,202
+    do_none,21,221
+    do_label,22,234
+    do_loop,23,248
+    do_init_module,24,261
+    do_init_display,25,281
+    do_init_image,26,302
+    do_release_image,27,321
+    do_release_module,28,343
+    do_render,29,366
+    do_clear,30,381
+    do_text,31,395
+    do_hostname,32,408
+    do_timestamp,33,425
+    do_uptime,34,443
+    do_meter,35,458
+    do_df,36,472
+    do_age,37,483
+    do_file,38,495
+    do_sleep,39,508
+#define MAX_DISPLAY 52,988
+#define MAX_PATHNAME 53,1012
+struct args_init56,1038
+  enum Eink_colour colour;58,1057
+  UWORD            rotate;59,1084
+struct args_text62,1115
+  UWORD            xstart;64,1134
+  UWORD            ystart;65,1161
+  int              fsize;66,1188
+  enum Eink_colour colour;67,1214
+  char             text[text68,1241
+struct args_hostname71,1324
+  UWORD            xstart;73,1347
+  UWORD		   ystart;74,1374
+  int		   fsize;75,1394
+struct args_timestamp77,1414
+  UWORD            xstart;79,1438
+  UWORD		   ystart;80,1465
+  int		   fsize;81,1485
+struct args_uptime83,1507
+  UWORD            xstart;85,1528
+  UWORD            ystart;86,1555
+  int              fsize;87,1582
+struct args_meter89,1611
+  UWORD            xstart;91,1631
+  UWORD            ystart;92,1658
+  int              fsize;93,1685
+  int              value;94,1711
+  enum Eink_colour colour;95,1737
+struct args_df97,1767
+  UWORD            ystart;99,1784
+  int		   fsize;100,1811
+  enum df_units    units;101,1828
+  int		   cutoff;102,1854
+  char		   label[label103,1872
+  char		   device[device104,1903
+struct args_age107,1940
+  UWORD		   xstart;109,1958
+  UWORD		   ystart;110,1978
+  int		   fsize;111,1998
+  enum age_units   units;112,2015
+  int              cutoff;113,2041
+  char		   label[label114,2068
+  char		   filename[filename115,2099
+struct args_file118,2138
+  UWORD		   xstart;120,2157
+  UWORD		   ystart;121,2177
+  int		   fsize;122,2197
+  int		   lines;123,2214
+  char		   filename[filename124,2231
+struct args_sleep127,2270
+  int		   seconds;129,2290
+struct action134,2315
+  enum   verb     verb;136,2331
+  struct action * next;137,2355
+  struct action * prev;138,2379
+    struct args_init       init_image;142,2416
+    struct args_text       text;143,2455
+    struct args_hostname   hostname;144,2488
+    struct args_timestamp  timestamp;145,2525
+    struct args_uptime     uptime;146,2563
+    struct args_meter      meter;147,2598
+    struct args_df         df;148,2632
+    struct args_age        age;149,2663
+    struct args_file       file;150,2695
+    struct args_sleep      sleep;151,2728
+  } args;152,2762
+static struct action no_action 156,2779
+#define A(163,3059
+#define A5(165,3105
+#define A4(166,3271
+#define A3(167,3418
+#define A2(168,3546
+#define A1(169,3655
+#define DEF_SET_COLOUR(175,3861
+#define DEF_INIT_IMAGE(181,4002
+#define DEF_IMAGE_RELEASE(184,4125
+#define DEF_RENDER(191,4243
+#define DEF_CLEAR(194,4282
+#define DEF_TEXT(197,4319
+#define DEF_HOSTNAME(200,4512
+#define DEF_TIMESTAMP(203,4662
+#define DEF_UPTIME(207,4819
+#define DEF_METER(210,4959
+#define DEF_DF(213,5166
+#define DEF_AGE(217,5384
+#define DEF_FILE(220,5643
+#define DEF_SLEEP(223,5846
 
 old_gadgets.c,1044
 static enum Eink_colour  gadget_colour 46,1757
@@ -305,162 +672,293 @@ int ga_age(685,17069
 int ga_file(760,18734
 int ga_sleep(842,20545
 
-old_gadgets.h,367
-#define _GADGETS_H_31,1422
-enum Eink_colour61,2239
-    is_black_on_grey,63,2260
-    is_red_on_grey,64,2331
-    is_black_on_red,65,2397
-    is_red_on_black,66,2457
-enum df_units70,2564
-    df_meg,72,2582
-    df_geg,73,2594
-    df_best,74,2606
-    df_pcent,75,2619
-enum age_units78,2639
-    age_minutes,80,2658
-    age_hours,81,2675
-    age_days,82,2690
+JUNK/parse.c,1319
+struct lookup35,798
+  char                            *name;name37,814
+  enum       token 38,855
+  enum       token {zero=zero38,855
+  enum       token {zero=0, one=38,855
+int parse_word(48,1013
+int	parse_int(72,1495
+  char          *name;name97,1836
+  enum df_units  unit;98,1859
+} df_lookup[df_lookup99,1882
+ enum df_units parse_df_unit(122,2295
+char * str_df_units(131,2443
+  char             *name;name167,2813
+  enum  Eink_colour colour;168,2839
+} colour_lookup[colour_lookup169,2867
+ enum Eink_colour parse_colour(187,3368
+  char             *name;name201,3540
+  enum  age_units   age;202,3566
+} age_lookup[age_lookup203,3591
+ enum age_units parse_age(218,3849
+  char      *name;name235,4010
+  enum verb verb;236,4029
+} verb_lookup[verb_lookup237,4047
+enum verb parse_verb(263,4838
+int eat_string(275,5042
+int parse_text(308,6030
+static int lineno=341,6456
+void this_line(344,6479
+bool next_line(352,6621
+bool  skip_ws(366,6811
+bool  gobble_chars(394,7277
+void syntax_error(416,7755
+void validate 430,8031
+struct action * parse_hostname(453,8655
+struct action * parse_timestamp(506,9808
+struct action * parse_df(557,10947
+struct action * start 634,12628
+struct action * current 635,12660
+struct action * new 636,12693
+int parse_file(639,12728
+int main(750,14314
 
-paperman.c,18
-int main(45,1650
+parser.c,8043
+#define YYBISON 49,2272
+#define YYBISON_VERSION 52,2324
+#define YYSKELETON_NAME 55,2379
+#define YYPURE 58,2434
+#define YYPUSH 61,2473
+#define YYPULL 64,2512
+#   define YY_CAST(72,2572
+#   define YY_REINTERPRET_CAST(73,2626
+#   define YY_CAST(75,2705
+#   define YY_REINTERPRET_CAST(76,2750
+#    define YY_NULLPTR 82,2900
+#    define YY_NULLPTR 84,2940
+#   define YY_NULLPTR 87,2983
+enum yysymbol_kind_t93,3074
+  YYSYMBOL_YYEMPTY 95,3097
+  YYSYMBOL_YYEOF 96,3122
+  YYSYMBOL_YYerror 97,3186
+  YYSYMBOL_YYUNDEF 98,3242
+  YYSYMBOL_T_NL 99,3308
+  YYSYMBOL_T_SEMI 100,3368
+  YYSYMBOL_T_WS 101,3432
+  YYSYMBOL_T_INT 102,3495
+  YYSYMBOL_T_STRING 103,3558
+  YYSYMBOL_T_BAD_STRING 104,3626
+  YYSYMBOL_T_INIT 105,3689
+  YYSYMBOL_T_HOSTNAME 106,3746
+  YYSYMBOL_T_TIMESTAMP 107,3807
+  YYSYMBOL_T_UPTIME 108,3869
+  YYSYMBOL_T_DF 109,3928
+  YYSYMBOL_T_AGE 110,3983
+  YYSYMBOL_T_FILE 111,4039
+  YYSYMBOL_T_RENDER 112,4096
+  YYSYMBOL_T_SLEEP 113,4155
+  YYSYMBOL_T_LABEL 114,4213
+  YYSYMBOL_T_LOOP 115,4271
+  YYSYMBOL_T_CLEAR 116,4328
+  YYSYMBOL_T_METER 117,4386
+  YYSYMBOL_T_TEXT 118,4444
+  YYSYMBOL_T_COLOUR 119,4501
+  YYSYMBOL_T_DF_UNIT 120,4560
+  YYSYMBOL_T_AGE_UNIT 121,4620
+  YYSYMBOL_T_ROTATE 122,4681
+  YYSYMBOL_27_ 123,4740
+  YYSYMBOL_28_ 124,4794
+  YYSYMBOL_29_ 125,4848
+  YYSYMBOL_30_ 126,4902
+  YYSYMBOL_YYACCEPT 127,4956
+  YYSYMBOL_actions 128,5014
+  YYSYMBOL_new_action 129,5072
+  YYSYMBOL_action 130,5133
+  YYSYMBOL_int_arg 131,5190
+  YYSYMBOL_df_arg 132,5248
+  YYSYMBOL_age_arg 133,5305
+  YYSYMBOL_string_arg 134,5363
+  YYSYMBOL_rotate_arg 135,5424
+  YYSYMBOL_colour_arg 136,5485
+  YYSYMBOL_init_verb 137,5546
+  YYSYMBOL_hostname_verb 138,5606
+  YYSYMBOL_timestamp_verb 139,5670
+  YYSYMBOL_uptime_verb 140,5735
+  YYSYMBOL_df_verb 141,5797
+  YYSYMBOL_age_verb 142,5855
+  YYSYMBOL_file_verb 143,5914
+  YYSYMBOL_render_verb 144,5974
+  YYSYMBOL_sleep_verb 145,6036
+  YYSYMBOL_clear_verb 146,6097
+  YYSYMBOL_loop_verb 147,6158
+  YYSYMBOL_meter_verb 148,6218
+  YYSYMBOL_text_verb 149,6279
+  YYSYMBOL_init 150,6339
+  YYSYMBOL_hostname 151,6394
+  YYSYMBOL_timestamp 152,6453
+  YYSYMBOL_uptime 153,6513
+  YYSYMBOL_render 154,6570
+  YYSYMBOL_sleep 155,6627
+  YYSYMBOL_clear 156,6683
+  YYSYMBOL_loop 157,6739
+  YYSYMBOL_df 158,6794
+  YYSYMBOL_age 159,6847
+  YYSYMBOL_file 160,6901
+  YYSYMBOL_meter 161,6956
+  YYSYMBOL_text 162,7012
+typedef enum yysymbol_kind_t yysymbol_kind_t;164,7070
+# undef short177,7235
+#  define YY_STDINT_H188,7645
+typedef __INT_LEAST8_TYPE__ yytype_int8;198,7969
+typedef int_least8_t yytype_int8;200,8036
+typedef signed char yytype_int8;202,8076
+typedef __INT_LEAST16_TYPE__ yytype_int16;206,8144
+typedef int_least16_t yytype_int16;208,8213
+typedef short yytype_int16;210,8255
+# undef UINT_LEAST8_MAX219,8642
+# undef UINT_LEAST16_MAX220,8666
+# define UINT_LEAST8_MAX 221,8691
+# define UINT_LEAST16_MAX 222,8720
+typedef __UINT_LEAST8_TYPE__ yytype_uint8;226,8830
+typedef uint_least8_t yytype_uint8;229,8972
+typedef unsigned char yytype_uint8;231,9067
+typedef short yytype_uint8;233,9109
+typedef __UINT_LEAST16_TYPE__ yytype_uint16;237,9217
+typedef uint_least16_t yytype_uint16;240,9363
+typedef unsigned short yytype_uint16;242,9461
+typedef int yytype_uint16;244,9505
+#  define YYPTRDIFF_T 249,9617
+#  define YYPTRDIFF_MAXIMUM 250,9656
+#  define YYPTRDIFF_T 255,9814
+#  define YYPTRDIFF_MAXIMUM 256,9846
+#  define YYPTRDIFF_T 258,9893
+#  define YYPTRDIFF_MAXIMUM 259,9920
+#  define YYSIZE_T 265,10012
+#  define YYSIZE_T 267,10067
+#  define YYSIZE_T 270,10212
+#  define YYSIZE_T 272,10245
+#define YYSIZE_MAXIMUM 276,10289
+#define YYSIZEOF(282,10561
+typedef yytype_uint8 yy_state_t;286,10663
+typedef int yy_state_fast_t;289,10735
+#   define YY_(295,10895
+#  define YY_(299,10981
+#  define YY_ATTRIBUTE_PURE 306,11114
+#  define YY_ATTRIBUTE_PURE308,11176
+#  define YY_ATTRIBUTE_UNUSED 314,11310
+#  define YY_ATTRIBUTE_UNUSED316,11376
+# define YY_USE(322,11516
+# define YY_USE(324,11554
+#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN 330,11792
+#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN 334,12006
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END 339,12301
+# define YY_INITIAL_VALUE(342,12392
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN345,12482
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END346,12527
+# define YY_INITIAL_VALUE(349,12602
+# define YY_IGNORE_USELESS_CAST_BEGIN 353,12738
+# define YY_IGNORE_USELESS_CAST_END 356,12926
+# define YY_IGNORE_USELESS_CAST_BEGIN360,13054
+# define YY_IGNORE_USELESS_CAST_END361,13092
+#define YY_ASSERT(365,13137
+#    define YYSTACK_ALLOC 374,13332
+#    define YYSTACK_ALLOC 378,13495
+#    define alloca 381,13615
+#    define YYSTACK_ALLOC 383,13651
+#      define EXIT_SUCCESS 388,13881
+#  define YYSTACK_FREE(397,14031
+#   define YYSTACK_ALLOC_MAXIMUM 403,14421
+#  define YYSTACK_ALLOC 406,14503
+#  define YYSTACK_FREE 407,14536
+#   define YYSTACK_ALLOC_MAXIMUM 409,14598
+#    define EXIT_SUCCESS 416,14895
+#   define YYMALLOC 420,14960
+#   define YYFREE 426,15133
+union yyalloc440,15557
+  yy_state_t yyss_alloc;442,15573
+  YYSTYPE yyvs_alloc;443,15598
+  YYLTYPE yyls_alloc;444,15620
+# define YYSTACK_GAP_MAXIMUM 448,15721
+# define YYSTACK_BYTES(452,15871
+# define YYCOPY_NEEDED 457,16028
+# define YYSTACK_RELOCATE(464,16337
+#   define YYCOPY(482,17218
+#   define YYCOPY(485,17344
+#define YYFINAL 498,17813
+#define YYLAST 500,17872
+#define YYNTOKENS 503,17935
+#define YYNNTS 505,17998
+#define YYNRULES 507,18053
+#define YYNSTATES 509,18112
+#define YYMAXUTOK 512,18179
+#define YYTRANSLATE(517,18333
+static const yytype_int8 yytranslate[yytranslate524,18630
+static const yytype_uint8 yyrline[yyrline559,20819
+#define YY_ACCESSING_SYMBOL(572,21358
+static const char *yysymbol_name yysymbol_name577,21544
+#define YYPACT_NINF 601,22594
+#define yypact_value_is_default(603,22621
+#define YYTABLE_NINF 606,22686
+#define yytable_value_is_error(608,22713
+static const yytype_int8 yypact[yypact613,22841
+static const yytype_int8 yydefact[yydefact634,24063
+static const yytype_int8 yypgoto[yypgoto653,25134
+static const yytype_uint8 yydefgoto[yydefgoto662,25469
+static const yytype_uint8 yytable[yytable673,25976
+static const yytype_int16 yycheck[yycheck688,26815
+static const yytype_int8 yystos[yystos705,27745
+static const yytype_int8 yyr1[yyr1724,28864
+static const yytype_int8 yyr2[yyr2736,29435
+enum { YYENOMEM 748,29923
+#define yyerrok 750,29948
+#define yyclearin 751,29990
+#define YYACCEPT 753,30034
+#define YYABORT 754,30075
+#define YYERROR 755,30115
+#define YYNOMEM 756,30155
+#define YYRECOVERING(759,30201
+#define YYBACKUP(761,30242
+#define YYERRCODE 780,31364
+# define YYLLOC_DEFAULT(787,31596
+#define YYRHSLOC(806,32802
+#  define YYFPRINTF 814,32966
+# define YYDPRINTF(817,33003
+#   define YYLOCATION_PRINT(834,33601
+yy_location_print_ 842,33832
+#   define YYLOCATION_PRINT 866,34559
+#   define YY_LOCATION_PRINT(870,34739
+#   define YYLOCATION_PRINT(874,34821
+#   define YY_LOCATION_PRINT 877,35002
+# define YY_SYMBOL_PRINT(883,35101
+yy_symbol_value_print 900,35904
+yy_symbol_print 920,36385
+yy_stack_print 938,37096
+# define YY_STACK_PRINT(949,37342
+yy_reduce_print 961,37789
+# define YY_REDUCE_PRINT(981,38453
+int yydebug;989,38757
+# define YYDPRINTF(991,38791
+# define YY_SYMBOL_PRINT(992,38827
+# define YY_STACK_PRINT(993,38882
+# define YY_REDUCE_PRINT(994,38919
+# define YYINITDEPTH 1000,39053
+# define YYMAXDEPTH 1011,39409
+  yy_state_t *yyssp;yyssp1018,39494
+  yysymbol_kind_t yytoken;1019,39515
+  YYLTYPE *yylloc;yylloc1020,39542
+} yypcontext_t;1021,39561
+yypcontext_expected_tokens 1030,39955
+#  define yystrlen(1068,41185
+yystrlen 1072,41304
+#  define yystpcpy 1084,41529
+yystpcpy 1089,41665
+yy_syntax_error_arguments 1105,41860
+yysyntax_error 1158,44309
+  enum { YYARGS_MAX 1161,44410
+#define YYCASE_(1177,44890
+#undef YYCASE_1188,45487
+yydestruct 1243,46884
+yyparse 1268,47314
+#define YYPOPSTACK(1334,49137
+#  undef YYSTACK_RELOCATE1416,52011
 
-parse_utils.c,1388
-struct lookup36,882
-  char                            *name;name38,898
-  enum       token 39,939
-  enum       token {zero=zero39,939
-  enum       token {zero=0, one=39,939
-static int parse_word(49,1097
-int	parse_int(73,1587
-  char          *name;name98,1928
-  enum df_units  unit;99,1951
-} df_lookup[df_lookup100,1974
- enum df_units parse_df_units(123,2387
-char * str_df_units(132,2536
-  char             *name;name168,2906
-  enum  Eink_colour colour;169,2932
-} colour_lookup[colour_lookup170,2960
- enum Eink_colour parse_colour(188,3461
-char * str_colour(198,3622
-  char             *name;name209,3721
-  enum  age_units   age;210,3747
-} age_lookup[age_lookup211,3772
- enum age_units parse_age(227,4061
-char * str_age(236,4207
-  char      *name;name245,4292
-  enum verb verb;246,4311
-} verb_lookup[verb_lookup247,4329
-enum verb parse_verb(273,5120
-char * str_verb(283,5263
-int eat_string(290,5394
-int parse_text(323,6382
-static int lineno=356,6808
-void this_line(359,6831
-bool next_line(367,6973
-bool  skip_ws(381,7163
-bool  gobble_chars(409,7629
-void syntax_error(431,8107
-void validate 445,8383
-struct action * parse_hostname(468,9007
-struct action * parse_timestamp(521,10160
-struct action * parse_df(572,11299
-struct action * start 649,12981
-struct action * current 650,13013
-struct action * new 651,13046
-int parse_file(654,13081
-
-parse_utils.h,29
-#define _PARSE_UTILS_H_2,24
-
-parser.h,1789
-# define YY_YY_PARSER_H_INCLUDED39,1762
-# define YYDEBUG 42,1832
-# define YYTOKENTYPE62,2177
-  enum yytokentype63,2198
-    YYEMPTY 65,2221
-    YYEOF 66,2239
-    YYerror 67,2295
-    YYUNDEF 68,2343
-    T_NL 69,2401
-    T_SEMI 70,2453
-    T_WS 71,2502
-    T_INT 72,2549
-    T_STRING 73,2597
-    T_BAD_STRING 74,2648
-    T_INIT 75,2703
-    T_HOSTNAME 76,2752
-    T_TIMESTAMP 77,2805
-    T_UPTIME 78,2859
-    T_DF 79,2910
-    T_AGE 80,2957
-    T_FILE 81,3005
-    T_RENDER 82,3054
-    T_SLEEP 83,3105
-    T_LABEL 84,3155
-    T_LOOP 85,3205
-    T_CLEAR 86,3254
-    T_COLOUR 87,3304
-    T_DF_UNIT 88,3355
-    T_AGE_UNIT 89,3407
-    T_ROTATE 90,3460
-  typedef enum yytokentype yytoken_kind_t;92,3516
-#define YYEMPTY 95,3586
-#define YYEOF 96,3605
-#define YYerror 97,3621
-#define YYUNDEF 98,3641
-#define T_NL 99,3661
-#define T_SEMI 100,3678
-#define T_WS 101,3697
-#define T_INT 102,3714
-#define T_STRING 103,3732
-#define T_BAD_STRING 104,3753
-#define T_INIT 105,3778
-#define T_HOSTNAME 106,3797
-#define T_TIMESTAMP 107,3820
-#define T_UPTIME 108,3844
-#define T_DF 109,3865
-#define T_AGE 110,3882
-#define T_FILE 111,3900
-#define T_RENDER 112,3919
-#define T_SLEEP 113,3940
-#define T_LABEL 114,3960
-#define T_LOOP 115,3980
-#define T_CLEAR 116,3999
-#define T_COLOUR 117,4019
-#define T_DF_UNIT 118,4040
-#define T_AGE_UNIT 119,4062
-#define T_ROTATE 120,4085
-union YYSTYPE124,4181
-typedef union YYSTYPE YYSTYPE;138,4433
-# define YYSTYPE_IS_TRIVIAL 139,4464
-# define YYSTYPE_IS_DECLARED 140,4494
-typedef struct YYLTYPE YYLTYPE;145,4610
-struct YYLTYPE146,4642
-  int first_line;148,4659
-  int first_column;149,4677
-  int last_line;150,4697
-  int last_column;151,4714
-# define YYLTYPE_IS_DECLARED 153,4736
-# define YYLTYPE_IS_TRIVIAL 154,4767
-
-parser.y,213
-	int               ival;69,
-	float             fval;70,
-        enum Eink_colour  colour;71,
-        enum df_units     df_unit;72,
-        enum age_units    age_unit;73,
-        char            * string;74,
-#define YY_DECL 12,
-  YY_DECL;13,
-  #define YYLOCATION_PRINT(17,
-
-strawman.c,18
-int main(45,1646
-
-woodenman.c,64
-static struct action actions[actions34,1499
-int main(66,2591
+parser.y,21
+    char * verb 71,
+static char * flatten_string(260,
+gpv_location_print(323,
+void yyerror 351,
 
 lexer.c,6040
 #define  YY_INT_ALIGNED 4,20
@@ -567,353 +1065,79 @@ struct yy_trans_info361,10124
 	flex_int32_t yy_verify;363,10148
 	flex_int32_t yy_nxt;364,10173
 static const flex_int16_t yy_accept[yy_accept366,10199
-static const YY_CHAR yy_ec[yy_ec397,11846
-static const YY_CHAR yy_meta[yy_meta429,13561
-static const flex_int16_t yy_base[yy_base438,13928
-static const flex_int16_t yy_def[yy_def469,15591
-static const flex_int16_t yy_nxt[yy_nxt500,17253
-static const flex_int16_t yy_chk[yy_chk539,19341
-static yy_state_type yy_last_accepting_state;578,21429
-static char *yy_last_accepting_cpos;yy_last_accepting_cpos579,21475
-int yy_flex_debug 582,21539
-#define REJECT 587,21665
-#define yymore(588,21709
-#define YY_MORE_ADJ 589,21755
-#define YY_RESTORE_YY_MORE_OFFSET590,21777
-char *yytext;yytext591,21811
-#define INITIAL 643,23319
-#define YY_EXTRA_TYPE 654,23621
-#define YY_READ_BUF_SIZE 725,24902
-#define YY_READ_BUF_SIZE 727,24939
-#define ECHO 736,25179
-#define YY_INPUT(743,25398
-#define yyterminate(780,26329
-#define YY_START_STACK_INCR 785,26464
-#define YY_FATAL_ERROR(790,26554
-#define YY_DECL_IS_OURS 799,26787
-#define YY_DECL 803,26840
-#define YY_USER_ACTION810,27016
-#define YY_BREAK 815,27109
-#define YY_RULE_SETUP 818,27151
-static int yy_get_next_buffer 1372,39047
-    static yy_state_type yy_get_previous_state 1510,42734
-    static yy_state_type yy_try_NUL_trans 1542,43579
-    static int yyinput 1571,44263
-    void yyrestart 1648,46032
-    void yy_switch_to_buffer 1665,46398
-static void yy_load_buffer_state 1696,47242
-    YY_BUFFER_STATE yy_create_buffer 1710,47715
-    void yy_delete_buffer 1738,48424
-    static void yy_init_buffer 1757,48875
-    void yy_flush_buffer 1785,49609
-void yypush_buffer_state 1814,50296
-void yypop_buffer_state 1844,51062
-static void yyensure_buffer_stack 1863,51458
-YY_BUFFER_STATE yy_scan_buffer 1912,53131
-YY_BUFFER_STATE yy_scan_string 1949,54220
-YY_BUFFER_STATE yy_scan_bytes 1962,54643
-#define YY_EXIT_FAILURE 1993,55381
-static void yynoreturn yy_fatal_error 1996,55415
-#undef yyless2004,55594
-#define yyless(2005,55608
-int yyget_lineno 2024,56067
-FILE *yyget_in yyget_in2033,56157
-FILE *yyget_out yyget_out2041,56241
-int yyget_leng 2049,56341
-char *yyget_text yyget_text2058,56428
-void yyset_lineno 2067,56557
-void yyset_in 2079,56785
-void yyset_out 2084,56848
-int yyget_debug 2089,56915
-void yyset_debug 2094,56974
-static int yy_init_globals 2099,57046
-int yylex_destroy 2128,57713
-static void yy_flex_strncpy 2154,58268
-static int yy_flex_strlen 2164,58421
-void *yyalloc yyalloc2174,58527
-void *yyrealloc yyrealloc2179,58589
-void yyfree 2192,59028
-#define YYTABLES_NAME 2197,59124
+static const YY_CHAR yy_ec[yy_ec398,11929
+static const YY_CHAR yy_meta[yy_meta430,13644
+static const flex_int16_t yy_base[yy_base439,14023
+static const flex_int16_t yy_def[yy_def471,15769
+static const flex_int16_t yy_nxt[yy_nxt503,17514
+static const flex_int16_t yy_chk[yy_chk543,19709
+static yy_state_type yy_last_accepting_state;583,21904
+static char *yy_last_accepting_cpos;yy_last_accepting_cpos584,21950
+int yy_flex_debug 587,22014
+#define REJECT 592,22140
+#define yymore(593,22184
+#define YY_MORE_ADJ 594,22230
+#define YY_RESTORE_YY_MORE_OFFSET595,22252
+char *yytext;yytext596,22286
+#define INITIAL 648,23794
+#define YY_EXTRA_TYPE 659,24096
+#define YY_READ_BUF_SIZE 730,25377
+#define YY_READ_BUF_SIZE 732,25414
+#define ECHO 741,25654
+#define YY_INPUT(748,25873
+#define yyterminate(785,26804
+#define YY_START_STACK_INCR 790,26939
+#define YY_FATAL_ERROR(795,27029
+#define YY_DECL_IS_OURS 804,27262
+#define YY_DECL 808,27315
+#define YY_USER_ACTION815,27491
+#define YY_BREAK 820,27584
+#define YY_RULE_SETUP 823,27626
+static int yy_get_next_buffer 1397,39804
+    static yy_state_type yy_get_previous_state 1535,43491
+    static yy_state_type yy_try_NUL_trans 1567,44336
+    static int yyinput 1596,45020
+    void yyrestart 1673,46789
+    void yy_switch_to_buffer 1690,47155
+static void yy_load_buffer_state 1721,47999
+    YY_BUFFER_STATE yy_create_buffer 1735,48472
+    void yy_delete_buffer 1763,49181
+    static void yy_init_buffer 1782,49632
+    void yy_flush_buffer 1810,50366
+void yypush_buffer_state 1839,51053
+void yypop_buffer_state 1869,51819
+static void yyensure_buffer_stack 1888,52215
+YY_BUFFER_STATE yy_scan_buffer 1937,53888
+YY_BUFFER_STATE yy_scan_string 1974,54977
+YY_BUFFER_STATE yy_scan_bytes 1987,55400
+#define YY_EXIT_FAILURE 2018,56138
+static void yynoreturn yy_fatal_error 2021,56172
+#undef yyless2029,56351
+#define yyless(2030,56365
+int yyget_lineno 2049,56824
+FILE *yyget_in yyget_in2058,56914
+FILE *yyget_out yyget_out2066,56998
+int yyget_leng 2074,57098
+char *yyget_text yyget_text2083,57185
+void yyset_lineno 2092,57314
+void yyset_in 2104,57542
+void yyset_out 2109,57605
+int yyget_debug 2114,57672
+void yyset_debug 2119,57731
+static int yy_init_globals 2124,57803
+int yylex_destroy 2153,58470
+static void yy_flex_strncpy 2179,59025
+static int yy_flex_strlen 2189,59178
+void *yyalloc yyalloc2199,59284
+void *yyrealloc yyrealloc2204,59346
+void yyfree 2217,59785
+#define YYTABLES_NAME 2222,59881
 
 lexer.l,80
 #define YY_NO_INPUT 30,
 #define YY_USER_ACTION 44,
 #define LOCATION_STEP(48,
 
-parser.c,7823
-#define YYBISON 49,2272
-#define YYBISON_VERSION 52,2324
-#define YYSKELETON_NAME 55,2379
-#define YYPURE 58,2434
-#define YYPUSH 61,2473
-#define YYPULL 64,2512
-#   define YY_CAST(72,2572
-#   define YY_REINTERPRET_CAST(73,2626
-#   define YY_CAST(75,2705
-#   define YY_REINTERPRET_CAST(76,2750
-#    define YY_NULLPTR 82,2900
-#    define YY_NULLPTR 84,2940
-#   define YY_NULLPTR 87,2983
-enum yysymbol_kind_t93,3074
-  YYSYMBOL_YYEMPTY 95,3097
-  YYSYMBOL_YYEOF 96,3122
-  YYSYMBOL_YYerror 97,3186
-  YYSYMBOL_YYUNDEF 98,3242
-  YYSYMBOL_T_NL 99,3308
-  YYSYMBOL_T_SEMI 100,3368
-  YYSYMBOL_T_WS 101,3425
-  YYSYMBOL_T_INT 102,3480
-  YYSYMBOL_T_STRING 103,3536
-  YYSYMBOL_T_BAD_STRING 104,3595
-  YYSYMBOL_T_INIT 105,3658
-  YYSYMBOL_T_HOSTNAME 106,3715
-  YYSYMBOL_T_TIMESTAMP 107,3776
-  YYSYMBOL_T_UPTIME 108,3838
-  YYSYMBOL_T_DF 109,3897
-  YYSYMBOL_T_AGE 110,3952
-  YYSYMBOL_T_FILE 111,4008
-  YYSYMBOL_T_RENDER 112,4065
-  YYSYMBOL_T_SLEEP 113,4124
-  YYSYMBOL_T_LABEL 114,4182
-  YYSYMBOL_T_LOOP 115,4240
-  YYSYMBOL_T_CLEAR 116,4297
-  YYSYMBOL_T_COLOUR 117,4355
-  YYSYMBOL_T_DF_UNIT 118,4414
-  YYSYMBOL_T_AGE_UNIT 119,4474
-  YYSYMBOL_T_ROTATE 120,4535
-  YYSYMBOL_25_ 121,4594
-  YYSYMBOL_26_ 122,4648
-  YYSYMBOL_27_ 123,4702
-  YYSYMBOL_28_ 124,4756
-  YYSYMBOL_YYACCEPT 125,4810
-  YYSYMBOL_actions 126,4868
-  YYSYMBOL_new_action 127,4926
-  YYSYMBOL_action 128,4987
-  YYSYMBOL_int_arg 129,5044
-  YYSYMBOL_df_arg 130,5102
-  YYSYMBOL_age_arg 131,5159
-  YYSYMBOL_string_arg 132,5217
-  YYSYMBOL_rotate_arg 133,5278
-  YYSYMBOL_init_verb 134,5339
-  YYSYMBOL_hostname_verb 135,5399
-  YYSYMBOL_timestamp_verb 136,5463
-  YYSYMBOL_uptime_verb 137,5528
-  YYSYMBOL_df_verb 138,5590
-  YYSYMBOL_age_verb 139,5648
-  YYSYMBOL_file_verb 140,5707
-  YYSYMBOL_render_verb 141,5767
-  YYSYMBOL_sleep_verb 142,5829
-  YYSYMBOL_clear_verb 143,5890
-  YYSYMBOL_loop_verb 144,5951
-  YYSYMBOL_init 145,6011
-  YYSYMBOL_hostname 146,6066
-  YYSYMBOL_timestamp 147,6125
-  YYSYMBOL_uptime 148,6185
-  YYSYMBOL_df 149,6242
-  YYSYMBOL_age 150,6295
-  YYSYMBOL_file 151,6349
-  YYSYMBOL_render 152,6404
-  YYSYMBOL_sleep 153,6461
-  YYSYMBOL_clear 154,6517
-  YYSYMBOL_loop 155,6573
-typedef enum yysymbol_kind_t yysymbol_kind_t;157,6631
-# undef short170,6796
-#  define YY_STDINT_H181,7206
-typedef __INT_LEAST8_TYPE__ yytype_int8;191,7530
-typedef int_least8_t yytype_int8;193,7597
-typedef signed char yytype_int8;195,7637
-typedef __INT_LEAST16_TYPE__ yytype_int16;199,7705
-typedef int_least16_t yytype_int16;201,7774
-typedef short yytype_int16;203,7816
-# undef UINT_LEAST8_MAX212,8203
-# undef UINT_LEAST16_MAX213,8227
-# define UINT_LEAST8_MAX 214,8252
-# define UINT_LEAST16_MAX 215,8281
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;219,8391
-typedef uint_least8_t yytype_uint8;222,8533
-typedef unsigned char yytype_uint8;224,8628
-typedef short yytype_uint8;226,8670
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;230,8778
-typedef uint_least16_t yytype_uint16;233,8924
-typedef unsigned short yytype_uint16;235,9022
-typedef int yytype_uint16;237,9066
-#  define YYPTRDIFF_T 242,9178
-#  define YYPTRDIFF_MAXIMUM 243,9217
-#  define YYPTRDIFF_T 248,9375
-#  define YYPTRDIFF_MAXIMUM 249,9407
-#  define YYPTRDIFF_T 251,9454
-#  define YYPTRDIFF_MAXIMUM 252,9481
-#  define YYSIZE_T 258,9573
-#  define YYSIZE_T 260,9628
-#  define YYSIZE_T 263,9773
-#  define YYSIZE_T 265,9806
-#define YYSIZE_MAXIMUM 269,9850
-#define YYSIZEOF(275,10122
-typedef yytype_int8 yy_state_t;279,10224
-typedef int yy_state_fast_t;282,10295
-#   define YY_(288,10455
-#  define YY_(292,10541
-#  define YY_ATTRIBUTE_PURE 299,10674
-#  define YY_ATTRIBUTE_PURE301,10736
-#  define YY_ATTRIBUTE_UNUSED 307,10870
-#  define YY_ATTRIBUTE_UNUSED309,10936
-# define YY_USE(315,11076
-# define YY_USE(317,11114
-#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN 323,11352
-#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN 327,11566
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END 332,11861
-# define YY_INITIAL_VALUE(335,11952
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN338,12042
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END339,12087
-# define YY_INITIAL_VALUE(342,12162
-# define YY_IGNORE_USELESS_CAST_BEGIN 346,12298
-# define YY_IGNORE_USELESS_CAST_END 349,12486
-# define YY_IGNORE_USELESS_CAST_BEGIN353,12614
-# define YY_IGNORE_USELESS_CAST_END354,12652
-#define YY_ASSERT(358,12697
-#    define YYSTACK_ALLOC 367,12892
-#    define YYSTACK_ALLOC 371,13055
-#    define alloca 374,13175
-#    define YYSTACK_ALLOC 376,13211
-#      define EXIT_SUCCESS 381,13441
-#  define YYSTACK_FREE(390,13591
-#   define YYSTACK_ALLOC_MAXIMUM 396,13981
-#  define YYSTACK_ALLOC 399,14063
-#  define YYSTACK_FREE 400,14096
-#   define YYSTACK_ALLOC_MAXIMUM 402,14158
-#    define EXIT_SUCCESS 409,14455
-#   define YYMALLOC 413,14520
-#   define YYFREE 419,14693
-union yyalloc433,15117
-  yy_state_t yyss_alloc;435,15133
-  YYSTYPE yyvs_alloc;436,15158
-  YYLTYPE yyls_alloc;437,15180
-# define YYSTACK_GAP_MAXIMUM 441,15281
-# define YYSTACK_BYTES(445,15431
-# define YYCOPY_NEEDED 450,15588
-# define YYSTACK_RELOCATE(457,15897
-#   define YYCOPY(475,16778
-#   define YYCOPY(478,16904
-#define YYFINAL 491,17373
-#define YYLAST 493,17432
-#define YYNTOKENS 496,17494
-#define YYNNTS 498,17557
-#define YYNRULES 500,17612
-#define YYNSTATES 502,17671
-#define YYMAXUTOK 505,17738
-#define YYTRANSLATE(510,17892
-static const yytype_int8 yytranslate[yytranslate517,18189
-static const yytype_uint8 yyrline[yyrline551,20361
-#define YY_ACCESSING_SYMBOL(563,20834
-static const char *yysymbol_name yysymbol_name568,21020
-#define YYPACT_NINF 591,21966
-#define yypact_value_is_default(593,21993
-#define YYTABLE_NINF 596,22058
-#define yytable_value_is_error(598,22085
-static const yytype_int8 yypact[yypact603,22213
-static const yytype_int8 yydefact[yydefact622,23261
-static const yytype_int8 yypgoto[yypgoto639,24158
-static const yytype_int8 yydefgoto[yydefgoto648,24458
-static const yytype_int8 yytable[yytable659,24929
-static const yytype_int8 yycheck[yycheck672,25628
-static const yytype_int8 yystos[yystos687,26418
-static const yytype_int8 yyr1[yyr1704,27363
-static const yytype_int8 yyr2[yyr2715,27868
-enum { YYENOMEM 726,28290
-#define yyerrok 728,28315
-#define yyclearin 729,28357
-#define YYACCEPT 731,28401
-#define YYABORT 732,28442
-#define YYERROR 733,28482
-#define YYNOMEM 734,28522
-#define YYRECOVERING(737,28568
-#define YYBACKUP(739,28609
-#define YYERRCODE 758,29731
-# define YYLLOC_DEFAULT(765,29963
-#define YYRHSLOC(784,31169
-#  define YYFPRINTF 792,31333
-# define YYDPRINTF(795,31370
-#   define YYLOCATION_PRINT(812,31968
-yy_location_print_ 820,32199
-#   define YYLOCATION_PRINT 844,32926
-#   define YY_LOCATION_PRINT(848,33106
-#   define YYLOCATION_PRINT(852,33188
-#   define YY_LOCATION_PRINT 855,33369
-# define YY_SYMBOL_PRINT(861,33468
-yy_symbol_value_print 878,34271
-yy_symbol_print 898,34752
-yy_stack_print 916,35463
-# define YY_STACK_PRINT(927,35709
-yy_reduce_print 939,36156
-# define YY_REDUCE_PRINT(959,36820
-int yydebug;967,37124
-# define YYDPRINTF(969,37158
-# define YY_SYMBOL_PRINT(970,37194
-# define YY_STACK_PRINT(971,37249
-# define YY_REDUCE_PRINT(972,37286
-# define YYINITDEPTH 978,37420
-# define YYMAXDEPTH 989,37776
-  yy_state_t *yyssp;yyssp996,37861
-  yysymbol_kind_t yytoken;997,37882
-  YYLTYPE *yylloc;yylloc998,37909
-} yypcontext_t;999,37928
-yypcontext_expected_tokens 1008,38322
-#  define yystrlen(1046,39552
-yystrlen 1050,39671
-#  define yystpcpy 1062,39896
-yystpcpy 1067,40032
-yy_syntax_error_arguments 1083,40227
-yysyntax_error 1136,42676
-  enum { YYARGS_MAX 1139,42777
-#define YYCASE_(1155,43257
-#undef YYCASE_1166,43854
-yydestruct 1221,45251
-yyparse 1246,45681
-#define YYPOPSTACK(1312,47504
-#  undef YYSTACK_RELOCATE1394,50378
+JUNK/parse.h,0
 
-parser.y,1207
-#define YY_DECL 12,295
-  #define YYLOCATION_PRINT(17,458
-%code{code64,1717
-	int               ival;69,1761
-	float             fval;70,1786
-        enum Eink_colour  colour;71,1811
-        enum df_units     df_unit;72,1845
-        enum age_units    age_unit;73,1880
-        char            * string;74,1916
-actions:actions117,2721
-new_action:new_action121,2770
-action:action129,3014
-int_arg:int_arg143,3114
-df_arg:df_arg147,3176
-age_arg:age_arg151,3252
-string_arg:string_arg154,3329
-rotate_arg:rotate_arg158,3415
-init_verb:init_verb164,3495
-hostname_verb:hostname_verb165,3545
-timestamp_verb:timestamp_verb166,3599
-uptime_verb:uptime_verb167,3654
-df_verb:df_verb168,3706
-age_verb:age_verb169,3754
-file_verb:file_verb170,3803
-render_verb:render_verb171,3853
-sleep_verb:sleep_verb172,3905
-clear_verb:clear_verb173,3956
-loop_verb:loop_verb174,4007
-init:init177,4059
-hostname:hostname178,4188
-timestamp:timestamp179,4316
-uptime:uptime180,4444
-df:df182,4573
-age:age183,4774
-file:file184,4984
-render:render185,5168
-sleep:sleep186,5256
-clear:clear187,5354
-loop:loop188,5441
-gpv_location_print(201,5663
-void yyerror 229,6486
-int main 236,6684
-
-lexer.l,0
+chain.h,0

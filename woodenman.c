@@ -51,7 +51,7 @@ static struct action actions[] =
 
     
     DEF_AGE(0,130, 24,"/boot/firmware/config.txt", "BACKUP1",  age_days,20),  /* line 130 */
-    DEF_AGE(0,155, 24,"/home/graeme/src",          "BACKUP2",  age_days,180), /* line 155 */
+    DEF_TEXT(0,155, 24,"Woodenman", is_black_on_red), /* line 155 */
     DEF_FILE(0, 180, 8, "/etc/motm", 0),                                      /* line 180 */
 
     DEF_RENDER(),

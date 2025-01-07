@@ -1,6 +1,6 @@
 /* -*- Mode: c; tab-width: 2;c-basic-offset: 2; c-default-style: "gnu" -*- */
 /*
- * parse.c: Parse the config file
+ * parse_utils.c: Parse the config file
  *
  * Example:
  *
@@ -129,34 +129,6 @@ struct
    return (df_lookup[i].unit);
  }
 
-char * str_df_units(enum df_units  unit)
-{
-  char * p;
-
-  switch (unit)
-    {
-    case(df_meg):
-      p="df_meg";
-      break;
-
-    case(df_geg):
-      p="df_geg";
-      break;
-
-    case(df_best):
-      p="df_best";
-      break;
-
-    case (df_pcent):
-      p="df_pcent";
-      break;
-
-    default:
-      p="df_BAD_VALUE";
-      break;
-    }
-  return p;
-}
 
 
 
@@ -195,12 +167,6 @@ struct
  }
 
 
-char * str_colour(enum  Eink_colour colour)
-{
-	return(colour_lookup[colour].name);
-}
-
-
 
 
 
@@ -232,11 +198,6 @@ struct
 
    return (age_lookup[i].age);
  }
-
-char * str_age(enum  age_units   age)
-{
-	return(age_lookup[age].name);
-}
 
 
 
@@ -279,11 +240,6 @@ enum verb parse_verb(FILE *stream)
    return (verb_lookup[i].verb);
 }
 
-
-char * str_verb(enum verb verb)
-{
-	return(verb_lookup[verb].name);
-}
 
 
 // This guy POPS when he sees an unguarded (matching) quote

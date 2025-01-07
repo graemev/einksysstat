@@ -39,6 +39,7 @@ enum verb
     do_sleep,
   };
 
+
 /*
  * args_X are used to hold agrs fro ga_X methods:
  *
@@ -152,6 +153,8 @@ struct action
   
 };
 
+static struct action no_action = {do_noverb, NULL, NULL}; // used only in error handling etc, must not be enchain()ed
+
 
 // Fight the horrible C99 syntax.
 
@@ -192,7 +195,7 @@ struct action
   {do_clear, }
 
 #define DEF_TEXT(XSTART, YSTART, FSIZE, TEXT, COLOUR)\
-  {do_text, .args.TEXT.xstart=XSTART, .args.text.ystart=YSTART, .args.text.fsize=FSIZE, .args.text.text=TEXT, .args.text.colour=COLOUR }
+  {do_text, .args.text.xstart=XSTART, .args.text.ystart=YSTART, .args.text.fsize=FSIZE, .args.text.text=TEXT, .args.text.colour=COLOUR }
 
 #define DEF_HOSTNAME(XSTART, YSTART, FSIZE)\
   {do_hostname, .args.hostname.xstart=XSTART, .args.hostname.ystart=YSTART, .args.hostname.fsize=FSIZE}
@@ -238,8 +241,8 @@ struct action * new_action_init		(enum Eink_colour colour,
 struct action * new_action_text		(UWORD            xstart,
 					 UWORD            ystart,
 					 int              fsize,
-					 enum Eink_colour colour,
-					 char             text[]  
+					 char             text[],
+					 enum Eink_colour colour
 					 );
 
 struct action * new_action_hostname	(UWORD            xstart,
@@ -297,6 +300,7 @@ struct action * new_action_file		(UWORD		   xstart,
 struct action * new_action_render	();
 struct action * new_action_clear	();
 struct action * new_action_loop		();
+struct action * new_action_none		();
 
 
 
@@ -307,5 +311,6 @@ struct action * new_action_sleep	(int		   seconds);
 
 void delete_action			(struct action * action);
 
+char * str_struct_action			(struct action * action);
 
 #endif

@@ -6,5 +6,5 @@ static void EPD_1IN54B_V2_SendData(66,2622
 static void EPD_1IN54B_V2_ReadBusy(78,3032
 void EPD_1IN54B_V2_Init(94,3474
 void EPD_1IN54B_V2_Clear(138,5015
-void EPD_1IN54B_V2_Display(163,5905
-void EPD_1IN54B_V2_Sleep(190,6934
+void EPD_1IN54B_V2_Display(163,5904
+void EPD_1IN54B_V2_Sleep(190,6933

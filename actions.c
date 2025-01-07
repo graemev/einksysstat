@@ -18,6 +18,7 @@
  */
 
 #include "actions.h"
+#include "dump_utils.h"
 
 
 
@@ -228,8 +229,8 @@ struct action * new_action_init(enum Eink_colour colour,
 struct action * new_action_text(UWORD            xstart,
 				UWORD            ystart,
 				int              fsize,
-				enum Eink_colour colour,
-				char             text[]   // Note, last agg (not same as method)
+				char             text[],   // Note, last agg (not same as method)  [ GPV flawed thinking]
+				enum Eink_colour colour
 				)
 {
   struct action * p;
@@ -550,9 +551,130 @@ struct action * new_action_loop()
 
 
 
+/* ====== NONE ====== */
+
+
+struct action * new_action_none()
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action none:");
+      exit(1);
+    }
+
+  p->verb = do_none;
+
+  return p;
+  
+}
+
+
+
+
 
 
 void delete_action(struct action * action)
 {
   free(action);
+}
+
+
+
+char * str_struct_action(struct action * action)
+{
+  static char str[256];  // Messy, but debuging only
+  
+  switch (action->verb)
+    {
+    case(do_none):
+      snprintf(str,256, "Action(NONE)");
+      break;
+	 
+    case(do_label):
+      snprintf(str,256, "Action(label)");
+      break;
+	 
+    case(do_loop):
+      snprintf(str,256, "Action(loop)");
+      break;
+	 
+    case(do_init_image):
+      snprintf(str,256, "Action(init_image): colour=%s, rotate=%d", str_colour(action->args.init_image.colour), action->args.init_image.rotate);
+      break;
+	 
+    case(do_init_module):
+      snprintf(str,256, "Action(init_module)");
+      break;
+      
+    case(do_init_display):  // never released
+      snprintf(str,256, "Action(init_display)");
+      break;
+      
+    case(do_release_module):
+      snprintf(str,256, "Action(release_module)");
+      break;
+
+    case(do_release_image):
+      snprintf(str,256, "Action(release_image)");
+      break;
+	 
+    case(do_render):
+      snprintf(str,256, "Action(render)");
+      break;
+	 
+    case(do_clear):
+      snprintf(str,256, "Action(clear)");
+      break;
+	 
+    case(do_text):
+      snprintf(str,256, "Action(text): xstart=%d, ystart=%d, fsize=%d, text=%s, colour=%s", 
+	       action->args.text.xstart, action->args.text.ystart, action->args.text.fsize, action->args.text.text, str_colour(action->args.text.colour));
+
+      break;
+	 
+    case(do_hostname):
+      snprintf(str,256, "Action(hostname): xstart=%d, ystart=%d, fsize=%d", 
+	       action->args.hostname.xstart, action->args.hostname.ystart, action->args.hostname.fsize);
+      break;
+	 
+    case(do_timestamp):
+      snprintf(str,256, "Action(timestamp): xstart=%d, ystart=%d, fsize=%d", 
+	       action->args.timestamp.xstart, action->args.timestamp.ystart, action->args.timestamp.fsize);
+      break;
+	 
+    case(do_uptime):
+      snprintf(str,256, "Action(uptime): xstart=%d, ystart=%d, fsize=%d", 
+	       action->args.uptime.xstart, action->args.uptime.ystart, action->args.uptime.fsize);
+      break;
+	 
+    case(do_meter):
+      snprintf(str,256, "Action(meter): xstart=%d, ystart=%d, fsize=%d, value=%d, colour=%s", 
+	       action->args.meter.xstart, action->args.meter.ystart, action->args.meter.fsize, action->args.meter.value, str_colour(action->args.meter.colour));
+      break;
+	 
+    case(do_df):
+      snprintf(str,256, "Action(df): ystart=%d, fsize=%d, device=%s , label=%s, units=%s, cutoff=%d", 
+	       action->args.df.ystart, action->args.df.fsize, action->args.df.device, action->args.df.label, str_df_units(action->args.df.units), action->args.df.cutoff);
+      break;
+	 
+    case(do_age):
+      snprintf(str,256, "Action(age): xstart=%d, ystart=%d, fsize=%d, filename=%s, label=%s, units=%s, cutoff=%d", 
+	       action->args.age.xstart, action->args.age.ystart, action->args.age.fsize, action->args.age.filename, action->args.age.label, str_age(action->args.age.units), action->args.age.cutoff);
+      break;
+	 
+    case(do_file):
+      snprintf(str,256, "Action(file): xstart=%d, ystart=%d, fsize=%d, filename=%s, lines=%d", 
+	       action->args.file.xstart, action->args.file.ystart, action->args.file.fsize, action->args.file.filename, action->args.file.lines);
+      break;
+
+    case(do_sleep):
+      snprintf(str,256, "Action(sleep): seconds=%d", 
+	       action->args.sleep.seconds);
+      
+    }
+
+  return str; 
 }

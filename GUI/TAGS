@@ -1,30 +1,23 @@
 
-GUI_BMPfile.c,176
-UBYTE GUI_ReadBmp(58,2324
-UBYTE GUI_ReadBmp_4Gray(143,5588
-UBYTE GUI_ReadBmp_16Gray(208,8258
-UBYTE GUI_ReadBmp_RGB_7Color(289,11070
-UBYTE GUI_ReadBmp_RGB_4Color(368,14171
-
-GUI_Paint.c,667
-PAINT Paint;86,3765
-void Paint_NewImage(96,4147
-void Paint_SelectImage(127,5142
-void Paint_SetRotate(137,5436
-void Paint_SetMirroring(152,5997
-void Paint_SetScale(164,6456
-void Paint_SetPixel(189,7488
-void Paint_Clear(266,9837
-void Paint_ClearWindows(301,10949
-void Paint_DrawPoint(320,11618
-void Paint_DrawLine(358,13241
-void Paint_DrawRectangle(416,15323
-void Paint_DrawCircle(449,16784
-void Paint_DrawChar(518,20335
-void Paint_DrawString_EN(567,22670
-void Paint_DrawString_CN(612,24327
-#define  ARRAY_LEN 707,28910
-void Paint_DrawNum(708,28933
-void Paint_DrawNumDecimals(751,30365
-void Paint_DrawTime(810,32106
-void Paint_DrawBitMap(836,33846
+GUI_Paint.c,669
+PAINT Paint;92,3965
+void Paint_NewImage(102,4347
+void Paint_SelectImage(133,5342
+void Paint_SetRotate(143,5636
+void Paint_SetMirroring(158,6197
+void Paint_SetScale(170,6656
+void Paint_SetPixel(195,7688
+void Paint_Clear(272,10037
+void Paint_ClearWindows(307,11149
+void Paint_DrawPoint(326,11818
+void Paint_DrawLine(364,13441
+void Paint_DrawRectangle(422,15523
+void Paint_DrawCircle(455,16984
+void Paint_DrawChar(524,20535
+void Paint_DrawString_EN(573,22870
+void Paint_DrawString_CN(621,24611
+#define  ARRAY_LEN 716,29194
+void Paint_DrawNum(717,29217
+void Paint_DrawNumDecimals(760,30649
+void Paint_DrawTime(819,32390
+void Paint_DrawBitMap(845,34130

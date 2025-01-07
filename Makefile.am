@@ -13,11 +13,11 @@ bin_PROGRAMS = ironman strawman woodenman paperman demoparser
 
 paperman_SOURCES   = paperman.c   DEV_Config.c old_gadgets.c
 strawman_SOURCES   = strawman.c   DEV_Config.c old_gadgets.c
-woodenman_SOURCES  = woodenman.c  module.c     device.c gadgets.c actions.c
-ironman_SOURCES    = ironman.c    module.c     device.c gadgets.c actions.c parser.y lexer.l parse_utils.c
+woodenman_SOURCES  = woodenman.c  module.c     device.c gadgets.c actions.c dump_utils.c 
+ironman_SOURCES    = ironman.c    module.c     device.c gadgets.c actions.c parser.y lexer.l dump_utils.c chain.c
 #parse_SOURCES      = parse.c      module.c     device.c gadgets.c actions.c
 
-demoparser_SOURCES = demoparser.c parser.y lexer.l parse_utils.c actions.c gadgets.c module.c device.c
+demoparser_SOURCES = demoparser.c parser.y lexer.l dump_utils.c actions.c gadgets.c module.c device.c chain.c
 
 
 BISON = bison

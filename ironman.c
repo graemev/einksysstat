@@ -40,7 +40,7 @@ Working up to fully functioning code in stages:
 
 #include "eink_sysstat.h"
 #include "parser.h"
-
+#include "chain.h"
 
 static void usage(char *name) 
   {
@@ -69,8 +69,6 @@ static void usage(char *name)
  */
 
 
-/* GLOBAL*/ struct action *action_chain;
-/* GLOBAL*/ int            action_count;
 extern      FILE          *yyin;
 
 static	    int		   debug=0;
@@ -82,9 +80,6 @@ static int parse_action_file(FILE *fp, struct action **actions)
 {
   int rc    = 0;
   int nerrs = 0;
-  
-  action_chain = NULL;
-  action_count = 0;
   
   // Possibly enable parser runtime debugging.
   yydebug = !!getenv ("YYDEBUG");

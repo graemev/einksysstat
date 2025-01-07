@@ -125,6 +125,12 @@
 "LOOP"				{return T_LOOP;}
 "loop"				{return T_LOOP;}
 
+"METER"				{return T_METER;}
+"meter"				{return T_METER;}
+
+"TEXT"				{return T_TEXT;}
+"text"				{return T_TEXT;}
+
 
 
 
