@@ -1,0 +1,20 @@
+time ./ironman  sample (Buit from source with original Busy Loop only code)
+
+real 1m30.777s user 0m23.977s sys 0m51.430s   (sys+user = 75.407)
+real 1m30.710s user 0m22.421s sys 0m52.919s   (sys+user = 75.34)
+
+
+time ./ironman sample   (with Debug disabled and JUSTSPIN defined )
+
+real 1m30.716s user 0m21.974s sys 0m54.880s   (sys+user = 76.854)
+real 1m30.711s user 0m22.012s sys 0m54.917s   (sys+user = 76.929)
+
+
+
+time ./ironman sample   (with Debug disabled and using lgGpioSetAlertsFunc() )
+
+real 1m30.716s user 0m0.326s sys 0m1.633s     (sys+user = 1.959)
+real 1m30.713s user 0m0.260s sys 0m1.703s     (sys+user = 1.963)
+
+
+
