@@ -98,6 +98,68 @@ UBYTE DEV_Digital_Read(UWORD Pin)
 	return Read_value;
 }
 
+/*
+ * gpv 10jan25: This was the itercept added by rohoog. However it predates USE_LGPIO_LIB (-llgpio)
+ * The intetion of this method is to "wait on a PIN" (eg to be not busy)
+ *
+ *
+ *
+ */
+
+void DEV_Digital_Wait(UWORD Pin, UBYTE Value)
+{
+  Debug("Digital Wait\r\n");
+#ifdef RPI
+#ifdef USE_BCM2835_LIB
+	do {
+		DEV_Delay_ms(10);
+	} while(bcm2835_gpio_lev(Pin) != Value);
+#elif USE_WIRINGPI_LIB
+	do {
+		DEV_Delay_ms(10);
+	} while(digitalRead(Pin) != Value);
+#elif  USE_LGPIO_LIB  
+	// GPV Here we need an lgpio flavour ..."wait from PIN to goto VALUE" (witout just spinniing)
+#define DUMB_WAIT_VERSION
+
+
+#ifdef DUMB_WAIT_VERSION
+	Debug("Using Dumb version of Digital Wait\r\n");
+
+	while(1) {
+	  if(DEV_Digital_Read(EPD_BUSY_PIN) == Value)  // Very expensive busy loop
+            break;
+	}
+#else
+	// Do it the smart way
+	Debug("Using Smartversion of Digital Wait\r\n");
+	Debug("Smartversion of Digital not written\r\n");
+	exit(2);
+
+#endif // DUMB_VERSION
+
+
+
+
+	
+	
+#elif USE_DEV_LIB
+	SYSFS_GPIO_Wait(Pin, Value);
+#endif // USE_BCM2835_LIB 
+#endif // RPI
+
+#ifdef JETSON
+#ifdef USE_DEV_LIB
+	SYSFS_GPIO_Wait(Pin, Value);
+#elif USE_HARDWARE_LIB
+	Debug("not support");
+#endif // USE_DEV_LIB
+#endif // JETSON
+}
+
+
+
+
 /**
  * SPI
 **/

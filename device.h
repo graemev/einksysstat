@@ -62,5 +62,5 @@ void eink_init   (void);
 void eink_clear  (void);
 void eink_display(const UBYTE *blackimage, const UBYTE *redimage);
 void eink_deepsleep  (void);
-
+void eink_close  (void);
 #endif

@@ -67,6 +67,9 @@ static void init_module()   // Twiddles with GPIO Pins to make display active
     }
 }
 
+
+
+
 static void init_display()   // Twiddles with GPIO Pins to make display active
 {
   Debug("Initalise 1IN54B_V2\n");
@@ -270,6 +273,9 @@ void ga_release_module()
   
   Debug("%ld Seconds to ga_display_release\n",finish.tv_sec-start.tv_sec);
 
+  eink_close();
+
+  
   return;
 }
 

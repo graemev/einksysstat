@@ -67,6 +67,7 @@ int main(void)
 {
   Debug("Init display\n");
   ga_init_module();  // Not available as an ACTION (only done once)
+  //EPD_1IN54b_V2_Init();  // TBD GPV ... seems this is not needed.
   ga_init_display();  // Not available as an ACTION (only done once)
 
   Debug("Init image arrays (malloc(3)\n");

@@ -100,6 +100,10 @@ static int detect_os(void)
 static int GPIO_Handle;
 static int SPI_Handle;
 
+pthread_mutex_t eink_mutex;
+pthread_cond_t  eink_cond;
+
+
 /**
  * GPIO -- NB accessed in device specific code
 **/
@@ -111,7 +115,66 @@ int EINK_PWR_PIN;
 int EINK_MOSI_PIN;
 int EINK_SCLK_PIN;
 
+/*
+ * We get call whenever the state of the BUSY pin changes
+ * we wake up anybody wait foe the BUSY pin and let them figure out if it's now in a state they need.
+ */
 
+
+/*
+ * typedef struct lgGpioAlert_s
+ *      {
+ *         lgGpioReport_t report;
+ *         int nfyHandle;
+ *      } lgGpioAlert_t, *lgGpioAlert_p;
+ *
+ *
+ * typedef struct
+ *          {
+ *             uint64_t timestamp; // alert time in nanoseconds
+ *             uint8_t chip;       // gpiochip device number
+ *             uint8_t gpio;       // offset into gpio device
+ *             uint8_t level;      // 0=low, 1=high, 2=timeout
+ *             uint8_t flags;      // none currently defined
+ *          } lgGpioReport_t;
+ *
+ *
+ *
+ *
+ *
+ */
+
+
+void watch_busy_pin(int e, lgGpioAlert_p evt, void *data)
+{
+  //  Debug("watch_busy_pin triggered\n");
+
+  pthread_mutex_lock(&eink_mutex); // avoid race with sleeper
+
+  int i;
+
+  Debug("Busy PIN alerts e=%d\n", e);
+  
+  for (i=0; i<e; i++)
+    {
+
+      Debug("Alert[%d] Time:%ld chip:%d GPIO_PIN:%d: Level=%d, Flags(zero)=%d\n" ,
+	    i,
+	    evt[i].report.timestamp,
+	    evt[i].report.chip,
+	    evt[i].report.gpio,
+	    evt[i].report.level,
+	    evt[i].report.flags);
+
+    }
+
+  
+  pthread_cond_signal(&eink_cond); // Wake em up
+
+  pthread_mutex_unlock(&eink_mutex);
+}
+
+  
 
 
 /******************************************************************************
@@ -161,6 +224,11 @@ UBYTE module_turn_on(void)
   SPI_Handle = lgSpiOpen(0, 0, 10000000, 0);
   gpio_init();
 
+
+  //  lgGpioSetSamplesFunc(watch_busy_pin, NULL);
+  lgGpioSetAlertsFunc(GPIO_Handle, EINK_BUSY_PIN, watch_busy_pin,  NULL);
+  lgGpioClaimAlert(GPIO_Handle, 0, LG_BOTH_EDGES, EINK_BUSY_PIN, -1);
+  
    Debug("/***********************************/ \n");
    
   return 0;

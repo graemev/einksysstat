@@ -1,3 +1,4 @@
+/* -*- Mode: c; tab-width: 4;c-basic-offset: 4; c-default-style: "gnu" -*- */
 /*
  * device.c
  *
@@ -52,6 +53,10 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
+#include <fcntl.h>
+#include <lgpio.h>
+#include <stdlib.h>
+
 #include "device.h"
 #include "Debug.h"
 
@@ -59,6 +64,9 @@
 function :	Software reset
 parameter:
 ******************************************************************************/
+
+
+
 static void eink_reset(void)
 {
     gpio_write(EINK_RST_PIN, 1);
@@ -98,9 +106,32 @@ static void eink_senddata(UBYTE Data)
 /******************************************************************************
 function :	Wait until the busy_pin goes LOW
 parameter:
+
+GPV 13Jan24 As described by rohoog ( https://github.com/rohoog ) this readbusy
+            locks up a CPU as 100% busy. He implemented various schemes to avoid
+            this; however his work predated -llgpio (define USE_LGPIO_LIB) so he
+            has no solution for this. This code is cutdown to ONLY use -llgpio,
+            so we need to reimplement.  This is mostly a "monkey-see-monkey-do"
+            implementation (as I have little understanding of GPIO) but starts
+	    with man lgpio(3) then search for lgNotifyOpen(void), it has an example.
+
 ******************************************************************************/
-static void eink_readbusy(void)
+static void eink_readbusy(void) // Wait for the EINK_BUSY_PIN to goto 0 (without just spinning)
 {
+
+#if DEBUG
+#include <sys/time.h>
+
+	struct timeval  start;
+	struct timeval  end;
+
+	gettimeofday(&start, NULL);
+#endif
+
+#define JUSTSPIN
+
+#ifdef JUSTSPIN
+  
     Debug("e-Paper busy\r\n");
     while(1) {
         if(gpio_read(EINK_BUSY_PIN) == 0)
@@ -108,6 +139,63 @@ static void eink_readbusy(void)
     }
     gpio_delay(200);
     Debug("e-Paper busy release\r\n");
+#else
+
+    Debug("e-Paper poll for not busy\r\n");
+
+
+    /* Impossible to find any documentation on how to use lgNotifyXXXX .
+     *
+     * My best guess is a lgGpioReport_t (struct 16 bytes) can be read from the
+     * FIFO/Pipe if there is no data avaible, it will block. One problem is
+     * while notifcations are active there could be many such events. We might
+     * read one relating to a much earlier time.  There is a suspend/resume
+     * logic available but this feels prone to race conditions. The approach
+     * we'll adopt here is we will check if BUSY is realy 0, if so we're
+     * done. Otherwise we proably want to sleep. We can read the FIFO and
+     * (hopefully block) BUT there could be some old messages queued. So we'll
+     * check is BUSY is 0 , if not then we rise & repeat.
+     *
+     * Really all we want is "sleep until something changes" (AKA poll(2)) we
+     * can work out if it's what we wanted when we wake up.
+     */
+
+    int trys=0;
+
+    pthread_mutex_lock(&eink_mutex);	
+	
+    while(1)
+		{
+			if(gpio_read(EINK_BUSY_PIN) == 0)
+				break;
+ 
+			struct timespec ts;
+
+			clock_gettime(CLOCK_REALTIME, &ts);
+			ts.tv_sec += 30;							 // After 30 seconds give up (we will check pin again)
+
+			pthread_cond_timedwait(&eink_cond, &eink_mutex, &ts);  // go to sleep until BUSY changes (or timelimit)
+			++trys;
+		}
+
+    pthread_mutex_unlock(&eink_mutex);
+	
+    gpio_delay(200);
+    Debug("e-Paper no longer busy (after %d trys)\r\n", trys);
+
+#if DEBUG
+	{
+		float duration;
+		gettimeofday(&end, NULL);
+
+		duration = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+
+		Debug("eink_readybusy: paused for %f Seconds\n",
+			  duration/1000000.0);
+	}
+#endif
+#endif // JUSTSPIN
+	
 }
 
 
@@ -118,7 +206,7 @@ parameter:
 void eink_init(void)
 {
     eink_reset();
-
+    
     eink_readbusy();   
     eink_sendcommand(0x12);  //SWRESET
     eink_readbusy();   
@@ -152,8 +240,23 @@ void eink_init(void)
     eink_sendcommand(0x4F);   // set RAM y address count to 0X199;    
     eink_senddata(0xC7);
     eink_senddata(0x00);
+
+
+
     eink_readbusy();
 }
+
+/*
+ * Free up stuff we allocated during eink_init()
+ */
+
+void eink_close(void)
+{
+
+
+
+}
+
 
 /******************************************************************************
 function :	Clear screen

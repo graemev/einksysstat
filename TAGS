@@ -63,24 +63,24 @@ parse_utils.h,29
 #define _PARSE_UTILS_H_2,24
 
 actions.c,717
-void do_action(25,300
-char * str_action(111,2659
-struct action * new_action_init(205,3915
-struct action * new_action_text(229,4294
-struct action * new_action_hostname(259,4918
-struct action * new_action_timestamp(285,5377
-struct action * new_action_uptime(311,5838
-struct action * new_action_meter(337,6275
-struct action * new_action_df	368,6821
-struct action * new_action_age	402,7465
-struct action * new_action_file	437,8171
-struct action * new_action_sleep(469,8724
-struct action * new_action_render(491,9022
-struct action * new_action_clear(512,9274
-struct action * new_action_loop(533,9522
-struct action * new_action_none(557,9770
-void delete_action(579,9990
-char * str_struct_action(586,10056
+void do_action(25,299
+char * str_action(111,2658
+struct action * new_action_init(205,3914
+struct action * new_action_text(229,4293
+struct action * new_action_hostname(259,4917
+struct action * new_action_timestamp(285,5376
+struct action * new_action_uptime(311,5837
+struct action * new_action_meter(337,6274
+struct action * new_action_df	368,6820
+struct action * new_action_age	402,7464
+struct action * new_action_file	437,8170
+struct action * new_action_sleep(469,8723
+struct action * new_action_render(491,9021
+struct action * new_action_clear(512,9273
+struct action * new_action_loop(533,9521
+struct action * new_action_none(557,9769
+void delete_action(579,9989
+char * str_struct_action(586,10055
 
 dump_utils.c,706
 struct lookup14,396
@@ -390,18 +390,18 @@ Device/EPD_1in54b_V2.c,316
 static void EPD_1IN54B_V2_Reset(38,1762
 static void EPD_1IN54B_V2_SendCommand(53,2212
 static void EPD_1IN54B_V2_SendData(66,2622
-static void EPD_1IN54B_V2_ReadBusy(78,3032
-void EPD_1IN54B_V2_Init(94,3474
-void EPD_1IN54B_V2_Clear(138,5015
-void EPD_1IN54B_V2_Display(163,5904
-void EPD_1IN54B_V2_Sleep(190,6933
+static void EPD_1IN54B_V2_ReadBusy(81,3130
+void EPD_1IN54B_V2_Init(95,3591
+void EPD_1IN54B_V2_Clear(139,5132
+void EPD_1IN54B_V2_Display(164,6021
+void EPD_1IN54B_V2_Sleep(191,7050
 
 Device/EPD_1in54b_V2.h,110
 #define __EPD_1IN54B_V2_H_32,1545
 #define EPD_1IN54B_V2_WIDTH 37,1620
 #define EPD_1IN54B_V2_HEIGHT 38,1658
 
-DEV_Config.c,648
+DEV_Config.c,680
 int GPIO_Handle;35,1493
 int SPI_Handle;36,1510
 int EPD_RST_PIN;42,1550
@@ -413,17 +413,18 @@ int EPD_MOSI_PIN;47,1634
 int EPD_SCLK_PIN;48,1652
 void DEV_Digital_Write(53,1702
 UBYTE DEV_Digital_Read(76,2142
-void DEV_SPI_WriteByte(104,2627
-void DEV_SPI_Write_nByte(127,3058
-void DEV_GPIO_Mode(158,3687
-void DEV_Delay_ms(207,4861
-static int DEV_Equipment_Testing(232,5205
-void DEV_GPIO_Init(282,6315
-void DEV_SPI_SendnData(316,7273
-void DEV_SPI_SendData(326,7556
-UBYTE DEV_SPI_ReadData(350,8077
-UBYTE DEV_Module_Init(379,8745
-void DEV_Module_Exit(482,11875
+void DEV_Digital_Wait(109,2801
+void DEV_SPI_WriteByte(142,3305
+void DEV_SPI_Write_nByte(165,3736
+void DEV_GPIO_Mode(196,4365
+void DEV_Delay_ms(245,5539
+static int DEV_Equipment_Testing(270,5883
+void DEV_GPIO_Init(320,6993
+void DEV_SPI_SendnData(354,7951
+void DEV_SPI_SendData(364,8234
+UBYTE DEV_SPI_ReadData(388,8755
+UBYTE DEV_Module_Init(417,9423
+void DEV_Module_Exit(520,12553
 
 device.h,85
 #define __DEVICE_H_53,2055

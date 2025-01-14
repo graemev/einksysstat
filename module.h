@@ -77,6 +77,8 @@
 
 
 #include <lgpio.h>
+#include <pthread.h>
+
 #define LFLAGS 0
 #define NUM_MAXBUF  4
 
@@ -107,3 +109,8 @@ extern UBYTE gpio_read(UWORD Pin);                // Read a value from Pin
 extern void  gpio_delay(UDOUBLE xms);
 extern void  module_turn_off(void);
 extern void  spi_writebyte(uint8_t Value);
+
+
+extern pthread_mutex_t eink_mutex;
+extern pthread_cond_t  eink_cond;
+
