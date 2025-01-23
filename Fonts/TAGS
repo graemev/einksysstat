@@ -1,28 +1,0 @@
-
-font16.c,74
-const uint8_t Font16_Table[Font16_Table45,2218
-sFONT Font16 1758,47818
-
-font24CN.c,77
-const CH_CN Font24CN_Table[Font24CN_Table46,2219
-cFONT Font24CN 457,27253
-
-font8.c,70
-const uint8_t Font8_Table[Font8_Table45,2216
-sFONT Font8 998,17247
-
-font20.c,74
-const uint8_t Font20_Table[Font20_Table42,2216
-sFONT Font20 2136,64165
-
-font12.c,74
-const uint8_t Font12_Table[Font12_Table45,2218
-sFONT Font12 1378,25626
-
-font12CN.c,76
-const CH_CN Font12CN_Table[Font12CN_Table46,2219
-cFONT Font12CN 112,5020
-
-font24.c,61
-const uint8_t Font24_Table 41,2174
-sFONT Font24 2514,96435

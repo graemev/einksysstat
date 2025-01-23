@@ -175,8 +175,7 @@ static struct action no_action = {do_noverb, NULL, NULL}; // used only in error 
 #define DEF_SET_COLOUR(COLOUR)\
   {do_set_colour, .args.set_colour.colour=COLOUR }
 
-//#define DEF_INIT_DISPLAY()			\
-//  {do_init_display }
+//#define DEF_INIT_DISPLAY()  {do_init_display }
 
 #define DEF_INIT_IMAGE(COLOUR, ROTATE)\
   {do_init_image, .args.init_image.colour=COLOUR, .args.init_image.rotate=ROTATE}
@@ -184,8 +183,7 @@ static struct action no_action = {do_noverb, NULL, NULL}; // used only in error 
 #define DEF_IMAGE_RELEASE()\
   {do_image_release, }
 
-//#define DEF_DISPLAY_RELEASE()			\
-//  {do_display_release, }
+//#define DEF_DISPLAY_RELEASE()	 {do_display_release, }
 
 
 #define DEF_RENDER()\

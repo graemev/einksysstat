@@ -1,4 +1,5 @@
-AC_INIT([gpv-eink], [0.1], [graeme.waveshare@vetterlein.com])
+AC_INIT([gpv-eink], [m4_esyscmd_s([git describe --abbrev=7 --dirty --always --tags])], [graeme.waveshare@vetterlein.com])
+
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_PROG_CC
 AC_DEFINE([RPI], [], [Build is for Raspberry Pi])

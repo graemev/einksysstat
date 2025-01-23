@@ -1,0 +1,9 @@
+einksysstat:
+
+A utility to display system stats on an eInk display, typically from a Raspberry Pi.
+
+See:
+	manual pages: einksysstat(1)  einksysstat.config(5)
+
+
+

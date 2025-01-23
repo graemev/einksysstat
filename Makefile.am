@@ -1,25 +1,24 @@
 SUBDIRS=Fonts GUI Device
 AM_CPPFLAGS=-I Fonts -I GUI -I Device 
-paperman_LDADD=Fonts/libFonts.a GUI/libGUI.a Device/libDevice.a -llgpio -lm -lproc2
-strawman_LDADD=Fonts/libFonts.a GUI/libGUI.a Device/libDevice.a -llgpio -lm -lproc2
-woodenman_LDADD=Fonts/libFonts.a GUI/libGUI.a                   -llgpio -lm -lproc2
-ironman_LDADD=Fonts/libFonts.a GUI/libGUI.a                     -llgpio -lm -lproc2
-demoparser_LDADD=Fonts/libFonts.a GUI/libGUI.a                  -llgpio -lm -lproc2
+
+einksysstat_LDADD=Fonts/libFonts.a GUI/libGUI.a                  -llgpio -lm -lproc2
+
 
 # clean out dead code (in linkers view)
 AM_LDFLAGS=-Wl,--gc-sections 
 
-bin_PROGRAMS = ironman strawman woodenman paperman demoparser
+bin_PROGRAMS = einksysstat
 
-BUILT_SOURCES=parser.h parser.c lexer.c
+BUILT_SOURCES=parser.h parser.c lexer.c	\
+	einksysstat.1  einksysstat.html einksysstat.config.5 einksysstat.config.html 
 
-paperman_SOURCES   = paperman.c   DEV_Config.c old_gadgets.c
-strawman_SOURCES   = strawman.c   DEV_Config.c old_gadgets.c
-woodenman_SOURCES  = woodenman.c  DEV_Config.c module.c     device.c gadgets.c actions.c dump_utils.c 
-ironman_SOURCES    = ironman.c    DEV_Config.c module.c     device.c gadgets.c actions.c parser.y lexer.l dump_utils.c chain.c
-#parse_SOURCES      = parse.c      module.c     device.c gadgets.c actions.c
 
-demoparser_SOURCES = demoparser.c parser.y lexer.l dump_utils.c actions.c gadgets.c module.c device.c chain.c
+einksysstat_SOURCES    = einksysstat.c    DEV_Config.c module.c     device.c gadgets.c actions.c parser.y lexer.l dump_utils.c chain.c
+
+
+
+man1_MANS = einksysstat.1
+man5_MANS = einksysstat.config.5
 
 
 BISON = bison
@@ -42,6 +41,12 @@ LIB_RPI += -llgpio -lm
 
 DEBUG_RPI = -D $(USELIB_RPI) -D RPI
 
+#
+#  I gather MD (markup) is cited for a future version of Autotools?
+#
 
+einksysstat.1: einksysstat.md
+	pandoc -f markdown -t plain --wrap=none $< -o $@
 
-
+einksysstat.config.5: einksysstat.config.md
+	pandoc -f markdown -t plain --wrap=none $< -o $@

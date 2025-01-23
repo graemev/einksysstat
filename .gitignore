@@ -1,3 +1,4 @@
+y.gv
 y.c
 TAGS
 *.o
@@ -71,3 +72,9 @@ m4/lt~obsolete.m4
 # can automatically generate from config.status script
 # (which is called by configure script))
 Makefile
+
+
+einksysstat.1
+einksysstat.html
+einksysstat.config.5
+einksysstat.config.html
