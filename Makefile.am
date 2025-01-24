@@ -10,7 +10,7 @@ AM_LDFLAGS=-Wl,--gc-sections
 bin_PROGRAMS = einksysstat
 
 BUILT_SOURCES=parser.h parser.c lexer.c	\
-	einksysstat.1  einksysstat.html einksysstat.config.5 einksysstat.config.html 
+	einksysstat.1  einksysstat.config.5
 
 
 einksysstat_SOURCES    = einksysstat.c    DEV_Config.c module.c     device.c gadgets.c actions.c parser.y lexer.l dump_utils.c chain.c
