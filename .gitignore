@@ -19,6 +19,8 @@ parser.c
 parser.h
 lexer.c
 parser.output
+einksysstat
+
 
 # http://www.gnu.org/software/automake
 
@@ -44,7 +46,6 @@ autom4te.cache
 /config.log
 /config.status
 /config.sub
-/configure
 /configure.scan
 /depcomp
 /install-sh

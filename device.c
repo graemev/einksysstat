@@ -128,17 +128,17 @@ static void eink_readbusy(void) // Wait for the EINK_BUSY_PIN to goto 0 (without
 	gettimeofday(&start, NULL);
 #endif
 
-#define JUSTSPIN
+#undef JUSTSPIN
 
 #ifdef JUSTSPIN
   
-    Debug("e-Paper busy\r\n");
+    Debug("e-Paper busy (JUSTSPIN)\r\n");
     while(1) {
         if(gpio_read(EINK_BUSY_PIN) == 0)
             break;
     }
     gpio_delay(200);
-    Debug("e-Paper busy release\r\n");
+    Debug("e-Paper busy release(JUSTSPIN)\r\n");
 #else
 
     Debug("e-Paper poll for not busy\r\n");
