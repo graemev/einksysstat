@@ -22,6 +22,12 @@ parser.output
 einksysstat
 
 
+config.h
+configure
+*.gz
+
+
+
 # http://www.gnu.org/software/automake
 
 Makefile.in
