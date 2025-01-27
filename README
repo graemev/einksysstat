@@ -7,3 +7,27 @@ See:
 
 
 
+
+To INSTALL (from tarball):
+
+
+   Read: https://www.waveshare.com/wiki/1.54inch_e-Paper_Module_(B)_Manual#Working_With_Raspberry_Pi
+
+   In particular 'sudo raspi-config' and configure (enable) SPI...or edit /boot/config.txt and
+   add the line:
+
+   dtparam=spi=on
+
+   then reboot.
+   
+
+   sudo apt-get install bison flex pandoc liblgpio-dev libproc2-dev gpiod
+
+   ./configure
+   make
+
+   sudo sudo usermod -a -G gpio,spi $(id -un)  # Grant yourself permission to open the chip
+
+   logout & login again (to establish your new groups and hence permssions)
+   
+   .einsysstat sample

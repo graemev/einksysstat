@@ -44,9 +44,13 @@
 #
 ******************************************************************************/
 
-
+#include <sys/types.h>
+#include <pwd.h>
+#include <sys/stat.h>
 
 #include "module.h"
+
+
 
 /* ============================ static =================================*/
 
@@ -184,6 +188,11 @@ Info:
 ******************************************************************************/
 UBYTE module_turn_on(void)
 {
+  struct stat    spistat;
+  FILE	        *spif;
+  struct passwd *passwd;
+
+  
   Debug("/***********************************/ \n");
 
   if(detect_os() < 0)
@@ -207,7 +216,7 @@ UBYTE module_turn_on(void)
       GPIO_Handle = lgGpiochipOpen(4);
       if (GPIO_Handle < 0)
         {
-	  Debug( "gpiochip4 Export Failed\n");
+	  Debug( "/dev/gpiochip4 (Pi5) Export Failed (%s) look at permissions\n",lguErrorText(GPIO_Handle) );
 	  return -1;
         }
     }
@@ -216,10 +225,46 @@ UBYTE module_turn_on(void)
       GPIO_Handle = lgGpiochipOpen(0);
       if (GPIO_Handle < 0)
         {
-	  Debug( "gpiochip0 Export Failed\n");
+	  Debug( "/dev/gpiochip0 (Pi4) Export Failed (%s) look at permissions\n",lguErrorText(GPIO_Handle) );
 	  return -1;
         }
     }
+
+  /* Just do a few checks, e.g. permissions, witout all these it's likely it will silently fail to updta the eInink device */
+
+  if (stat("/dev/spidev0.0", &spistat) == -1)
+    {
+      perror("stat of /dev/spidev0.0 failed, have you enabled SPI?\n");
+      // we don't exit (non fatal)
+      spistat.st_mode = 0;  // Not a char device
+    }
+
+  if ( (spistat.st_mode&S_IFMT) != S_IFCHR)
+    {
+      fprintf(stderr, "/dev/spidev0.0 does not exist as a character device\n"
+	              "Likey this is because SPI has not been enabled\n"
+	              "Read https://www.waveshare.com/wiki/1.54inch_e-Paper_Module_(B)_Manual#Working_With_Raspberry_Pi\n"
+	              "use 'sudo raspi-config' or edit '/boot/config.txt' to include 'dtparam=spi=on'\n"
+	              "This code will continue, but likey NO output will appear. This is in case some time has past\n"
+	              "since this code was written (Jan2025) and e.g. the device filename has changed. If that happens FIXME.\n");
+    }
+
+
+
+  if (spif=fopen("/dev/spidev0.0", "rw"))
+        fclose(spif);
+  else
+    {
+      perror("fopen /dev/spidev0.0 as RW");
+      passwd=getpwuid(getuid());
+      fprintf(stderr, "You probably lack permissions, did you add the groups spi & gpio to this user (%s)?\n"
+	              "Most likley you will see no output on the eInk display now\n"
+	              "to fix permissions: sudo usermod %s -a -G spi,gpio\n",
+	      passwd->pw_name, passwd->pw_name);
+    }
+
+
+
   
   SPI_Handle = lgSpiOpen(0, 0, 10000000, 0);
   gpio_init();

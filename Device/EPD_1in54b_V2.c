@@ -81,10 +81,10 @@ parameter:
 static void EPD_1IN54B_V2_ReadBusy(void)
 {
   if(DEV_Digital_Read(EPD_BUSY_PIN) == 0) return;
-  Debug("e-Paper busy\r\n");
+  Debug("e-Paper busy(EPD_1IN54B_V2)\r\n");
   DEV_Delay_ms(200);
   DEV_Digital_Wait(EPD_BUSY_PIN, 0);  // rohoog (interception)
-  Debug("e-Paper busy release\r\n");
+  Debug("e-Paper busy release(EPD_1IN54B_V2)\r\n");
 }
 
 /******************************************************************************
