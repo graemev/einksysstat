@@ -1,5 +1,5 @@
-SUBDIRS=Fonts GUI Device
-AM_CPPFLAGS=-I$(top_srcdir)/FOOBAR -I $(top_srcdir)/Fonts -I $(top_srcdir)/GUI -I $(top_srcdir)/Device 
+SUBDIRS=Fonts GUI
+AM_CPPFLAGS=-I$(top_srcdir)/FOOBAR -I $(top_srcdir)/Fonts -I $(top_srcdir)/GUI
 
 einksysstat_LDADD=Fonts/libFonts.a GUI/libGUI.a                  -llgpio -lm -lproc2
 
@@ -14,7 +14,7 @@ BUILT_SOURCES=parser.h parser.c lexer.c einksysstat.1  einksysstat.config.5
 
 
 einksysstat_SOURCES    = einksysstat.c   module.c     device.c gadgets.c actions.c parser.y lexer.l dump_utils.c chain.c  \
-	eink_sysstat.h parse_utils.h gadgets.h config.h module.h Fonts/fonts.h Debug.h parser.h DEV_Config.h Device/EPD_1in54b_V2.h device.h dump_utils.h chain.h GUI/GUI_Paint.h actions.h
+	eink_sysstat.h parse_utils.h gadgets.h config.h module.h Fonts/fonts.h Debug.h parser.h device.h dump_utils.h chain.h GUI/GUI_Paint.h actions.h
 
 
 EXTRA_DIST=$(top_srcdir)/einksysstat.md $(top_srcdir)/einksysstat.config.md $(top_srcdir)/sample

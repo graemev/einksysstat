@@ -131,6 +131,9 @@
 "TEXT"				{return T_TEXT;}
 "text"				{return T_TEXT;}
 
+"IDENTIFY"			{return T_IDENTIFY;}
+"identify"			{return T_IDENTIFY;}
+
 
 
 

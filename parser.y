@@ -105,6 +105,7 @@
 
 %token          T_METER
 %token          T_TEXT
+%token          T_IDENTIFY
 
 
 
@@ -136,6 +137,7 @@
 
 %type<action>   meter
 %type<action>   text
+%type<action>   identify
 
 %type<action>   action
 %type<action>   new_action
@@ -175,6 +177,7 @@ action: init
 | clear
 | meter
 | text
+| identify
 
 ;
 
@@ -215,25 +218,28 @@ clear_verb:      T_CLEAR       { verb = "clear";};
 loop_verb:       T_LOOP        { verb = "loop";};
 meter_verb:      T_METER       { verb = "meter";};
 text_verb:       T_TEXT        { verb = "text";};
+identify_verb:   T_IDENTIFY    { verb = "identify";};
 
 
-init:       init_verb      '('  T_COLOUR  rotate_arg    ')'  { $$=new_action_init($3, $4);        Debug("******INIT     (%s;%d)\n",   $3, str_colour($4)); } ;
-hostname:   hostname_verb  '('  T_INT  int_arg  int_arg ')'  { $$=new_action_hostname($3,$4,$5);  Debug("******HOSTNAME (%d;%d;%d)\n",    $3, $4, $5); } ;
-timestamp:  timestamp_verb '('  T_INT  int_arg  int_arg ')'  { $$=new_action_timestamp($3,$4,$5); Debug("******TIMESTAMP(%d;%d;%d)\n",  $3, $4, $5); } ;
-uptime:     uptime_verb    '('  T_INT  int_arg  int_arg ')'  { $$=new_action_uptime($3,$4,$5);    Debug("******UPTIME   (%d;%d;%d)\n",     $3, $4, $5); } ;
+init:       init_verb      '('  T_INT colour_arg rotate_arg     ')'  { $$=new_action_init($3, $4, $5);       Debug("******INIT     (%d,%s;%d)\n",       $3, str_colour($4), $5); } ;
+hostname:   hostname_verb  '('  T_INT  int_arg int_arg  int_arg ')'  { $$=new_action_hostname($3,$4,$5,$6);  Debug("******HOSTNAME (%d;%d;%d;%d)\n",    $3, $4, $5, $6); } ;
+timestamp:  timestamp_verb '('  T_INT  int_arg int_arg  int_arg ')'  { $$=new_action_timestamp($3,$4,$5,$6); Debug("******TIMESTAMP(%d;%d;%d;%d)\n",    $3, $4, $5, $6); } ;
+uptime:     uptime_verb    '('  T_INT  int_arg int_arg  int_arg ')'  { $$=new_action_uptime($3,$4,$5,$6);    Debug("******UPTIME   (%d;%d;%d;%d)\n",    $3, $4, $5, $6); } ;
 
-render:     render_verb    '('  ')'							 { $$=new_action_render();            Debug("******RENDER   ()\n") ;     } ;
-sleep:      sleep_verb     '('  T_INT ')'					 { $$=new_action_sleep($3);           Debug("******SLEEP    (%d)\n", $3); } ;
-clear:      clear_verb     '('  ')'							 { $$=new_action_clear();             Debug("******CLEAR    ()\n");       } ;
-loop:       loop_verb      '('  ')'							 { $$=new_action_loop();              Debug("******LOOP     ()\n") ;       } ;
+render:     render_verb    '(' T_INT ')'							 { $$=new_action_render($3);             Debug("******RENDER   (%d)\n",             $3);     } ;
+sleep:      sleep_verb     '(' T_INT int_arg ')'					 { $$=new_action_sleep($3,$4);           Debug("******SLEEP    (%d,%d)\n",          $3, $4); } ;
+clear:      clear_verb     '(' T_INT ')'							 { $$=new_action_clear($3);              Debug("******CLEAR    (%d)\n",             $3);     } ;
+loop:       loop_verb      '(' T_INT ')'							 { $$=new_action_loop($3);               Debug("******LOOP     (%d)\n",             $3) ;    } ;
 
 
-df:         df_verb        '('  T_INT  int_arg  string_arg   string_arg  df_arg int_arg ')'           { $$=new_action_df($3,$4,$5,$6,$7,$8);     Debug("******DF      (%d;%d;%s;%s;%s;%d)\n"   ,  $3, $4, $5, $6, str_df_units($7),$8);} ;
-age:	    age_verb       '('  T_INT  int_arg  int_arg  string_arg   string_arg age_arg int_arg ')'  { $$=new_action_age($3,$4,$5,$6,$7,$8,$9); Debug("******AGE     (%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7, str_age($8),$9); } ;
-file:       file_verb      '('  T_INT  int_arg  int_arg string_arg   int_arg ')'                      { $$=new_action_file($3,$4,$5,$6,$7);      Debug("******FILE    (%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7);                 } ;
+df:         df_verb        '('  T_INT  int_arg  int_arg string_arg string_arg df_arg     int_arg         ')' { $$=new_action_df($3,$4,$5,$6,$7,$8,$9);     Debug("******DF      (%d;%d;%d;%s;%s;%s;%d)\n"   ,  $3, $4, $5, $6, $7, str_df_units($8),$9);} ;
+age:	    age_verb       '('  T_INT  int_arg  int_arg int_arg    string_arg string_arg age_arg int_arg ')' { $$=new_action_age($3,$4,$5,$6,$7,$8,$9,$10);Debug("******AGE     (%d;%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7, $8, str_age($9),$10); } ;
+file:       file_verb      '('  T_INT  int_arg  int_arg int_arg    string_arg int_arg                    ')' { $$=new_action_file($3,$4,$5,$6,$7,$8);      Debug("******FILE    (%d;%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7,$8);                 } ;
 
-meter:      meter_verb     '('  T_INT  int_arg int_arg  int_arg  colour_arg ')'                       { $$=new_action_meter($3,$4,$5,$6,$7);     Debug("******METER   (%d;%d;%s;%d;%s)\n"      ,  $3, $4, $5, $6,str_colour($7));} ;
-text:       text_verb      '('  T_INT  int_arg int_arg  string_arg  colour_arg ')'                    { $$=new_action_text($3,$4,$5,$6,$7);      Debug("******TEXT    (%d;%d;%d;%s;%s)\n"      ,  $3, $4, $5, $6,str_colour($7));} ;
+meter:      meter_verb     '('  T_INT  int_arg  int_arg int_arg    int_arg    colour_arg                 ')' { $$=new_action_meter($3,$4,$5,$6,$7,$8);     Debug("******METER   (%d;%d;%d;%s;%d;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
+text:       text_verb      '('  T_INT  int_arg  int_arg int_arg    string_arg colour_arg                 ')' { $$=new_action_text($3,$4,$5,$6,$7,$8);      Debug("******TEXT    (%d;%d;%d;%d;%s;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
+
+identify:    identify_verb   '(' ')'                                 { $$=new_action_identify();             Debug("******IDENTIFY    ()\n");};
 
 
 

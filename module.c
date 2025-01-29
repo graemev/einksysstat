@@ -101,11 +101,29 @@ static int detect_os(void)
 
 /* ============================ exposed =================================*/
 
+#define	MAX_DEVICES 3
+
+
 static int GPIO_Handle;
 static int SPI_Handle;
 
 pthread_mutex_t eink_mutex;
 pthread_cond_t  eink_cond;
+
+
+static struct display_settings  display_settings[MAX_DEVICES];
+
+
+struct display_settings * get_display(int i)
+{
+  struct display_settings *p;
+  
+  if (i>=MAX_DEVICES)
+    p=NULL;
+  else
+    p=&display_settings[i];
+  return (p);
+}
 
 
 /**
@@ -263,8 +281,6 @@ UBYTE module_turn_on(void)
 	      passwd->pw_name, passwd->pw_name);
     }
 
-
-
   
   SPI_Handle = lgSpiOpen(0, 0, 10000000, 0);
   gpio_init();
@@ -288,7 +304,7 @@ void gpio_init(void)
   EINK_RST_PIN     = 17;
   EINK_DC_PIN      = 25;
   EINK_CS_PIN      = 8;
-  EINK_PWR_PIN     = 18;
+  EINK_PWR_PIN     = 18;  // (? Nothing plugged in here)
   EINK_BUSY_PIN    = 24;
   EINK_MOSI_PIN    = 10;
   EINK_SCLK_PIN    = 11;

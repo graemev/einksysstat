@@ -1,3 +1,4 @@
+/* -*- Mode: c; tab-width: 4;c-basic-offset: 4; c-default-style: "gnu" -*- */
 /*****************************************************************************
 * | File      	:   einksysstat.c
 * | Author      :   Graeme Vetterlein
@@ -55,16 +56,13 @@ So 3 different ways to execise the "gadgets":
 
   1: code the calls in regular C code
   2: Define a series of CPP Macros (similar in format to the config file)
-  3: Define a series of verbs (each invokes a single gadgets)
+  3: Define a series of verbs (each invokes a single gadgets) in a text file
 
   -------------------------------------------------------------------------*/  
   
 #include "eink_sysstat.h"
 #include "parser.h"
 #include "chain.h"
-
-
-
 
 
 static void print_version(char *name) 
@@ -79,7 +77,9 @@ static void usage(char *name)
 	  "-d = Debug (may be repeated)\n"
 	  "-v = Verbose (may be repeated)\n"
 	  "-V = VERSION (just prints version and exits)\n"
+	  "-i = Identify each display (can be used with or without a script file)\n"
 	  "-h = help\n"
+	  "<filename> a script of commands to run on display(s) see einksysstat.config(5)\n"
 	  "     Parse the given file an obey it's actions\n"
 	  "\n"
 	  "     The actions are a series of verbs defined in einksysstat.config(5)\n"
@@ -105,6 +105,7 @@ extern      FILE          *yyin;
 
 static	    int		   debug=0;
 static	    int		   verbose=0;
+static	    int		   identify=0;
 
 
 
@@ -149,15 +150,12 @@ int main(int argc, char*argv[])
   int    mode;
   int    c;
 
-
   struct action *actions;
   int            n_actions;
   FILE		*fp;
-
   struct action *p;
 
-
-  while ((c=getopt(argc, argv,"dvhV")) != -1)
+  while ((c=getopt(argc, argv,"dvhVi")) != -1)
     {
       switch(c)
 	{
@@ -171,9 +169,13 @@ int main(int argc, char*argv[])
 	  ++verbose;
 	  break;
 
+	case 'i' :
+	  ++identify;
+	  break;
+
 	case 'V' :
 	  print_version(argv[0]);
-	  exit(0);;
+	  exit(0);
 	  break;
 
 	case 'h':
@@ -188,49 +190,86 @@ int main(int argc, char*argv[])
   
   if ((argc-optind) != 1)
     {
-    usage(argv[0]);
-    exit(1);
-    }
-
-  filename=argv[optind];
-
-
-  if ((fp=fopen(filename, "r")) == NULL)
-    {
-    perror("fopen:");
-    fprintf(stderr, "Filename=%s\n", filename);
-    exit(2);
-    }
-  
-  if ((n_actions=parse_action_file(fp, &actions)) < 0)
-    {
-      fprintf (stderr, "Exiting with %d errors\n", -n_actions);
-      exit (2);
-    }
-  else
-    {
-      Debug("Init display\n");
-      ga_init_module();   // Not available as an ACTION (only done once)
-      ga_init_display();  // Not available as an ACTION (only done once)
-
-      Debug("Init image arrays (malloc(3)\n");
-      ga_init_image(is_black_on_grey,  90);   // NB malloc(3)s memory
-
-      Debug("Starting actions\n");
-  
-      for (p=actions; p; p=p->next)
-  
+      if (identify == 0)  // running with just -i or -V is fine
 	{
-	  Debug("Doing action: %s\n", str_action(p));
-	  do_action(p);
-	  Debug("Done action: %s\n", str_action(p));
+	  usage(argv[0]);
+	  exit(1);
+	}
+    }
+
+  
+  Debug("Init display\n");
+
+  /*
+   * Read the module.h comment. 
+   *
+   * ga_define() ... define a display instance. Right now we only support 1 display and is MUST be a 1.54inch (B)
+   *
+   * It's envisaged that this function will become available via the grammar, user can then define multiple displays
+   * with multiple sizes. But now there is only one display. This code is a mosty a fake. The rest of the code
+   * does not currently use this data , it has hardcoded settings as define in the original wavesahre code.
+   *
+   * There are (will be) a few minor exceptions. A few places in the code will access the rows & colums , but always
+   * of dispay 0. These can serve as an example of HOWTO add the support for multiple displays.
+   */
+      
+  ga_define(0,"1.54\" Module(B)", "Front panel",
+	    200, // columns (be aware I MAY have transposed these, in error, as both are 200)
+	    200, // rows
+
+	    17,  // no_rst,
+	    25,  // no_dc,
+	    8 ,  // no_cs,
+	    24,  // no_busy,
+	    18,  // no_pwr,
+	    10,  // no_mosi,
+	    11   // no_sclk
+	    );
+      
+  ga_init_module(0);   // Not available as an ACTION (only done once)
+  ga_init_display(0);  // Not available as an ACTION (only done once)
+
+  Debug("Init image arrays (malloc(3)\n");
+  ga_init_image(0, is_black_on_grey,  90);   // NB malloc(3)s memory
+
+  if (identify)		// Before we process the file
+    ga_identify();
+
+  if ((argc-optind) == 1)  // we have a script file to process
+    {
+      filename=argv[optind];
+
+      if ((fp=fopen(filename, "r")) == NULL)
+	{
+	  perror("fopen (script file):");
+	  fprintf(stderr, "Filename=%s\n", filename);
+	  exit(2);
+	}
+  
+      if ((n_actions=parse_action_file(fp, &actions)) < 0)
+	{
+	  fprintf (stderr, "Exiting with %d errors\n", -n_actions);
+	  exit (2);
+	}
+      else
+	{
+	  Debug("Starting actions\n");
+  
+	  for (p=actions; p; p=p->next)
+  
+	    {
+	      Debug("Doing action: %s\n", str_action(p));
+	      do_action(p);
+	      Debug("Done action: %s\n", str_action(p));
+	    }
+
+	  Debug("Finished actions\n");
 	}
 
-      Debug("Finished actions\n");
-
-
+      if (identify)		// 2nd byte of the cherry, in case the script included DEFINE verbs (not yet implemented)
+	ga_identify();
     }
-
+      
   /* three stages to exit & cleanup:
    *
    * 1: Free up the memory we used to store images
@@ -240,13 +279,12 @@ int main(int argc, char*argv[])
    * Right now 3 is not possible (but is required) because the sample code was just comments
    * and the device is not documented.
    */
-
   
   Debug("Release image arrays (free(3)\n");
-  ga_release_image();		      // NB free(3)s memory
+  ga_release_image(0);		      // NB free(3)s memory
 
   Debug("Release module\n");
-  ga_release_module();
+  ga_release_module(0);
   
   return 0;
 }

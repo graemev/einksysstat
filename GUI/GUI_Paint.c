@@ -82,7 +82,6 @@
 *
 ******************************************************************************/
 #include "GUI_Paint.h"
-#include "DEV_Config.h"
 #include "Debug.h"
 #include <stdint.h>
 #include <stdlib.h>

@@ -1,3 +1,4 @@
+/* -*- Mode: c; tab-width: 4;c-basic-offset: 4; c-default-style: "gnu" -*- */
 /*
  * Actions allow you to use gadgets
  */
@@ -7,20 +8,36 @@
  * GPV	29jun24	Inital version
  */
 
+
+/* This file is part of Einkstat. */
+
+/*     Einkstat is free software: you can redistribute it and/or modify it under
+       the terms of the GNU General Public License as published by the Free
+       Software Foundation, either version 3 of the License, or (at your option)
+       any later version. */
+
+/*     Einkstat is distributed in the hope that it will be useful, but WITHOUT ANY
+       WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+       FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+       details. */
+
+/*     You should have received a copy of the GNU General Public License along
+       with Einkstat. If not, see <https://www.gnu.org/licenses/>. */
+
+/*     Note included within Einkstat is code covered by a Public Domain (PD)
+       licence (which is indicated within those files) these sections
+       are subject to that PD licence. If you wish to use those portions
+       under "Public Domain" terms it is proably easier to use the original
+       found at e.g. https://github.com/waveshareteam/e-Paper */
+
+
 /*
  * do_action- carry out the action described in the "action structure
  * struct action * action - The action we want to execute
- *
- *
- *
- *
- * 
  */
 
 #include "actions.h"
 #include "dump_utils.h"
-
-
 
 void do_action(struct action * action)
 {
@@ -40,68 +57,75 @@ void do_action(struct action * action)
       break;
 	 
     case(do_init_image):
-      ga_init_image(action->args.init_image.colour, action->args.init_image.rotate);
+      ga_init_image(action->display, action->args.init_image.colour, action->args.init_image.rotate);
       break;
 	 
     case(do_init_module):
-      ga_init_module();
+      ga_init_module(action->display);
       break;
       
     case(do_init_display):  // never released
-      ga_init_display();
+      ga_init_display(action->display);
       break;
       
     case(do_release_module):
-      ga_release_module();
+      ga_release_module(action->display);
       break;
 
     case(do_release_image):
-      ga_release_image();
+      ga_release_image(action->display);
       break;
 	 
     case(do_render):
-      ga_render();
+      ga_render(action->display);
       break;
 	 
     case(do_clear):
-      ga_clear();
+      ga_clear(action->display);
       break;
 	 
     case(do_text):
-      ga_text(action->args.text.xstart, action->args.text.ystart, action->args.text.fsize, action->args.text.text, action->args.text.colour);
+      ga_text(action->display, action->args.text.xstart, action->args.text.ystart, action->args.text.fsize, action->args.text.text, action->args.text.colour);
       break;
 	 
     case(do_hostname):
-      ga_hostname(action->args.hostname.xstart, action->args.hostname.ystart, action->args.hostname.fsize);
+      ga_hostname(action->display,action->args.hostname.xstart, action->args.hostname.ystart, action->args.hostname.fsize);
       break;
 	 
     case(do_timestamp):
-      ga_timestamp(action->args.timestamp.xstart, action->args.timestamp.ystart, action->args.timestamp.fsize);
+      ga_timestamp(action->display,action->args.timestamp.xstart, action->args.timestamp.ystart, action->args.timestamp.fsize);
       break;
 	 
     case(do_uptime):
-      ga_uptime(action->args.uptime.xstart, action->args.uptime.ystart, action->args.uptime.fsize);
+      ga_uptime(action->display,action->args.uptime.xstart, action->args.uptime.ystart, action->args.uptime.fsize);
       break;
 	 
     case(do_meter):
-      ga_meter(action->args.meter.xstart, action->args.meter.ystart, action->args.meter.fsize, action->args.meter.value, action->args.meter.colour);
+      ga_meter(action->display,action->args.meter.xstart, action->args.meter.ystart, action->args.meter.fsize, action->args.meter.value, action->args.meter.colour);
       break;
 	 
     case(do_df):
-      ga_df(action->args.df.ystart, action->args.df.fsize, action->args.df.device, action->args.df.label, action->args.df.units, action->args.df.cutoff);
+      ga_df(action->display,action->args.df.ystart, action->args.df.fsize, action->args.df.device, action->args.df.label, action->args.df.units, action->args.df.cutoff);
       break;
 	 
     case(do_age):
-      ga_age(action->args.age.xstart, action->args.age.ystart, action->args.age.fsize, action->args.age.filename, action->args.age.label, action->args.age.units, action->args.age.cutoff);
+      ga_age(action->display,action->args.age.xstart, action->args.age.ystart, action->args.age.fsize, action->args.age.filename, action->args.age.label, action->args.age.units, action->args.age.cutoff);
       break;
 	 
     case(do_file):
-      ga_file(action->args.file.xstart, action->args.file.ystart, action->args.file.fsize, action->args.file.filename, action->args.file.lines);
+      ga_file(action->display,action->args.file.xstart, action->args.file.ystart, action->args.file.fsize, action->args.file.filename, action->args.file.lines);
       break;
 
     case(do_sleep):
-      ga_sleep(action->args.sleep.seconds);
+      ga_sleep(action->display,action->args.sleep.seconds);
+      break;
       
+    case(do_identify):
+      ga_identify();
+      break;
+      
+    default:
+      fprintf(stderr, "Internal error action(%s) is undefined\n", str_action(action));
     }
 }
 
@@ -137,8 +161,6 @@ char * str_action(struct action * action)
     case(do_init_display):
       p="init_display";
       break;
-
-
       
     case(do_release_module):
       p="init_module";
@@ -191,6 +213,10 @@ char * str_action(struct action * action)
     case(do_sleep):
       p="sleep";
       break;
+      
+    case(do_identify):
+      p="identify";
+      break;
 
     default:
       p="????";
@@ -202,7 +228,8 @@ char * str_action(struct action * action)
 
 /* ====== INIT ====== */
 
-struct action * new_action_init(enum Eink_colour colour,
+struct action * new_action_init(int              display,
+				enum Eink_colour colour,
 				UWORD            rotate
 				)
 {
@@ -215,6 +242,8 @@ struct action * new_action_init(enum Eink_colour colour,
     }
 
   p->verb = do_init_image;
+
+  p->display = display;
   
   p->args.init_image.colour=colour;
   p->args.init_image.rotate=rotate;
@@ -225,8 +254,8 @@ struct action * new_action_init(enum Eink_colour colour,
 
 /* ====== TEXT ====== */
 
-
-struct action * new_action_text(UWORD            xstart,
+struct action * new_action_text(int              display,
+				UWORD            xstart,
 				UWORD            ystart,
 				int              fsize,
 				char             text[],   // Note, last agg (not same as method)  [ GPV flawed thinking]
@@ -247,16 +276,15 @@ struct action * new_action_text(UWORD            xstart,
   p->args.text.ystart=ystart;
   p->args.text.fsize =fsize;
   p->args.text.colour=colour;
-  strncpy(p->args.text.text, text, MAX_DISPLAY);
+  strncpy(p->args.text.text, text, MAX_TEXT_DISPLAY);
 
   return p;
-  
 }
 
 /* ====== HOSTNAME ====== */
 
-
-struct action * new_action_hostname(UWORD            xstart,
+struct action * new_action_hostname(int              display,
+				    UWORD            xstart,
 				    UWORD            ystart,
 				    int              fsize
 				    )
@@ -276,16 +304,15 @@ struct action * new_action_hostname(UWORD            xstart,
   p->args.hostname.fsize =fsize;
 
   return p;
-  
 }
 
 /* ====== TIMESTAMP ====== */
 
-
-struct action * new_action_timestamp(UWORD           xstart,
-				    UWORD            ystart,
-				    int              fsize
-				    )
+struct action * new_action_timestamp(int              display,
+				     UWORD           xstart,
+				     UWORD            ystart,
+				     int              fsize
+				     )
 {
   struct action * p;
 
@@ -302,13 +329,12 @@ struct action * new_action_timestamp(UWORD           xstart,
   p->args.timestamp.fsize =fsize;
 
   return p;
-  
 }
 
 /* ====== UPTIME ====== */
 
-
-struct action * new_action_uptime(UWORD            xstart,
+struct action * new_action_uptime(int              display,
+				  UWORD            xstart,
 				  UWORD            ystart,
 				  int              fsize
 				  )
@@ -333,8 +359,8 @@ struct action * new_action_uptime(UWORD            xstart,
 
 /* ====== METER ====== */
 
-
-struct action * new_action_meter(UWORD            xstart,
+struct action * new_action_meter(int              display,
+				 UWORD            xstart,
 				 UWORD            ystart,
 				 int              fsize,
 				 int              value,
@@ -358,22 +384,18 @@ struct action * new_action_meter(UWORD            xstart,
   p->args.meter.colour=colour;
 
   return p;
-  
 }
 
 
 /* ====== DF ====== */
 
-
-struct action * new_action_df		(UWORD            ystart,
+struct action * new_action_df		(int              display,
+					 UWORD            ystart,
 					 int	          fsize,
 					 char	          device[MAX_PATHNAME],
-					 char	          label[MAX_DISPLAY],
+					 char	          label[],
 					 enum df_units    units,
 					 int	          cutoff)
-
-
-
 {
   struct action * p;
 
@@ -390,7 +412,7 @@ struct action * new_action_df		(UWORD            ystart,
 
   p->args.df.units =units;
   p->args.df.cutoff=cutoff;
-  strncpy(p->args.df.label, label, MAX_DISPLAY);
+  strncpy(p->args.df.label, label, MAX_TEXT_DISPLAY);
   strncpy(p->args.df.device,device, MAX_PATHNAME);
 
   return p;
@@ -399,13 +421,14 @@ struct action * new_action_df		(UWORD            ystart,
 
 /* ====== AGE ====== */
 
-struct action * new_action_age		(UWORD		   xstart,
-					 UWORD		   ystart,
-					 int	           fsize,
-					 char		   filename[MAX_PATHNAME],
-					 char		   label[MAX_DISPLAY],
-					 enum age_units    units,
-					 int               cutoff
+struct action * new_action_age		(int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int	          fsize,
+					 char		  filename[MAX_PATHNAME],
+					 char		  label[MAX_TEXT_DISPLAY],
+					 enum age_units   units,
+					 int              cutoff
 					 )
 {
   struct action * p;
@@ -424,21 +447,20 @@ struct action * new_action_age		(UWORD		   xstart,
 
   p->args.age.units =units;
   p->args.age.cutoff=cutoff;
-  strncpy(p->args.age.label, label, MAX_DISPLAY);
+  strncpy(p->args.age.label, label, MAX_TEXT_DISPLAY);
   strncpy(p->args.age.filename, filename, MAX_PATHNAME);
 
   return p;
-  
 }
 
 /* ====== FILE ====== */
 
-
-struct action * new_action_file		(UWORD		   xstart,
-					 UWORD		   ystart,
-					 int		   fsize,
-					 char		   filename[MAX_PATHNAME],
-					 int		   lines
+struct action * new_action_file		(int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize,
+					 char		  filename[MAX_PATHNAME],
+					 int		  lines
 					 )
 {
   struct action * p;
@@ -459,14 +481,13 @@ struct action * new_action_file		(UWORD		   xstart,
   strncpy(p->args.file.filename, filename, MAX_PATHNAME);
 
   return p;
-  
 }
 
 
 /* ====== SLEEP ====== */
 
-
-struct action * new_action_sleep(int		   seconds)
+struct action * new_action_sleep(int              display,
+				 int		  seconds)
 
 {
   struct action * p;
@@ -482,13 +503,11 @@ struct action * new_action_sleep(int		   seconds)
   p->args.sleep.seconds=seconds;
 
   return p;
-  
 }
 
 /* ====== RENDER ====== */
 
-
-struct action * new_action_render()
+struct action * new_action_render(int              display)
 
 {
   struct action * p;
@@ -503,13 +522,11 @@ struct action * new_action_render()
   
 
   return p;
-  
 }
 
 /* ====== CLEAR ====== */
 
-
-struct action * new_action_clear()
+struct action * new_action_clear(int              display)
 
 {
   struct action * p;
@@ -524,13 +541,12 @@ struct action * new_action_clear()
   
 
   return p;
-  
 }
 
 /* ====== LOOP ====== */
 
 
-struct action * new_action_loop()
+struct action * new_action_loop(int              display)
 
 {
   struct action * p;
@@ -545,7 +561,26 @@ struct action * new_action_loop()
   
 
   return p;
+}
+
+/* ====== IDENTIFY ====== */
+
+
+struct action * new_action_identify()
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action identify:");
+      exit(1);
+    }
+
+  p->verb = do_identify;
   
+
+  return p;
 }
 
 
@@ -554,7 +589,7 @@ struct action * new_action_loop()
 /* ====== NONE ====== */
 
 
-struct action * new_action_none()
+struct action * new_action_none(int              display)
 
 {
   struct action * p;
@@ -568,7 +603,6 @@ struct action * new_action_none()
   p->verb = do_none;
 
   return p;
-  
 }
 
 
@@ -576,14 +610,14 @@ struct action * new_action_none()
 
 
 
-void delete_action(struct action * action)
+void delete_action(struct action  * action)
 {
   free(action);
 }
 
 
 
-char * str_struct_action(struct action * action)
+char * str_struct_action(struct action  * action)
 {
   static char str[256];  // Messy, but debuging only
   
@@ -673,6 +707,9 @@ char * str_struct_action(struct action * action)
     case(do_sleep):
       snprintf(str,256, "Action(sleep): seconds=%d", 
 	       action->args.sleep.seconds);
+
+    case(do_identify):
+      snprintf(str,256, "Action(identify):");
       
     }
 

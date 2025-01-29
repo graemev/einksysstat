@@ -12,8 +12,6 @@
 
 
 #include "gadgets.h"
-#include "DEV_Config.h"
-
 
 enum verb
   {
@@ -37,6 +35,7 @@ enum verb
     do_age,
     do_file,
     do_sleep,
+    do_identify,
   };
 
 
@@ -49,7 +48,7 @@ enum verb
  *
  */
 
-#define MAX_DISPLAY  41
+#define MAX_TEXT_DISPLAY  41
 #define MAX_PATHNAME 65
 
 
@@ -65,7 +64,7 @@ struct args_text
   UWORD            ystart;
   int              fsize;
   enum Eink_colour colour;
-  char             text[MAX_DISPLAY];   // Note, last agg (not same as method)
+  char             text[MAX_TEXT_DISPLAY];   // Note, last agg (not same as method)
 };
 
 struct args_hostname
@@ -100,7 +99,7 @@ struct args_df
   int		   fsize;
   enum df_units    units;
   int		   cutoff;
-  char		   label[MAX_DISPLAY];
+  char		   label[MAX_TEXT_DISPLAY];
   char		   device[MAX_PATHNAME];
 
 };
@@ -111,7 +110,7 @@ struct args_age
   int		   fsize;
   enum age_units   units;
   int              cutoff;
-  char		   label[MAX_DISPLAY];
+  char		   label[MAX_TEXT_DISPLAY];
   char		   filename[MAX_PATHNAME];
 
 };
@@ -134,6 +133,7 @@ struct args_sleep
 struct action
 {
   enum   verb     verb;
+  int		  display;
   struct action * next;
   struct action * prev;
 
@@ -153,7 +153,7 @@ struct action
   
 };
 
-static struct action no_action = {do_noverb, NULL, NULL}; // used only in error handling etc, must not be enchain()ed
+static struct action no_action = {do_noverb, 0, NULL, NULL}; // used only in error handling etc, must not be enchain()ed
 
 
 // Fight the horrible C99 syntax.
@@ -232,83 +232,95 @@ char * str_action(struct action * action);
 
 
 
-struct action * new_action_init		(enum Eink_colour colour,
+struct action * new_action_init		(int		  display,
+					 enum Eink_colour colour,
 					 UWORD            rotate
 					 );
 
-struct action * new_action_text		(UWORD            xstart,
+struct action * new_action_text		(int		  display,
+					 UWORD            xstart,
 					 UWORD            ystart,
 					 int              fsize,
 					 char             text[],
 					 enum Eink_colour colour
 					 );
 
-struct action * new_action_hostname	(UWORD            xstart,
+struct action * new_action_hostname	(int		  display,
+					 UWORD            xstart,
 					 UWORD            ystart,
 					 int              fsize
 					 );
 
-struct action * new_action_timestamp	(UWORD           xstart,
-					 UWORD            ystart,
-					 int              fsize
-					 );
-
-
-
-struct action * new_action_uptime	(UWORD            xstart,
+struct action * new_action_timestamp	(int		  display,
+					 UWORD            xstart,
 					 UWORD            ystart,
 					 int              fsize
 					 );
 
 
-struct action * new_action_meter	(UWORD            xstart,
+
+struct action * new_action_uptime	(int		  display,
+					 UWORD            xstart,
+					 UWORD            ystart,
+					 int              fsize
+					 );
+
+
+struct action * new_action_meter	(int		  display,
+					 UWORD            xstart,
 					 UWORD            ystart,
 					 int              fsize,
 					 int              value,
 					 enum Eink_colour colour
 					 );
 
-struct action * new_action_df		(UWORD            ystart,
+struct action * new_action_df		(int		  display,
+					 UWORD            ystart,
 					 int	          fsize,
 					 char	          device[MAX_PATHNAME],
-					 char	          label[MAX_DISPLAY],
+					 char	          label[MAX_TEXT_DISPLAY],
 					 enum df_units    units,
 					 int	          cutoff
 					 );
 
-struct action * new_action_age		(UWORD		   xstart,
-					 UWORD		   ystart,
-					 int	           fsize,
-					 char		   filename[MAX_PATHNAME],
-					 char		   label[MAX_DISPLAY],
-					 enum age_units    units,
-					 int               cutoff
+struct action * new_action_age		(int		  display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int	          fsize,
+					 char		  filename[MAX_PATHNAME],
+					 char		  label[MAX_TEXT_DISPLAY],
+					 enum age_units   units,
+					 int              cutoff
 					 );
 
 
 
-struct action * new_action_file		(UWORD		   xstart,
-					 UWORD		   ystart,
-					 int		   fsize,
-					 char		   filename[MAX_PATHNAME],
-					 int		   lines
+struct action * new_action_file		(int		  display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize,
+					 char		  filename[MAX_PATHNAME],
+					 int		  lines
 					 );
 
 
-struct action * new_action_render	();
-struct action * new_action_clear	();
-struct action * new_action_loop		();
-struct action * new_action_none		();
+struct action * new_action_render	(int		  display);
+struct action * new_action_clear	(int		  display);
+struct action * new_action_loop		(int		  display);
+struct action * new_action_none		(int		  display);
 
 
 
 
-struct action * new_action_sleep	(int		   seconds);
+struct action * new_action_sleep	(int		  display,
+					 int		  seconds);
 
+
+struct action * new_action_identify	();
 
 
 void delete_action			(struct action * action);
 
-char * str_struct_action			(struct action * action);
+char * str_struct_action		(struct action * action);
 
 #endif

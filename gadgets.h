@@ -36,7 +36,9 @@
 #include <stdlib.h>
 
 
-#include "DEV_Config.h"
+// TBD #include "DEV_Config.h"
+
+#include "module.h"
 
 /* Colours on the eInk display works a tad oddly,
    Both WHITE and RED are defined to be "ON" (0xFF)
@@ -85,28 +87,46 @@ enum age_units
     age_days,
   };
 
-enum Eink_colour	ga_set_colour(enum Eink_colour colour);
+/* Quote, "any method with more than 6 args, means you've missed one" :-) ... sadly we need each of these */
 
-extern void		ga_init_display();
-extern void		ga_init_module();
-extern void		ga_init_image	    (enum Eink_colour colour, UWORD rotate);
-extern void		ga_release_image   ();
-extern void		ga_release_module  ();
+extern void		ga_define(int    display,
+				  char * part_name,
+				  char * local_name,
+				  int    no_columns,
+				  int    no_rows,
 
-extern void		ga_render ();
-extern void		ga_clear();
+				  int    no_rst,
+				  int    no_dc,
+				  int    no_cs,
+				  int    no_busy,
+				  int    no_pwr,
+				  int    no_mosi,
+				  int    no_sclk);
+				  
 
-extern int		ga_text      (UWORD xstart, UWORD ystart, int fsize, char text[], enum Eink_colour colour);
-extern int		ga_hostname  (UWORD Xstart, UWORD Ystart, int fsize);
-extern int		ga_timestamp (UWORD xstart, UWORD ystart, int fsize);
-extern int		ga_uptime    (UWORD xstart, UWORD ystart, int fsize);
-extern int		ga_meter     (UWORD xstart, UWORD ystart, int fsize, int value, enum Eink_colour colour);
-extern int		ga_df	     (              UWORD ystart, int fsize, char *device, char * label, enum df_units units, int cutoff);
-extern int		ga_age	     (UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, enum age_units units, int cutoff);
-extern int		ga_file      (UWORD xstart, UWORD ystart, int fsize, char *filename, int lines);
+extern enum Eink_colour	ga_set_colour(int display, enum Eink_colour colour);
 
-extern int		ga_sleep     (unsigned int seconds);
+extern void		ga_init_display  (int display);
+extern void		ga_init_module   (int display);
+extern void		ga_init_image	 (int display, enum Eink_colour colour, UWORD rotate);
+extern void		ga_release_image (int display);
+extern void		ga_release_module(int display);
 
+extern void		ga_render    (int display);
+extern void		ga_clear     (int display);
+
+extern int		ga_text      (int display, UWORD xstart, UWORD ystart, int fsize, char text[], enum Eink_colour colour);
+extern int		ga_hostname  (int display, UWORD Xstart, UWORD Ystart, int fsize);
+extern int		ga_timestamp (int display, UWORD xstart, UWORD ystart, int fsize);
+extern int		ga_uptime    (int display, UWORD xstart, UWORD ystart, int fsize);
+extern int		ga_meter     (int display, UWORD xstart, UWORD ystart, int fsize, int value, enum Eink_colour colour);
+extern int		ga_df	     (int display,               UWORD ystart, int fsize, char *device, char * label, enum df_units units, int cutoff);
+extern int		ga_age	     (int display, UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, enum age_units units, int cutoff);
+extern int		ga_file      (int display, UWORD xstart, UWORD ystart, int fsize, char *filename, int lines);
+
+extern int		ga_sleep     (int display, unsigned int seconds);
+
+extern void		ga_identify();
 #endif
 
 

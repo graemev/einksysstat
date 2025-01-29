@@ -1,6 +1,28 @@
+/* -*- Mode: c; tab-width: 4;c-basic-offset: 4; c-default-style: "gnu" -*- */
 #include <assert.h>
 #include "actions.h"
 #include "chain.h"
+
+/* This file is part of Einkstat. */
+
+/*     Einkstat is free software: you can redistribute it and/or modify it under
+       the terms of the GNU General Public License as published by the Free
+       Software Foundation, either version 3 of the License, or (at your option)
+       any later version. */
+
+/*     Einkstat is distributed in the hope that it will be useful, but WITHOUT ANY
+       WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+       FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+       details. */
+
+/*     You should have received a copy of the GNU General Public License along
+       with Einkstat. If not, see <https://www.gnu.org/licenses/>. */
+
+/*     Note included within Einkstat is code covered by a Public Domain (PD)
+       licence (which is indicated within those files) these sections
+       are subject to that PD licence. If you wish to use those portions
+       under "Public Domain" terms it is proably easier to use the original
+       found at e.g. https://github.com/waveshareteam/e-Paper */
 
 
 /*

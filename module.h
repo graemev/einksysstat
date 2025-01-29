@@ -1,3 +1,6 @@
+#ifndef _MODULE_H_
+#define _MODULE_H_
+
 /*
  * module.h:
  * Code relating to the "module" (a PCB) used to hold the eInk device.
@@ -101,16 +104,62 @@ extern int EINK_SCLK_PIN;
 #define UWORD   uint16_t
 #define UDOUBLE uint32_t
 
-extern UBYTE module_turn_on(void);
-extern void  gpio_init(void);
-extern void  gpio_mode(UWORD Pin, UWORD Mode);       // Mode0 == Input , Mode1 == Output
-extern void  gpio_write(UWORD Pin, UBYTE Value);  // Write value to Pin
-extern UBYTE gpio_read(UWORD Pin);                // Read a value from Pin
-extern void  gpio_delay(UDOUBLE xms);
+extern UBYTE module_turn_on (void);
+extern void  gpio_init      (void);
+extern void  gpio_mode      (UWORD Pin, UWORD Mode);   // Mode0 == Input , Mode1 == Output
+extern void  gpio_write     (UWORD Pin, UBYTE Value);  // Write value to Pin
+extern UBYTE gpio_read      (UWORD Pin);               // Read a value from Pin
+extern void  gpio_delay     (UDOUBLE xms);
 extern void  module_turn_off(void);
-extern void  spi_writebyte(uint8_t Value);
+extern void  spi_writebyte  (uint8_t Value);
 
 
 extern pthread_mutex_t eink_mutex;
 extern pthread_cond_t  eink_cond;
 
+/* GPV TBD , future proofing
+ *
+ * The sample code from WaveShare describes a single eInk device on fixed pins
+ * We have also simplified the code so it only supports the 1.54inch e-Paper Module (B)
+ * which is a 200x200 display.
+ *
+ * So sombody who knows the rpi better than me could:
+ *
+ *  - Add support for a second or third eInk 1.54inch display
+ *  - Add support for differnet display sizes
+ *
+ * The first would require different PIN allocations for each display (at least)
+ * The second MAY simply be a matter of using diffent display sizes
+ *
+ * While this is here and the grammar will be modified to support a display number
+ * on the verbs, NONE (almost) OF THE CODE HAS BEEN MODIFIED TO SUPPORT MULTIPLE
+ * DISPLAYS. 
+ *
+ *
+ */
+
+/*
+ * displays can have a name of up to 32 characters.
+ */
+
+#define MAX_DISPLAY_NAME 32
+
+struct display_settings
+{
+  int  eink_rst_pin;
+  int  eink_dc_pin;
+  int  eink_cs_pin;
+  int  eink_busy_pin;
+  int  eink_pwr_pin;
+  int  eink_mosi_pin;
+  int  eink_sclk_pin;
+
+  int  no_columns;
+  int  no_rows;
+
+  char part_name[MAX_DISPLAY_NAME];  // e.g '1.54" Module(B)'
+  char local_name[MAX_DISPLAY_NAME]; // e.g 'Front panel'
+};
+
+extern struct display_settings * get_display(int i);
+#endif

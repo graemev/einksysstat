@@ -32,7 +32,7 @@
 
 #include <assert.h>
 
-#include "DEV_Config.h"   // Use libgpio (or wiringpi or bcm2835_lib or dev_lib
+			  // Use libgpio (or wiringpi or bcm2835_lib or dev_lib
 #include "GUI_Paint.h"	  // All the drawing on canvas routines
 #include "fonts.h"	  // Actual bitmaps of Fonts (various sizes)
 #include "gadgets.h"	  // Gadgets to display stats

@@ -8,7 +8,6 @@ AC_DEFINE([USE_LGPIO_LIB], [1], [Use -lgpio rather than previous options])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
  Makefile
- Device/Makefile
  GUI/Makefile
  Fonts/Makefile
 ])

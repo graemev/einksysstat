@@ -1,45 +1,45 @@
- HOSTNAME(0,0,12),
- TIMESTAMP(75,0,12),
+ HOSTNAME(0,   0,0,12),
+ TIMESTAMP(0,   75,0,12),
      
- UPTIME(0,13,16),
+ UPTIME(0,   0,13,16),
  
      
- DF(30 ,24,'/lost+found',               "root", df_best,20),
- DF(55 ,24,"/boot/firmware/config.txt", "SD",   df_best,20),           # line  55
- DF(80 ,24,"/Q/mount/rest3/lost+found", "NV1",  df_best,20),           # line  80
- DF(105,24,"/dev/nvme0n1p3/lost+found", "NV2",  df_best 20),           # line 105
+ DF(0,   30 ,24,'/lost+found',               "root", df_best,20),
+ DF(0,   55 ,24,"/boot/firmware/config.txt", "SD",   df_best,20),           # line  55
+ DF(0,   80 ,24,"/Q/mount/rest3/lost+found", "NV1",  df_best,20),           # line  80
+ DF(0,   105,24,"/dev/nvme0n1p3/lost+found", "NV2",  df_best 20),           # line 105
 
-# BAD(105,44)
+# BAD(0,   105,44)
      
- AGE(0,130, 24,"/boot/firmware/config.txt", "BACKUP1",  age_days,20),  # line 130
- AGE(0,155, 24,"/home/graeme/src",          "BACKUP2",  age_days,180), # line 155
- FILE(0, 180, 8, "/etc/motm", 0),                                      # line 180
+ AGE(0,   0,130, 24,"/boot/firmware/config.txt", "BACKUP1",  age_days,20),  # line 130
+ AGE(0,   0,155, 24,"/home/graeme/src",          "BACKUP2",  age_days,180), # line 155
+ FILE(0,   0, 180, 8, "/etc/motm", 0),                                      # line 180
  
- RENDER(),
- SLEEP(5),
+ RENDER(0   ),
+ SLEEP(0,   5),
  
- CLEAR(),
+ CLEAR(0   ),
 
 
 
- hostname(0,0,12)
- timestamp(75,0,12)
+ hostname(0,   0,0,12)
+ timestamp(0,   75,0,12)
      
- uptime(0,13,16)
+ uptime(0,   0,13,16)
      
- df(30 ,24,"/lost+found",               "root", best,20)
- df(55 ,24,"/boot/firmware/config.txt", "sd",   pcent,20)           # line  55
- df(80 ,24,"/q/mount/rest3/lost+found", "nv1",  MB,20)           # line  80
- df(105,24,"/dev/nvme0n1p3/lost+found", "nv2",  best,20)           # line 105
+ df(0,   30 ,24,"/lost+found",               "root", best,20)
+ df(0,   55 ,24,"/boot/firmware/config.txt", "sd",   pcent,20)           # line  55
+ df(0,   80 ,24,"/q/mount/rest3/lost+found", "nv1",  MB,20)           # line  80
+ df(0,   105,24,"/dev/nvme0n1p3/lost+found", "nv2",  best,20)           # line 105
  
      
- age(0,130, 24,"/boot/firmware/config.txt", "backup1",  days,20)  # line 130
- text(0,155, 24,"IRONMAN\"text",          is_red_on_grey) # line 155
- file(0, 180, 8, "/etc/motm", 0)                                      # line 180
+ age(0,   0,130, 24,"/boot/firmware/config.txt", "backup1",  days,20)  # line 130
+ text(0,   0,155, 24,"IRONMAN\"text",          is_red_on_grey) # line 155
+ file(0,   0, 180, 8, "/etc/motm", 0)                                      # line 180
  
- render()
- sleep(5)
+ render(0   )
+ sleep(0,   5)
  
- clear()
+ clear(0   )
 
 
