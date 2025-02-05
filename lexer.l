@@ -134,6 +134,20 @@
 "IDENTIFY"			{return T_IDENTIFY;}
 "identify"			{return T_IDENTIFY;}
 
+"TEMP"				{return T_TEMP;}
+"temp"				{return T_TEMP;}
+"TEMPERATURE"			{return T_TEMP;}
+"temperature"			{return T_TEMP;}
+
+"THROTTLE"			{return T_THROTTLE;}
+"throttle"			{return T_THROTTLE;}
+
+"FAN"				{return T_FAN;}
+"fan"				{return T_FAN;}
+
+"XXXXX"			{return T_XXXXX;}
+"xxxxx"			{return T_XXXXX;}
+
 
 
 
@@ -170,6 +184,14 @@
 "hours"				{yylval->age_unit=age_hours   ; return T_AGE_UNIT;}
 "days"				{yylval->age_unit=age_days    ; return T_AGE_UNIT;}
 
+"cpu"				{yylval->temp_type=temp_cpu       ; return T_TEMP_TYPE;}
+"gpu"				{yylval->temp_type=temp_gpu       ; return T_TEMP_TYPE;}
+"core"				{yylval->temp_type=temp_gpu       ; return T_TEMP_TYPE;}
+"sdram_c"			{yylval->temp_type=temp_sdram_c   ; return T_TEMP_TYPE;}
+"sdram_i"			{yylval->temp_type=temp_sdram_i   ; return T_TEMP_TYPE;}
+"sdram_p"			{yylval->temp_type=temp_sdram_p   ; return T_TEMP_TYPE;}
+
+"yyyyy"				{yylval->zzzzz=yyyyy   ; return T_ZZZZZ;}
 
 
 

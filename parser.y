@@ -71,6 +71,19 @@
     char * verb = NULL;
  }
 
+
+/*
+ * So what's with all these XXXXX, yyyyy, zzzzz ?
+ *
+ * Well they really define a new verb called XXXXX (don't try to use it, it does nothing)
+ * yyyyy defines new arguemnt types (you may not need any) and zzzzz defines one (of possibly many) values it can take.
+ *
+ * So if you want to define a new verb just search for all the XXXXX (case insensitive) uses. Duplicate that bit of code (often just 1 line)
+ * then modify the newly created bit to your new verb name ... taking care to match the case (emacs will do this automatically for e.g. query-replace)
+ * If you take care to leave the XXXXX (yyyyy, zzzzz) as the last "one" of wherever it is, thme it wall make adding future verbs much simpler.
+ */
+
+
 %union {
   int               ival;
   float             fval;
@@ -79,6 +92,8 @@
   enum age_units    age_unit;
   char            * string;
   struct action   * action;
+  enum   temp_type  temp_type;
+  enum   zzzzz      zzzzz;
 }
 
 %token          T_NL "Newline"
@@ -107,12 +122,20 @@
 %token          T_TEXT
 %token          T_IDENTIFY
 
+%token          T_TEMP
+%token          T_THROTTLE
+%token          T_FAN
+
+%token          T_XXXXX
+
 
 
 %token<colour>  T_COLOUR
 %token<df_unit> T_DF_UNIT
 %token<age_unit>T_AGE_UNIT
 %token<ival>    T_ROTATE
+%token<temp_type>T_TEMP_TYPE "core/sdram_c/sdram_i/sdram_p"
+%token<zzzzz>	T_ZZZZZ
 
 %type<ival>     rotate_arg
 %type<ival>     int_arg
@@ -120,7 +143,11 @@
 %type<age_unit> age_arg
 %type<df_unit>  df_arg
 %type<colour>   colour_arg
+%type<temp_type> temp_arg
 
+
+%type<action>   action
+%type<action>   new_action
 
 %type<action>   init
 %type<action>   hostname
@@ -139,8 +166,11 @@
 %type<action>   text
 %type<action>   identify
 
-%type<action>   action
-%type<action>   new_action
+%type<action>   temp
+%type<action>   throttle
+%type<action>   fan
+
+%type<action>   xxxxx
 
 
 
@@ -178,6 +208,10 @@ action: init
 | meter
 | text
 | identify
+| temp
+| throttle
+| fan
+| xxxxx
 
 ;
 
@@ -203,6 +237,10 @@ colour_arg:          T_COLOUR
 |                ',' T_COLOUR { $$=$2; }
 ;
 
+temp_arg:            T_TEMP_TYPE
+|                ',' T_TEMP_TYPE { $$=$2; }
+;
+
     
 
 init_verb:       T_INIT        { verb = "init";};
@@ -219,6 +257,37 @@ loop_verb:       T_LOOP        { verb = "loop";};
 meter_verb:      T_METER       { verb = "meter";};
 text_verb:       T_TEXT        { verb = "text";};
 identify_verb:   T_IDENTIFY    { verb = "identify";};
+temp_verb:       T_TEMP        { verb = "temp";};
+throttle_verb:   T_THROTTLE    { verb = "throttle";};
+fan_verb:        T_FAN         { verb = "fan";};
+xxxxx_verb:      T_XXXXX       { verb = "xxxxx";};
+
+/*
+ *  INIT      ( display, colour, rotation)
+ *  HOSTNAME  ( display, rol, col, font)
+ *  TIMESTAMP ( display, rol, col, font))
+ *  UPTIME    ( display, rol, col, font))
+ *
+ *  RENDER    ( display)
+ *
+ *  SLEEP     ( display, seconds)
+ *  CLEAR     ( display)
+ *  LOOP      ( display)
+ *
+ *  DF        ( display, col, font, pathname, label, units, limit)
+ *  AGE       ( display, row, col, font, pathname, label, units, limit)
+ *  FILE      ( display, row, col, font, pathname, lines)
+ *  TEXT      ( display, row, col, font, text), colour
+ *  METER     ( display, row, col, font, value, colour)
+ *  IDENTIFY  (zxczcxzxc )
+ *
+ *  TEMP      ( display, row, col, font, measurement, limit)
+ *  TEMP      ( display, row, col, font, pathname, limit)
+ *  THROTTLE  ( display, row, col, font)
+ *  FAN       ( display, row, col, font, pathname, limit)
+ */
+
+
 
 
 init:       init_verb      '('  T_INT colour_arg rotate_arg     ')'  { $$=new_action_init($3, $4, $5);       Debug("******INIT     (%d,%s;%d)\n",       $3, str_colour($4), $5); } ;
@@ -239,7 +308,14 @@ file:       file_verb      '('  T_INT  int_arg  int_arg int_arg    string_arg in
 meter:      meter_verb     '('  T_INT  int_arg  int_arg int_arg    int_arg    colour_arg                 ')' { $$=new_action_meter($3,$4,$5,$6,$7,$8);     Debug("******METER   (%d;%d;%d;%s;%d;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
 text:       text_verb      '('  T_INT  int_arg  int_arg int_arg    string_arg colour_arg                 ')' { $$=new_action_text($3,$4,$5,$6,$7,$8);      Debug("******TEXT    (%d;%d;%d;%d;%s;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
 
-identify:    identify_verb   '(' ')'                                 { $$=new_action_identify();             Debug("******IDENTIFY    ()\n");};
+identify:   identify_verb  '(' ')'                                                                           { $$=new_action_identify();                   Debug("******IDENTIFY    ()\n");};
+
+temp:       temp_verb      '(' T_INT  int_arg int_arg  int_arg string_arg int_arg ')'                        { $$=new_action_linux_temp($3,$4,$5,$6,$7,$8);Debug("******TEMP    (%d;%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7,$8);} ;
+temp:       temp_verb      '(' T_INT  int_arg int_arg  int_arg temp_arg int_arg ')'                          { $$=new_action_vcore_temp($3,$4,$5,$6,$7,$8);Debug("******TEMP    (%d;%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, str_temp($7),$8);} ;
+throttle:   throttle_verb  '(' T_INT  int_arg int_arg  int_arg ')'                                           { $$=new_action_throttle($3,$4,$5,$6);        Debug("******THROTTLE   (%d;%d;%d;%d)\n"		    ,  $3, $4, $5, $6); } ;
+fan:        fan_verb       '(' T_INT  int_arg int_arg  int_arg string_arg int_arg ')'                        { $$=new_action_fan($3,$4,$5,$6,$7,$8);       Debug("******FAN    (%d;%d;%d;%d;%s;%d)\n"       ,  $3, $4, $5, $6, $7,$8);} ;
+
+xxxxx:    xxxxx_verb       '(' ')'                                 { $$=new_action_xxxxx();                  Debug("******XXXXX    ()\n");};
 
 
 

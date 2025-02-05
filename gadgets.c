@@ -976,3 +976,24 @@ void ga_identify()
     }
 }
 
+
+void ga_linux_temp()
+{
+}
+
+
+void ga_vcore_temp()
+{
+}
+
+void ga_throttle()
+{
+}
+
+void ga_fan()
+{
+}
+
+void ga_xxxxx()
+{
+}

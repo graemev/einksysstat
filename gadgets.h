@@ -87,6 +87,23 @@ enum age_units
     age_days,
   };
 
+enum temp_type
+  {
+    temp_none,
+    temp_cpu,
+    temp_gpu,
+    temp_sdram_c,
+    temp_sdram_i,
+    temp_sdram_p,
+  };
+
+
+
+enum zzzzz
+  {
+    yyyyy,
+  };
+
 /* Quote, "any method with more than 6 args, means you've missed one" :-) ... sadly we need each of these */
 
 extern void		ga_define(int    display,
@@ -127,6 +144,13 @@ extern int		ga_file      (int display, UWORD xstart, UWORD ystart, int fsize, ch
 extern int		ga_sleep     (int display, unsigned int seconds);
 
 extern void		ga_identify();
+
+extern void		ga_linux_temp();
+extern void		ga_vcore_temp();
+extern void		ga_throttle();
+extern void		ga_fan();
+
+extern void		ga_xxxxx();
 #endif
 
 

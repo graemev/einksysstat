@@ -169,6 +169,36 @@ char * str_age(enum  age_units   age)
 
 static struct
 {
+  char             *name;
+  enum  temp_type   temp;
+} temp_lookup[] =
+  {
+
+    {"temp_none",	   temp_none},
+		{"temp_cpu",	   temp_cpu},
+		{"temp_gpu",     temp_gpu},
+		{"temp_sdram_c", temp_sdram_c},
+		{"temp_sdram_i", temp_sdram_i},
+		{"temp_sdram_p", temp_sdram_p},
+
+    {NULL	  , temp_none},
+  };
+    
+
+
+char * str_temp(enum  temp_type   temp)
+{
+	return(temp_lookup[temp].name);
+}
+
+
+
+
+
+
+
+static struct
+{
   char      *name;
   enum verb verb;
 } verb_lookup[] =

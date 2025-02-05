@@ -124,6 +124,26 @@ void do_action(struct action * action)
       ga_identify();
       break;
       
+    case(do_linux_temp):
+      ga_linux_temp();
+      break;
+
+    case(do_vcore_temp):
+      ga_vcore_temp();
+      break;
+
+    case(do_throttle):
+      ga_throttle();
+      break;
+
+    case(do_fan):
+      ga_fan();
+      break;
+
+    case(do_xxxxx):
+      ga_xxxxx();
+      break;
+      
     default:
       fprintf(stderr, "Internal error action(%s) is undefined\n", str_action(action));
     }
@@ -216,6 +236,26 @@ char * str_action(struct action * action)
       
     case(do_identify):
       p="identify";
+      break;
+
+    case(do_linux_temp):
+      p="temp(linux)";
+      break;
+
+    case(do_vcore_temp):
+      p="temp(vcore)";
+      break;
+
+    case(do_throttle):
+      p="throttle";
+      break;
+
+    case(do_fan):
+      p="fan";
+      break;
+
+    case(do_xxxxx):
+      p="xxxxx";
       break;
 
     default:
@@ -480,6 +520,7 @@ struct action * new_action_file		(int              display,
   p->args.file.lines =lines;
   strncpy(p->args.file.filename, filename, MAX_PATHNAME);
 
+
   return p;
 }
 
@@ -578,6 +619,152 @@ struct action * new_action_identify()
     }
 
   p->verb = do_identify;
+  
+
+  return p;
+}
+
+/* ====== TEMP with a pathname (so comes form normal Linux sys filesystem ====== */
+
+
+struct action * new_action_linux_temp(int              display,
+									  UWORD		       xstart,
+									  UWORD		       ystart,
+									  int		       fsize,
+									  char			   pathname[MAX_PATHNAME],
+									  int			   limit
+									  )
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action temp(linux):");
+      exit(1);
+    }
+
+  p->verb = do_linux_temp;
+  
+  p->args.ltemp.xstart=xstart;
+  p->args.ltemp.ystart=ystart;
+  p->args.ltemp.fsize =fsize;
+
+  strncpy(p->args.ltemp.pathname, pathname, MAX_PATHNAME);
+  p->args.ltemp.limit =limit;
+
+  
+
+  return p;
+}
+/* ====== TEMP with keyword (some coome form videocore mailbox) ====== */
+
+struct action * new_action_vcore_temp(int              display,
+									  UWORD		       xstart,
+									  UWORD		       ystart,
+									  int		       fsize,
+									  enum temp_type   type,
+									  int			   limit
+									  )
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action temp(vcore):");
+      exit(1);
+    }
+
+  p->verb = do_vcore_temp;
+  
+  p->args.vtemp.xstart=xstart;
+  p->args.vtemp.ystart=ystart;
+  p->args.vtemp.fsize =fsize;
+
+  p->args.vtemp.type  =type;
+  p->args.vtemp.limit =limit;
+
+  return p;
+}
+
+
+/* ====== THROTTLE ====== */
+
+
+struct action * new_action_throttle(int            display,
+									UWORD		   xstart,
+									UWORD		   ystart,
+									int		       fsize
+									)
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action throttle:");
+      exit(1);
+    }
+
+  p->verb = do_throttle;
+  
+  p->args.throttle.xstart=xstart;
+  p->args.throttle.ystart=ystart;
+  p->args.throttle.fsize =fsize;
+
+  return p;
+}
+
+
+/* ====== FAN ====== */
+
+
+struct action * new_action_fan(int              display,
+							   UWORD		    xstart,
+							   UWORD		    ystart,
+							   int		        fsize,
+							   char			    pathname[],
+							   int			    limit
+							   )
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action fan:");
+      exit(1);
+    }
+
+  p->verb = do_fan;
+  
+  p->args.fan.xstart=xstart;
+  p->args.fan.ystart=ystart;
+  p->args.fan.fsize =fsize;
+
+  strncpy(p->args.fan.pathname, pathname, MAX_PATHNAME);
+  p->args.fan.limit =limit;
+
+  return p;
+}
+
+
+/* ====== XXXXX ====== */
+
+
+struct action * new_action_xxxxx()
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action xxxxx:");
+      exit(1);
+    }
+
+  p->verb = do_xxxxx;
   
 
   return p;
@@ -707,10 +894,46 @@ char * str_struct_action(struct action  * action)
     case(do_sleep):
       snprintf(str,256, "Action(sleep): seconds=%d", 
 	       action->args.sleep.seconds);
-
-    case(do_identify):
+	  break;
+	  
+	case(do_identify):
       snprintf(str,256, "Action(identify):");
-      
+	  break;
+
+	case(do_linux_temp):
+		snprintf(str,256, "Action(temp[linux]: xstart=%d, ystart=%d, fsize=%d, pathname=%s, limit=%d", 
+				 action->args.ltemp.xstart, action->args.ltemp.ystart, action->args.ltemp.fsize, action->args.ltemp.pathname, action->args.ltemp.limit);
+
+		break;
+		
+	case(do_vcore_temp):
+		snprintf(str,256, "Action(temp[vcore]: xstart=%d, ystart=%d, fsize=%d, measurement=%s, limit=%d", 
+				 action->args.vtemp.xstart, action->args.vtemp.ystart, action->args.vtemp.fsize, str_temp(action->args.vtemp.type), action->args.vtemp.limit);
+		break;
+
+
+	case(do_throttle):
+		snprintf(str,256, "Action(throttle): xstart=%d, ystart=%d, fsize=%d", 
+				 action->args.throttle.xstart, action->args.throttle.ystart, action->args.throttle.fsize);
+
+	  break;
+
+	case(do_fan):
+		snprintf(str,256, "Action(fan): xstart=%d, ystart=%d, fsize=%d, pathname=%s, limit=%d", 
+				 action->args.fan.xstart, action->args.fan.ystart, action->args.fan.fsize, action->args.fan.pathname, action->args.fan.limit);
+
+	  break;
+
+
+	case(do_xxxxx):
+      snprintf(str,256, "Action(xxxxx):");
+	  break;
+
+	default:
+		snprintf(str,256, "Action(%d):", action->verb);
+	  break;
+
+
     }
 
   return str; 

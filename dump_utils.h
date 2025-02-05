@@ -13,5 +13,6 @@
 extern char          *  str_colour   (enum Eink_colour colour);
 extern char          *  str_df_units (enum df_units    colour);
 extern char          *  str_age      (enum age_units   colour);
+extern char	     *  str_temp     (enum temp_type   temp);
 
 #endif

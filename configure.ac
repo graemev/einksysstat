@@ -10,6 +10,7 @@ AC_CONFIG_FILES([
  Makefile
  GUI/Makefile
  Fonts/Makefile
+ eink-find-devices:eink-find-devices.sh
 ])
 #AC_PROG_RANLIB([ranlib])
 AC_PROG_RANLIB

@@ -36,6 +36,11 @@ enum verb
     do_file,
     do_sleep,
     do_identify,
+    do_linux_temp,
+    do_vcore_temp,
+    do_throttle,
+    do_fan,
+    do_xxxxx,
   };
 
 
@@ -129,6 +134,45 @@ struct args_sleep
 };
 
 
+struct args_linux_temp
+{
+  UWORD		   xstart;
+  UWORD		   ystart;
+  int		   fsize;
+  char		   pathname[MAX_PATHNAME];
+  int		   limit;
+};
+
+
+struct args_vcore_temp
+{
+  UWORD		   xstart;
+  UWORD		   ystart;
+  int		   fsize;
+  enum temp_type   type;
+  int		   limit;
+};
+
+
+struct args_throttle
+{
+  UWORD		   xstart;
+  UWORD		   ystart;
+  int		   fsize;
+};
+
+
+struct args_fan
+{
+  UWORD		   xstart;
+  UWORD		   ystart;
+  int		   fsize;
+  int		   lines;
+  char		   pathname[MAX_PATHNAME];
+  int		   limit;
+};
+
+
 
 struct action
 {
@@ -149,6 +193,10 @@ struct action
     struct args_age        age;
     struct args_file       file;
     struct args_sleep      sleep;
+    struct args_linux_temp ltemp;
+    struct args_vcore_temp vtemp;
+    struct args_throttle   throttle;
+    struct args_fan        fan;
   } args;
   
 };
@@ -317,6 +365,41 @@ struct action * new_action_sleep	(int		  display,
 
 
 struct action * new_action_identify	();
+
+struct action * new_action_linux_temp   (int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize,
+					 char		  pathname[MAX_PATHNAME],
+					 int		  limit
+					 );
+
+struct action * new_action_vcore_temp   (int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize,
+					 enum temp_type   type,
+					 int		  limit
+					 );
+
+
+struct action * new_action_throttle	(int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize
+					 );
+
+
+struct action * new_action_fan		(int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize,
+					 char		  pathname[],
+					 int		  limit
+					 );
+
+
+struct action * new_action_xxxxx	();
 
 
 void delete_action			(struct action * action);

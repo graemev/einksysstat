@@ -119,7 +119,7 @@ static int parse_action_file(FILE *fp, struct action **actions)
   yyin    = fp;
 
   // See: configure.ac (Note >1 ...1 is default for normal debug)
-#if DEBUG > 1
+#if DEBUG > 2
   yydebug = 1;
 #endif
 
@@ -154,14 +154,15 @@ int main(int argc, char*argv[])
   int            n_actions;
   FILE		*fp;
   struct action *p;
-
+  int		i;
+  
   while ((c=getopt(argc, argv,"dvhVi")) != -1)
     {
       switch(c)
 	{
 	case 'd' :
 	  ++debug;
-	  if (debug>1)  // e.g. used -d twice
+	  if (debug>2)  // e.g. used -d three times
 	    yydebug = 1;
 	  break;
 
@@ -253,6 +254,17 @@ int main(int argc, char*argv[])
 	}
       else
 	{
+		if (debug>1)
+			{
+				Debug("Complete Dump of actions\n");
+
+				for (p=actions,i=0; p; p=p->next,++i)
+					fprintf(stderr, "Action[%d]: %s\n", i, str_struct_action(p));
+
+				Debug("Finished dumping actions\n");
+			}
+
+		
 	  Debug("Starting actions\n");
   
 	  for (p=actions; p; p=p->next)
