@@ -1,0 +1,22 @@
+
+ TEXT     (0,   0,  0, 24, "TEMPS"  is_red_on_grey)
+ HOSTNAME (0,   0, 25, 12),
+ TIMESTAMP(0,   75,25, 12),
+     
+ UPTIME   (0,   0, 38, 16),
+ 
+ temp     (0,   0, 54, 16, gpu, 80),
+ temp     (0,   0, 70, 16, core, 80),
+
+# temp     (0,   0, 86, 16, sdram_c, 80),
+# temp     (0,   0,102, 16, sdram_i, 80),
+# temp     (0,   0,118, 16, sdram_p, 80),
+ temp     (0,   0,134, 16, "/sys/devices/virtual/thermal/thermal_zone0/temp", 90)
+
+
+ throttle (0,   0, 150,16),
+ fan      (0,   0, 166,16, "/sys/devices/platform/cooling_fan/hwmon/hwmon3/fan1_input", 9000)
+
+
+ 
+ RENDER   (0   ),

@@ -8,7 +8,7 @@
 * | This version:   V0.1
 * | Date        :   2025-01-16
 * | Info        :
-
+*/
 
 /* This file is part of Einkstat. */
 
@@ -146,8 +146,6 @@ static int parse_action_file(FILE *fp, struct action **actions)
 int main(int argc, char*argv[]) 
   {
   char * filename;
-
-  int    mode;
   int    c;
 
   struct action *actions;

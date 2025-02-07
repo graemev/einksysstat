@@ -92,7 +92,7 @@ enum temp_type
     temp_none,
     temp_cpu,
     temp_gpu,
-    temp_sdram_c,
+    temp_sdram_c, /* these last 3 can't be measured(yet) so can't be used. */
     temp_sdram_i,
     temp_sdram_p,
   };
@@ -145,10 +145,11 @@ extern int		ga_sleep     (int display, unsigned int seconds);
 
 extern void		ga_identify();
 
-extern void		ga_linux_temp();
-extern void		ga_vcore_temp();
-extern void		ga_throttle();
-extern void		ga_fan();
+extern int		ga_linux_temp(int display, UWORD xstart, UWORD ystart, int fsize, char            *pathname, int limit);
+extern int		ga_vcore_temp(int display, UWORD xstart, UWORD ystart, int fsize, enum temp_type   type,     int limit);
+extern int		ga_throttle  (int display, UWORD xstart, UWORD ystart, int fsize);
+
+extern int		ga_fan       (int display, UWORD xstart, UWORD ystart, int fsize, char *pathname, int limit);
 
 extern void		ga_xxxxx();
 #endif

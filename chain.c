@@ -98,7 +98,7 @@ int dechain(struct action *action)
   else
     before->next = after;  // just bypass us
 
-  if (after = NULL)
+  if (after == NULL)
     chain_end = action;	   // we are the new end
   else
     after->prev = before;  // just bypass us

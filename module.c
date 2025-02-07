@@ -269,7 +269,7 @@ UBYTE module_turn_on(void)
 
 
 
-  if (spif=fopen("/dev/spidev0.0", "rw"))
+  if ((spif=fopen("/dev/spidev0.0", "rw")))
         fclose(spif);
   else
     {

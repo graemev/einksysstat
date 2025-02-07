@@ -187,9 +187,6 @@
 "cpu"				{yylval->temp_type=temp_cpu       ; return T_TEMP_TYPE;}
 "gpu"				{yylval->temp_type=temp_gpu       ; return T_TEMP_TYPE;}
 "core"				{yylval->temp_type=temp_gpu       ; return T_TEMP_TYPE;}
-"sdram_c"			{yylval->temp_type=temp_sdram_c   ; return T_TEMP_TYPE;}
-"sdram_i"			{yylval->temp_type=temp_sdram_i   ; return T_TEMP_TYPE;}
-"sdram_p"			{yylval->temp_type=temp_sdram_p   ; return T_TEMP_TYPE;}
 
 "yyyyy"				{yylval->zzzzz=yyyyy   ; return T_ZZZZZ;}
 

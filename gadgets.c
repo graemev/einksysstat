@@ -1,5 +1,6 @@
-/* -*- Mode: c; tab-width: 4;c-basic-offset: 4; c-default-style: "gnu" -*- */
+/* -*- Mode: c; tab-width: 4;c-basic-offset: 2; c-default-style: "gnu" -*- */
 /*****************************************************************************
+ */
 
 /* This file is part of Einkstat. */
 
@@ -33,6 +34,7 @@
 * | Info        :
 */
 
+#include "eink_sysstat.h"
 #include "device.h"  
 #include <GUI_Paint.h>
 
@@ -44,8 +46,14 @@
 #include <unistd.h>
 
 #include "gadgets.h"
+#include "vcore.h"
+
+
 
 // ---------------- internal ----------------
+
+/* I suspect there may be, indirect, assumptions that this will be 1024 */
+#define STRING_SIZE 1024
 
 
 static enum Eink_colour  gadget_colour = is_black_on_grey;
@@ -169,7 +177,8 @@ enum Eink_colour ga_set_private_colour(int display, enum Eink_colour colour, str
 {
   switch (colour)
     {
-    deefault:
+    default:
+	case(is_no_colour):
     case(is_black_on_grey):   // Black Letters on a grey backgound (ie Normal)
       lc->black_bg = 0xFF;
       lc->black_fg = 0x00;
@@ -386,7 +395,7 @@ static int font_height(int fsize)  // Not the obvious value you might guess
   return height;
 }
 
-/* ======================================== The Gadets proper ==================================
+/* ======================================== The Gadets proper ==================================*/
 
 /*
  * ga_hostname(int display, UWORD Xstart, UWORD Ystart, sFONT* Font) -- Display Hostname at specified point , in specific font
@@ -559,14 +568,13 @@ int ga_timestamp(int display, UWORD xstart, UWORD ystart, int fsize)
 int ga_uptime(int display, UWORD xstart, UWORD ystart, int fsize)
 {
   sFONT     *font;
-  char       stamp[64];
   time_t     now;
   struct tm  now_parts;
 
   double  uptime_secs;
   char    buffer[64];
   time_t  uptime;
-  int	  secs;
+  // int	  secs;
   int	  mins;
   int	  hrs;
   int	  days;
@@ -585,7 +593,7 @@ int ga_uptime(int display, UWORD xstart, UWORD ystart, int fsize)
     {
       uptime = uptime_secs; // Beats me why they would want to use a floating point?
 
-      secs = uptime % 60;
+      // secs = uptime % 60;
       x    = uptime / 60;  // Minutes
 
       mins = x % 60;
@@ -685,7 +693,7 @@ int ga_df(int display, UWORD ystart, int fsize, char *device, char * label, enum
 {
   int   rc=0;
   int	pcent_free;
-  char  value[9];   // In whatever user specified
+  char  value[32];   // In whatever user specified
   int	bpm;	        // blocks per megabyte
 
   enum  Eink_colour colour;
@@ -694,41 +702,43 @@ int ga_df(int display, UWORD ystart, int fsize, char *device, char * label, enum
   _Bool stat_ok = true;
 
   if ( statvfs (device, &s) == -1)
-    {
-      //      perror(device);
-      stat_ok = false;
-      rc = errno;
-      sprintf(value, "%s", label);
-    }
-  else
-    {
-      pcent_free = (100 * s.f_bfree) / s.f_blocks;   // Assumes fsblkcnt_t has enough headroom for 100 times value , pcent is a small number
-      bpm = 1024*1024/s.f_bsize;				 // eg 2048 for 512 byte blocks
-
-      if (units == df_best)
 	{
-	  if (s.f_bfree/bpm > 1024*1024)  // More than 1TB , display as a %age
-	    units = df_pcent;
-	  else if (s.f_bfree/bpm > 4096)  // More than 4096MB , display in GB
-	    units = df_geg;
-	  else
-	    units = df_meg;
+	  //      perror(device);
+	  stat_ok = false;
+	  rc = errno;
+	  sprintf(value, "%s", label);
 	}
+  else
+	{
+	  pcent_free = (100 * s.f_bfree) / s.f_blocks;   // Assumes fsblkcnt_t has enough headroom for 100 times value , pcent is a small number
+	  bpm = 1024*1024/s.f_bsize;				 // eg 2048 for 512 byte blocks
+	  
+	  if (units == df_best)
+		{
+		  if (s.f_bfree/bpm > 1024*1024)  // More than 1TB , display as a %age
+			units = df_pcent;
+		  else if (s.f_bfree/bpm > 4096)  // More than 4096MB , display in GB
+			units = df_geg;
+		  else
+			units = df_meg;
+		}
 
       switch(units)
-	{
-	case (df_meg):
-	  sprintf(value, "%s %dM", label, s.f_bfree/bpm);
-	  break;
+		{
+		case (df_meg):
+		  sprintf(value, "%-4.4s%uM", label, (unsigned int)(s.f_bfree/bpm));
+		  break;
 		  
-	case (df_geg):
-	  sprintf(value, "%s %dG", label, s.f_bfree/bpm/1024);
-	  break;
+		case (df_geg):
+		  sprintf(value, "%-4.4s%uG", label, (unsigned int)(s.f_bfree/bpm/1024));
+		  break;
 		  
-	case (df_pcent):
-	  sprintf(value, "%s %d%%", label, pcent_free);
-	  break;
-	}
+		default:
+		case (df_none):
+		case (df_pcent):
+		  sprintf(value, "%-4.4s%d%%", label, pcent_free);
+		  break;
+		}
     }     
 
   if (stat_ok == false || pcent_free < cutoff)
@@ -760,7 +770,6 @@ int ga_df(int display, UWORD ystart, int fsize, char *device, char * label, enum
 int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, char * label, enum age_units units, int cutoff)
 {
   int          rc=0;
-  int	       pcent_free;
   int          nvalue;         // In whatever units specified (numberic)
   struct stat  statbuf;
   time_t       now;
@@ -785,6 +794,11 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
 
   switch(units)
     {
+    default:
+    case(age_none):
+      nvalue = age;
+      c=' ';
+      break;
     case(age_minutes):
       nvalue = age/60;
       c='M';
@@ -815,6 +829,8 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
   
 
   ga_text(display, xstart, ystart, fsize, buffer, colour);
+
+  return rc;
 }
 
 /* int ga_file(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, int lines)
@@ -896,6 +912,8 @@ int ga_file(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, 
     }
 
   free(buffer); // needed to be dynamic as getline MAY have reallocated (probably didn't)
+
+  return rc;
 }
 
 /*
@@ -914,6 +932,8 @@ int ga_sleep(int display, unsigned int seconds)
   Debug("Awoke from sleep\n");
 
   init_display(); 
+
+  return 0;
 }
 
 /* /usr/include/libproc2/misc.h */
@@ -933,7 +953,7 @@ void ga_identify()
   struct display_settings *p;
   char buffer[256];
   
-  for (display=0; p=get_display(display); ++display)
+  for (display=0; (p=get_display(display)); ++display)
     {
       if (p->no_columns == 0) /* This display not defined */
 	continue;
@@ -977,21 +997,216 @@ void ga_identify()
 }
 
 
-void ga_linux_temp()
+int ga_linux_temp(int display, UWORD xstart, UWORD ystart, int fsize, char *pathname, int limit)
 {
+	char	          buffer[32];
+	int			      cputemp;
+	enum  Eink_colour colour;
+	FILE             *fp;
+	size_t            len = 0;
+	char			 *line = NULL;
+	int			      rc = 0;
+	float			  f;
+
+	if ((fp=fopen(pathname, "r")) == NULL)
+		{
+			perror(pathname);
+			exit(1);
+		}
+
+	if (getline(&line, &len, fp) > 0)
+		{
+			Debug("CPU TEMP says %s\n", line);
+			if (sscanf(line, "%d", &cputemp) != 1)
+				fprintf(stderr, "CPUTEMP: Bad data in %s\n", pathname);
+		}
+	fclose(fp);
+	free(line);
+		
+
+	f = (cputemp+500)/1000;
+	
+	if (f > limit)   // So only whole degrees
+		colour = is_red_on_grey;
+	else
+		colour = is_black_on_grey;
+
+	snprintf(buffer, sizeof(buffer), "CPU:%4.1f", f);
+
+	ga_text(display, xstart, ystart, fsize, buffer, colour);
+	
+	return rc;
 }
 
+/*
+ * I initially understood this allowed for multiple temperature readings (core, sdram_c sdram_i sdram_p)
+ * but it turns out this only for voltages. We will leave the other types in grammar, in case sombody wants to
+ * add voltage readings. Here we will igore the temp_type (as we only have the one)
+ */
 
-void ga_vcore_temp()
+int ga_vcore_temp(int display, UWORD xstart, UWORD ystart, int fsize, enum temp_type   type, int limit)
 {
+  char *send="measure_temp";
+  char	buffer[32];
+  char  receive[STRING_SIZE];
+  float gputemp;
+  enum  Eink_colour colour;
+  char  scale;
+  int   rc=0;
+
+  if ((rc=mail_vcore(send, receive, STRING_SIZE)) !=0)
+	fprintf(stderr, "Non-Zero code (%d) from measure temp request\n", rc);
+  
+  Debug("get_gputemp result was %s\n", receive);
+  
+  if (sscanf(receive, " temp=%f'%c", &gputemp, &scale) != 2)    // eg "temp=53.8'C"
+    fprintf(stderr, "Bad data in response from MBOX\n");
+
+  if (gputemp > limit)   // So only whole degrees
+	colour = is_red_on_grey;
+  else
+	colour = is_black_on_grey;
+  
+  snprintf(buffer, sizeof(buffer), "GPU:%4.1f", gputemp);
+
+  ga_text(display, xstart, ystart, fsize, buffer, colour);
+  
+  Debug("gputemp=%f, scale=%c\n", gputemp, scale);
+
+  return rc;
 }
 
-void ga_throttle()
+/*--------------------------------------------------------
+              Bit   Meaning
+              ────  ────────────────────────────────────
+               0    Under-voltage detected
+               1    Arm frequency capped
+               2    Currently throttled
+               3    Soft temperature limit active
+              16    Under-voltage has occurred
+              17    Arm frequency capping has occurred
+              18    Throttling has occurred
+              19    Soft temperature limit has occurred
+			  --------------------------------------------------------*/
+
+/* could write thse as OTEMP (1>>19) if you find that easier */
+
+#define  VOLT    0x00000001
+#define  FREQ    0x00000002
+#define  THROT   0x00000004
+#define  ATEMP   0x00000008
+#define  OVOLT   0x00010000
+#define  OFREQ   0x00020000
+#define  OTHROT  0x00040000
+#define  OTEMP   0x00080000
+
+struct tstates { int mask; char c;};
+
+/*
+ * So T/t is "throttled"  Uppercase is NOW, lowercase is history
+ *    F/f is frequency (capped)
+ *    V/v is Voltage (under)
+ *    H/h is heat  lower case = active, uppercase = has occured
+ */
+
+
+static struct tstates states[] = {
+  {THROT,  'T'},
+  {OTEMP,  'H'},  // Heat
+  {VOLT,   'V'},
+  {FREQ,   'F'},
+
+  {OTHROT, 't'},
+  {ATEMP,  'h'},  // Heat
+  {OVOLT,  'v'},
+  {OFREQ,  'f'},
+};
+
+int  ga_throttle(int display, UWORD xstart, UWORD ystart, int fsize)
 {
+	char  buffer[32];
+	char *send="get_throttled";
+	char  receive[STRING_SIZE];
+	enum  Eink_colour colour;
+	int   throttled;
+	int   i;
+	char *p;
+	
+	int  rc=0;
+
+	if ((rc=mail_vcore(send, receive, STRING_SIZE)) !=0)
+		fprintf(stderr, "Non-Zero code (%d) from get_throttled request\n", rc);
+
+	Debug("get_throttled result was %s\n", receive);
+
+	if (sscanf(receive, " throttled=%x", &throttled) != 1)    // e.g. throttled=0x0
+		fprintf(stderr, "Bad data in response from MBOX\n");
+
+	// for debug throttled=(1<<18)|(1<<17)|(1<<19);
+	
+	if (throttled & THROT || throttled & OTHROT ) // is now, or has every been ...
+		colour = is_red_on_grey;
+	else
+		colour = is_black_on_grey;
+
+	snprintf(buffer, sizeof(buffer), "TH:%#08X" , throttled);
+
+	if (throttled)
+	  {
+		/* this bit could be made conditional on "text mode" */
+		p=&buffer[3];
+
+		for (i=0; i<(sizeof states/sizeof (struct tstates)); ++i)  // curently 8
+		  {
+			if (throttled & states[i].mask)
+			  *p++ = states[i].c;
+		  }
+		*p++='\0';
+	  }
+		  
+	ga_text(display, xstart, ystart, fsize, buffer, colour);
+
+	return rc;
 }
 
-void ga_fan()
+int		ga_fan       (int display, UWORD xstart, UWORD ystart, int fsize, char *pathname, int limit)
+	
 {
+	char	          buffer[32];
+	int			      rpm;
+	enum  Eink_colour colour;
+	FILE             *fp;
+	size_t            len = 0;
+	char			 *line = NULL;
+	int			      rc = 0;
+
+
+	if ((fp=fopen(pathname, "r")) == NULL)
+		{
+			perror(pathname);
+			exit(1);
+		}
+
+	if (getline(&line, &len, fp) > 0)
+		{
+			Debug("Fan says %s\n", line);
+			if (sscanf(line, "%d", &rpm) != 1)
+				fprintf(stderr, "FAN: Bad data in %s\n", pathname);
+		}
+	fclose(fp);
+	free(line);
+		
+	
+	if (rpm > limit)
+		colour = is_red_on_grey;
+	else
+		colour = is_black_on_grey;
+
+	snprintf(buffer, sizeof(buffer), "Fan:%05d", rpm);
+
+	ga_text(display, xstart, ystart, fsize, buffer, colour);
+	
+	return rc;
 }
 
 void ga_xxxxx()

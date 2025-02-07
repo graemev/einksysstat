@@ -167,7 +167,6 @@ struct args_fan
   UWORD		   xstart;
   UWORD		   ystart;
   int		   fsize;
-  int		   lines;
   char		   pathname[MAX_PATHNAME];
   int		   limit;
 };
@@ -200,9 +199,6 @@ struct action
   } args;
   
 };
-
-static struct action no_action = {do_noverb, 0, NULL, NULL}; // used only in error handling etc, must not be enchain()ed
-
 
 // Fight the horrible C99 syntax.
 
@@ -325,8 +321,8 @@ struct action * new_action_meter	(int		  display,
 struct action * new_action_df		(int		  display,
 					 UWORD            ystart,
 					 int	          fsize,
-					 char	          device[MAX_PATHNAME],
-					 char	          label[MAX_TEXT_DISPLAY],
+					 char	          device[],
+					 char	          label[],
 					 enum df_units    units,
 					 int	          cutoff
 					 );
@@ -335,8 +331,8 @@ struct action * new_action_age		(int		  display,
 					 UWORD		  xstart,
 					 UWORD		  ystart,
 					 int	          fsize,
-					 char		  filename[MAX_PATHNAME],
-					 char		  label[MAX_TEXT_DISPLAY],
+					 char		  filename[],
+					 char		  label[],
 					 enum age_units   units,
 					 int              cutoff
 					 );
@@ -347,7 +343,7 @@ struct action * new_action_file		(int		  display,
 					 UWORD		  xstart,
 					 UWORD		  ystart,
 					 int		  fsize,
-					 char		  filename[MAX_PATHNAME],
+					 char		  filename[],
 					 int		  lines
 					 );
 
@@ -370,7 +366,7 @@ struct action * new_action_linux_temp   (int              display,
 					 UWORD		  xstart,
 					 UWORD		  ystart,
 					 int		  fsize,
-					 char		  pathname[MAX_PATHNAME],
+					 char		  pathname[],
 					 int		  limit
 					 );
 

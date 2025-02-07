@@ -45,33 +45,6 @@ struct lookup
 
 
 
-static struct
-{
-  char          *name;
-  enum df_units  unit;
-} df_lookup[] =
-  {
-    {"df_meg"  , df_meg},
-    {"df_geg"  , df_geg},
-    {"df_best" , df_best},
-    {"df_pcent", df_pcent},
-
-    {"meg"     , df_meg},
-    {"geg"     , df_geg},
-    {"best"    , df_best},
-    {"pcent"   , df_pcent},
-
-    {"M"        , df_meg},
-    {"G"        , df_geg},
-    {"percent"  , df_pcent},
-
-
-    {"megabyte" , df_meg},
-    {"gigabyte" , df_geg},
-    
-    {NULL      , df_none},
-  };
-
 
 
 char * str_df_units(enum df_units  unit)
@@ -193,10 +166,7 @@ char * str_temp(enum  temp_type   temp)
 
 
 
-
-
-
-
+#if 0
 static struct
 {
   char      *name;
@@ -232,5 +202,4 @@ static char * str_verb(enum verb verb)
 {
 	return(verb_lookup[verb].name);
 }
-
-
+#endif

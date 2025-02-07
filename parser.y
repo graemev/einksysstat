@@ -16,8 +16,6 @@
 
   #define YYLOCATION_PRINT(gpvFile, gpvLoc)  gpv_location_print(gpvFile, gpvLoc)
 
-  static int    gpv_location_print(FILE *yyo, YYLTYPE const * const yylocp);
-  static char * flatten_string(char * in);
 
 }
 
@@ -36,7 +34,16 @@
 
 #include "chain.h"
 #include "dump_utils.h"
+
 }
+
+%code
+{
+  static struct action no_action = {do_noverb, 0, NULL, NULL}; // used only in error handling etc, must not be enchain()ed
+
+  static int    gpv_location_print(FILE *yyo, YYLTYPE const * const yylocp);
+  static char * flatten_string(char * in);
+ }
 
 // Include the header in the implementation rather than duplicating it.
 %define api.header.include {"parser.h"}
@@ -134,7 +141,7 @@
 %token<df_unit> T_DF_UNIT
 %token<age_unit>T_AGE_UNIT
 %token<ival>    T_ROTATE
-%token<temp_type>T_TEMP_TYPE "core/sdram_c/sdram_i/sdram_p"
+%token<temp_type>T_TEMP_TYPE "core/gpu"
 %token<zzzzz>	T_ZZZZZ
 
 %type<ival>     rotate_arg
@@ -305,7 +312,7 @@ df:         df_verb        '('  T_INT  int_arg  int_arg string_arg string_arg df
 age:	    age_verb       '('  T_INT  int_arg  int_arg int_arg    string_arg string_arg age_arg int_arg ')' { $$=new_action_age($3,$4,$5,$6,$7,$8,$9,$10);Debug("******AGE     (%d;%d;%d;%d;%s;%s;%s;%d)\n",  $3, $4, $5, $6, $7, $8, str_age($9),$10); } ;
 file:       file_verb      '('  T_INT  int_arg  int_arg int_arg    string_arg int_arg                    ')' { $$=new_action_file($3,$4,$5,$6,$7,$8);      Debug("******FILE    (%d;%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, $7,$8);                 } ;
 
-meter:      meter_verb     '('  T_INT  int_arg  int_arg int_arg    int_arg    colour_arg                 ')' { $$=new_action_meter($3,$4,$5,$6,$7,$8);     Debug("******METER   (%d;%d;%d;%s;%d;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
+meter:      meter_verb     '('  T_INT  int_arg  int_arg int_arg    int_arg    colour_arg                 ')' { $$=new_action_meter($3,$4,$5,$6,$7,$8);     Debug("******METER   (%d;%d;%d;%d;%d;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
 text:       text_verb      '('  T_INT  int_arg  int_arg int_arg    string_arg colour_arg                 ')' { $$=new_action_text($3,$4,$5,$6,$7,$8);      Debug("******TEXT    (%d;%d;%d;%d;%s;%s)\n"      ,  $3, $4, $5, $6,$7, str_colour($8));} ;
 
 identify:   identify_verb  '(' ')'                                                                           { $$=new_action_identify();                   Debug("******IDENTIFY    ()\n");};
@@ -316,7 +323,6 @@ throttle:   throttle_verb  '(' T_INT  int_arg int_arg  int_arg ')'              
 fan:        fan_verb       '(' T_INT  int_arg int_arg  int_arg string_arg int_arg ')'                        { $$=new_action_fan($3,$4,$5,$6,$7,$8);       Debug("******FAN    (%d;%d;%d;%d;%s;%d)\n"       ,  $3, $4, $5, $6, $7,$8);} ;
 
 xxxxx:    xxxxx_verb       '(' ')'                                 { $$=new_action_xxxxx();                  Debug("******XXXXX    ()\n");};
-
 
 
 

@@ -125,19 +125,19 @@ void do_action(struct action * action)
       break;
       
     case(do_linux_temp):
-      ga_linux_temp();
+      ga_linux_temp(action->display,action->args.ltemp.xstart, action->args.ltemp.ystart, action->args.ltemp.fsize, action->args.ltemp.pathname, action->args.ltemp.limit);
       break;
 
     case(do_vcore_temp):
-      ga_vcore_temp();
+      ga_vcore_temp(action->display,action->args.vtemp.xstart, action->args.vtemp.ystart, action->args.vtemp.fsize, action->args.vtemp.type, action->args.vtemp.limit);
       break;
 
     case(do_throttle):
-      ga_throttle();
+      ga_throttle(action->display,action->args.throttle.xstart, action->args.throttle.ystart, action->args.throttle.fsize);
       break;
 
     case(do_fan):
-      ga_fan();
+		ga_fan(action->display,action->args.fan.xstart, action->args.fan.ystart, action->args.fan.fsize, action->args.fan.pathname, action->args.fan.limit);
       break;
 
     case(do_xxxxx):
@@ -432,7 +432,7 @@ struct action * new_action_meter(int              display,
 struct action * new_action_df		(int              display,
 					 UWORD            ystart,
 					 int	          fsize,
-					 char	          device[MAX_PATHNAME],
+					 char	          device[],
 					 char	          label[],
 					 enum df_units    units,
 					 int	          cutoff)
@@ -462,13 +462,13 @@ struct action * new_action_df		(int              display,
 /* ====== AGE ====== */
 
 struct action * new_action_age		(int              display,
-					 UWORD		  xstart,
-					 UWORD		  ystart,
-					 int	          fsize,
-					 char		  filename[MAX_PATHNAME],
-					 char		  label[MAX_TEXT_DISPLAY],
-					 enum age_units   units,
-					 int              cutoff
+									 UWORD		      xstart,
+									 UWORD		      ystart,
+									 int	          fsize,
+									 char		      filename[],
+									 char		      label[],
+									 enum age_units   units,
+									 int              cutoff
 					 )
 {
   struct action * p;
@@ -499,7 +499,7 @@ struct action * new_action_file		(int              display,
 					 UWORD		  xstart,
 					 UWORD		  ystart,
 					 int		  fsize,
-					 char		  filename[MAX_PATHNAME],
+					 char		  filename[],
 					 int		  lines
 					 )
 {
@@ -631,7 +631,7 @@ struct action * new_action_linux_temp(int              display,
 									  UWORD		       xstart,
 									  UWORD		       ystart,
 									  int		       fsize,
-									  char			   pathname[MAX_PATHNAME],
+									  char			   pathname[],
 									  int			   limit
 									  )
 
