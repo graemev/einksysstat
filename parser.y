@@ -16,7 +16,7 @@
 
   #define YYLOCATION_PRINT(gpvFile, gpvLoc)  gpv_location_print(gpvFile, gpvLoc)
 
-
+  void gpv_syntax_err(char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -43,7 +43,10 @@
 
   static int    gpv_location_print(FILE *yyo, YYLTYPE const * const yylocp);
   static char * flatten_string(char * in);
- }
+
+
+
+}
 
 // Include the header in the implementation rather than duplicating it.
 %define api.header.include {"parser.h"}
@@ -137,10 +140,10 @@
 
 
 
-%token<colour>  T_COLOUR
-%token<df_unit> T_DF_UNIT
+%token<colour>  T_COLOUR "A colour (like is_black_on_grey)"
+%token<df_unit> T_DF_UNIT "df unint like G or M of df_best"
 %token<age_unit>T_AGE_UNIT
-%token<ival>    T_ROTATE
+
 %token<temp_type>T_TEMP_TYPE "core/gpu"
 %token<zzzzz>	T_ZZZZZ
 
@@ -237,8 +240,8 @@ string_arg:          T_STRING {$$=strndup(flatten_string($1),64);}
 |                ',' T_STRING {$$=strndup(flatten_string($2),64);}
 ;
 
-rotate_arg:          T_ROTATE
-|                ',' T_ROTATE { $$=$2; }
+rotate_arg:          T_INT
+|                ',' T_INT { $$=$2; }
 ;
 colour_arg:          T_COLOUR
 |                ',' T_COLOUR { $$=$2; }
@@ -286,7 +289,7 @@ xxxxx_verb:      T_XXXXX       { verb = "xxxxx";};
  *  FILE      ( display, row, col, font, pathname, lines)
  *  TEXT      ( display, row, col, font, text), colour
  *  METER     ( display, row, col, font, value, colour)
- *  IDENTIFY  (zxczcxzxc )
+ *  IDENTIFY  ( )
  *
  *  TEMP      ( display, row, col, font, measurement, limit)
  *  TEMP      ( display, row, col, font, pathname, limit)
@@ -297,7 +300,16 @@ xxxxx_verb:      T_XXXXX       { verb = "xxxxx";};
 
 
 
-init:       init_verb      '('  T_INT colour_arg rotate_arg     ')'  { $$=new_action_init($3, $4, $5);       Debug("******INIT     (%d,%s;%d)\n",       $3, str_colour($4), $5); } ;
+init:       init_verb      '('  T_INT colour_arg rotate_arg     ')'
+{
+  /* doing this inline is ugly, sadly errs (&yylloc?) are simply stack allocated locals, so we can't access them in another function */
+  if ($5%90 !=0)
+	{
+	yyerror (&yylloc, nerrs, "rotation must be multiple of 90");
+	$5=0;
+	}
+  $$=new_action_init($3, $4, $5);       Debug("******INIT     (%d,%s;%d)\n",       $3, str_colour($4), $5);
+} ;
 hostname:   hostname_verb  '('  T_INT  int_arg int_arg  int_arg ')'  { $$=new_action_hostname($3,$4,$5,$6);  Debug("******HOSTNAME (%d;%d;%d;%d)\n",    $3, $4, $5, $6); } ;
 timestamp:  timestamp_verb '('  T_INT  int_arg int_arg  int_arg ')'  { $$=new_action_timestamp($3,$4,$5,$6); Debug("******TIMESTAMP(%d;%d;%d;%d)\n",    $3, $4, $5, $6); } ;
 uptime:     uptime_verb    '('  T_INT  int_arg int_arg  int_arg ')'  { $$=new_action_uptime($3,$4,$5,$6);    Debug("******UPTIME   (%d;%d;%d;%d)\n",    $3, $4, $5, $6); } ;
@@ -403,7 +415,6 @@ static char * flatten_string(char * in)
 
 
 // Epilogue (C code).
-
 
 
 YY_ATTRIBUTE_UNUSED

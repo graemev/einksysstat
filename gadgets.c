@@ -880,35 +880,35 @@ int ga_file(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, 
     {
       strncpy(buffer, strerror(errno), MIN(buffer_size, max_cols));
       ga_text (display, xstart, ystart, fsize, buffer, gadget_colour);
+	  perror(filename);
+	  n  = 0;
+	  rc = errno;
+
     }
   else
     {
       offset=0;
       for (i=0; i<max_lines; ++i)
-	{
-	  if ((n = getline(&buffer, &buffer_size, f)) == -1)
-	    {
-	      perror(filename);
-	      n  = 0;
-	      rc = errno;
-	    }
+		{
+		  if ((n = getline(&buffer, &buffer_size, f)) == -1)
+			break;
 
-	  buffer[n-1]='\0'; // Remove the Newline (it kills Eink library)
+		  buffer[n-1]='\0'; // Remove the Newline (it kills Eink library)
 	  
-	  if (n>max_cols)
-	    buffer[max_cols]='\0';
+		  if (n>max_cols)
+			buffer[max_cols]='\0';
 
 
-	  /* turns out the libary BARFS (segfault) for characters outside range (they could check!) */
-	  for (p=buffer; *p; ++p)
-	    {
-	      if (*p < ' ' || *p > '~')
-		(*p) = '.';
-	    }
+		  /* turns out the libary BARFS (segfault) for characters outside range (they could check!) */
+		  for (p=buffer; *p; ++p)
+			{
+			  if (*p < ' ' || *p > '~')
+				(*p) = '.';
+			}
 	  
-	  ga_text (display, xstart  , ystart+offset, fsize, buffer, gadget_colour);
-	  offset += char_height;
-	}
+		  ga_text (display, xstart  , ystart+offset, fsize, buffer, gadget_colour);
+		  offset += char_height;
+		}
     }
 
   free(buffer); // needed to be dynamic as getline MAY have reallocated (probably didn't)

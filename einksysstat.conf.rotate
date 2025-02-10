@@ -1,0 +1,20 @@
+init(0, is_red_on_black, 00)
+hostname (0 0 0 24);  
+render(0);
+
+sleep(0,20);
+
+init(0, is_black_on_red, 90)
+hostname (0 0 0 24);  
+render(0);
+
+sleep(0,20);
+
+init(0, is_red_on_grey, 180)
+hostname (0 0 0 24);  
+render(0);
+sleep(0,20);
+
+init(0, is_black_on_grey, 270)
+hostname (0 0 0 24);  
+render(0);

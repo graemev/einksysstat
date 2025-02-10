@@ -38,6 +38,7 @@
 
 #include "actions.h"
 #include "dump_utils.h"
+#include "parser.h"
 
 void do_action(struct action * action)
 {
@@ -274,6 +275,22 @@ struct action * new_action_init(int              display,
 				)
 {
   struct action * p;
+
+  rotate%=360;
+
+  switch (rotate)
+	  {
+	  case(0):
+	  case(90):
+	  case(180):
+	  case(270):
+		  break;
+	  default:
+		  fprintf(stderr, "Rotation must be one of 0,90,180 or 270\n");
+		  rotate=0;
+		  break;
+	  }
+  
 
   if ((p = malloc(sizeof(struct action))) == NULL)
     {

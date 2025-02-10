@@ -1,0 +1,6 @@
+identify();  # Does not need a render verb, does it all
+sleep(0 5);  # let people see the display name
+
+hostname (0 0 0 24);  # Overwrite the displayname with our hostname (rather messy, make the point about clearing)
+render (0);
+

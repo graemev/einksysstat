@@ -1,0 +1,22 @@
+hostname (0    0,0     16)
+timestamp(0    75,0    12)
+     
+uptime   (0    0,20    16)
+
+temp     (0    0,40    16  "/sys/devices/virtual/thermal/thermal_zone0/temp"  90)  # CPU
+temp     (0    100,40  16  gpu  80)                                                # GPU (on the same line)
+fan      (0    0 ,80   16  "/sys/devices/platform/cooling_fan/hwmon/hwmon3/fan1_input"  9000)
+
+
+throttle (0    0,100   20)
+
+text     (0    0,120,  16 "/etc/motd" is_black_on_red)
+
+file     (0    0,136,  8 "/etc/motd" 0)
+
+RENDER   (0)
+
+SLEEP(0,   20),
+ 
+CLEAR(0   ),
+

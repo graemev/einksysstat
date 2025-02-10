@@ -1,0 +1,18 @@
+HOSTNAME(0,   0,0,12),
+TIMESTAMP(0,   75,0,12),
+     
+UPTIME(0,   0,13,16),
+ 
+     
+DF(0,   30 ,24,'/lost+found',               "root", pcent,20),
+DF(0,   55 ,24,"/boot/firmware/config.txt", "SD",   df_best,20),           # line  55
+DF(0,   80 ,24,"/Q/mount/rest3/lost+found", "NV1",  df_best,20),           # line  80
+DF(0,   105,24,"/dev/nvme0n1p3/lost+found", "NV2",  G 20),           # line 105
+
+# BAD(0,   105,44)
+     
+AGE(0,   0,130, 24,"/boot/firmware/config.txt",            "BACKUP1",  age_days,20),  # line 130
+AGE(0,   0,155, 24,"/var/local/backups/level1/SUCCESS",    "BACKUP2",  age_days,180), # line 155
+FILE(0,  0,180, 8, "/etc/motm", 0),                                      # line 180
+ 
+RENDER(0   ),

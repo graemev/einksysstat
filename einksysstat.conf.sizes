@@ -1,4 +1,4 @@
-
+# Example with differing sizes
 
 
  text(0,   0,0,     8,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",          is_red_on_grey)
