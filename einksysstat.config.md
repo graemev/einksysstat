@@ -247,7 +247,7 @@ information, while the system was shutdown and possibly do a non-standard boot.
 BUGS
 ====
 
-See GitHub Issues: https://github.com/graemev/TBD
+See GitHub Issues: https://github.com/graemev/einksysstat/issues
 
 AUTHOR
 ======

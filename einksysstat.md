@@ -64,7 +64,7 @@ ENVIRONMENT
 BUGS
 ====
 
-See GitHub Issues: https://github.com/graemev/TBD
+See GitHub Issues: https://github.com/graemev/einksysstat/issues
 
 AUTHOR
 ======
