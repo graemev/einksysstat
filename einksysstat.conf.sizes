@@ -2,9 +2,9 @@
 
 
  text(0,   0,0,     8,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",          is_red_on_grey)
- text(0,   0,25,   12,"123456789ABCDEFGHIJKLMNOPQRSTUV",          is_black_on_grey)
- text(0,   0,50,   16,"123456789ABCDEFGHIJLM",          is_red_on_grey)
- text(0,   0,75,   20,"123456789ABCDEFGH",          is_black_on_grey)
- text(0,   0,150,  24,"123456789ABCDE",          is_red_on_grey)
+ text(0,   0,25,   12,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",          is_black_on_grey)
+ text(0,   0,50,   16,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",          is_red_on_grey)
+ text(0,   0,75,   20,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",          is_black_on_grey)
+ text(0,   0,150,  24,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",          is_red_on_grey)
 
  RENDER(0   )
