@@ -3,7 +3,7 @@ AC_INIT([einksysstat], [m4_esyscmd_s([git describe --abbrev=7 --dirty --always -
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_PROG_CC
 AC_DEFINE([RPI], [], [Build is for Raspberry Pi])
-AC_DEFINE([DEBUG], [1], [Debug macro is active])
+AC_DEFINE([DEBUG], [0], [Debug macro is inactive])
 AC_DEFINE([USE_LGPIO_LIB], [1], [Use -lgpio rather than previous options])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([

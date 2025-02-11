@@ -19,7 +19,9 @@ einksysstat_SOURCES    = einksysstat.c   module.c     device.c gadgets.c actions
 	eink_sysstat.h parse_utils.h gadgets.h config.h module.h Fonts/fonts.h Debug.h parser.h device.h dump_utils.h chain.h GUI/GUI_Paint.h actions.h vcore.h
 
 
-EXTRA_DIST=$(top_srcdir)/einksysstat.md $(top_srcdir)/einksysstat.config.md $(top_srcdir)/sample
+EXTRA_DIST=$(top_srcdir)/einksysstat.md $(top_srcdir)/einksysstat.config.md \
+	$(top_srcdir)/einksysstat.conf.disks	$(top_srcdir)/einksysstat.conf.id  $(top_srcdir)/einksysstat.conf.rotate  $(top_srcdir)/einksysstat.conf.sizes  $(top_srcdir)/einksysstat.conf.temps
+
 
 man1_MANS = einksysstat.1
 man5_MANS = einksysstat.config.5
