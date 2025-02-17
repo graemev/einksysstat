@@ -20,7 +20,7 @@ parser.h
 lexer.c
 parser.output
 einksysstat
-
+eink-find-devices
 
 config.h
 configure
