@@ -160,20 +160,24 @@
 "df_meg"			{yylval->df_unit=df_meg   ; return T_DF_UNIT;}
 "df_geg"			{yylval->df_unit=df_geg   ; return T_DF_UNIT;}
 "df_gig"			{yylval->df_unit=df_geg   ; return T_DF_UNIT;}
+"df_ter"			{yylval->df_unit=df_tera  ; return T_DF_UNIT;}
 "df_best"			{yylval->df_unit=df_best  ; return T_DF_UNIT;}
 "df_pcent"			{yylval->df_unit=df_pcent ; return T_DF_UNIT;}
 
 "meg"				{yylval->df_unit=df_meg   ; return T_DF_UNIT;}
 "geg"				{yylval->df_unit=df_geg   ; return T_DF_UNIT;}
 "gig"				{yylval->df_unit=df_geg   ; return T_DF_UNIT;}
+"ter"				{yylval->df_unit=df_tera  ; return T_DF_UNIT;}
 "best"				{yylval->df_unit=df_best  ; return T_DF_UNIT;}
 "pcent"				{yylval->df_unit=df_pcent ; return T_DF_UNIT;}
 
 "MB"				{yylval->df_unit=df_meg   ; return T_DF_UNIT;}
 "GB"				{yylval->df_unit=df_geg   ; return T_DF_UNIT;}
+"TB"				{yylval->df_unit=df_tera  ; return T_DF_UNIT;}
 
 "M"				{yylval->df_unit=df_meg   ; return T_DF_UNIT;}
 "G"				{yylval->df_unit=df_geg   ; return T_DF_UNIT;}
+"T"				{yylval->df_unit=df_tera  ; return T_DF_UNIT;}
 
 
 "age_minutes"			{yylval->age_unit=age_minutes ; return T_AGE_UNIT;}

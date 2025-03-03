@@ -130,16 +130,19 @@ struct
 
     {"meg"     , df_meg},
     {"geg"     , df_geg},
+    {"tera"    , df_tera},
     {"best"    , df_best},
     {"pcent"   , df_pcent},
 
     {"M"        , df_meg},
     {"G"        , df_geg},
+    {"T"        , df_tera},
     {"percent"  , df_pcent},
 
 
     {"megabyte" , df_meg},
     {"gigabyte" , df_geg},
+    {"terabyte" , df_tera},
     
     {NULL      , df_none},
   };

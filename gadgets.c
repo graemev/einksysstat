@@ -715,8 +715,10 @@ int ga_df(int display, UWORD ystart, int fsize, char *device, char * label, enum
 	  
 	  if (units == df_best)
 		{
-		  if (s.f_bfree/bpm > 1024*1024)  // More than 1TB , display as a %age
+		  if (s.f_bfree/bpm > 100*1024*1024)  // More than 100TB , display as a %age
 			units = df_pcent;
+		  else if (s.f_bfree/bpm > 1024*1024)  // More than 1TB , display as TB
+			units = df_tera;
 		  else if (s.f_bfree/bpm > 4096)  // More than 4096MB , display in GB
 			units = df_geg;
 		  else
@@ -731,6 +733,10 @@ int ga_df(int display, UWORD ystart, int fsize, char *device, char * label, enum
 		  
 		case (df_geg):
 		  sprintf(value, "%-4.4s%uG", label, (unsigned int)(s.f_bfree/bpm/1024));
+		  break;
+		  
+		case (df_tera):
+		  sprintf(value, "%-4.4s%4.2fT", label, (double)((float)s.f_bfree/bpm/1024.0/1024.0));
 		  break;
 		  
 		default:
@@ -778,6 +784,8 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
   int	       max_len=0;  // depends on font size and ystart
   char	       c;
   enum Eink_colour colour;
+  _Bool missing = false;
+
   
   now = time(NULL);
 
@@ -786,6 +794,7 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
       perror(filename);
       rc=errno;
       age=0;			// AKA cannot acces file (e.g. not there)
+	  missing=true;
     }
   else
     {
@@ -813,16 +822,19 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
       break;
     }
   
-  snprintf(buffer, sizeof(buffer), "%s %d%c", label, nvalue, c);
+  if (missing)
+	snprintf(buffer, sizeof(buffer), "%s UNAV", label);
+  else
+	snprintf(buffer, sizeof(buffer), "%s %d%c", label, nvalue, c);
 
   if (fsize <8)
     fsize=8;
   
-  max_len = (200-xstart) / font_width(fsize);   // The amount we can actuall fit on screen
+  max_len = (200-xstart) / font_width(fsize);   // The amount we can actually fit on screen
   
   buffer[max_len] = '\0';
 
-  if (nvalue > cutoff)
+  if (nvalue > cutoff | missing)
     colour = is_red_on_grey;
   else
     colour = is_black_on_grey;

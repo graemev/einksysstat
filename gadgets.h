@@ -75,6 +75,7 @@ enum df_units
     df_none,
     df_meg,
     df_geg,
+    df_tera,
     df_best,
     df_pcent,
   };

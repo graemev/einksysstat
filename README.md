@@ -50,7 +50,7 @@ add the line:
 then reboot.
    
 
-Note these instructions are tested on Debain Bookworm. Other distributions may
+Note these instructions are tested on Debian Bookworm. Other distributions may
 use different package names/tools and may use a differnt mechanism (other than groups)
 to grant permissions.
 
