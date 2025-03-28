@@ -145,6 +145,9 @@
 "FAN"				{return T_FAN;}
 "fan"				{return T_FAN;}
 
+"FREQ"				{return T_FREQ;}
+"freq"				{return T_FREQ;}
+
 "XXXXX"			{return T_XXXXX;}
 "xxxxx"			{return T_XXXXX;}
 
@@ -191,6 +194,7 @@
 "cpu"				{yylval->temp_type=temp_cpu       ; return T_TEMP_TYPE;}
 "gpu"				{yylval->temp_type=temp_gpu       ; return T_TEMP_TYPE;}
 "core"				{yylval->temp_type=temp_gpu       ; return T_TEMP_TYPE;}
+"arm"				{yylval->temp_type=temp_arm       ; return T_TEMP_TYPE;}
 
 "yyyyy"				{yylval->zzzzz=yyyyy   ; return T_ZZZZZ;}
 

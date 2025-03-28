@@ -9,8 +9,9 @@ fan      (0    0 ,80   16  "/sys/devices/platform/cooling_fan/hwmon/hwmon3/fan1_
 
 
 throttle (0    0,100   20)
+freq     (0    0,120   16  cpu  2400)
+freq     (0    100,120 16  gpu   910)
 
-text     (0    0,120,  16 "/etc/motd" is_black_on_red)
 
 file     (0    0,136,  8 "/etc/motd" 0)
 
@@ -18,5 +19,5 @@ RENDER   (0)
 
 SLEEP(0,   20),
  
-CLEAR(0   ),
+#CLEAR(0   ),
 

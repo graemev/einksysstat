@@ -136,6 +136,8 @@
 %token          T_THROTTLE
 %token          T_FAN
 
+%token          T_FREQ
+
 %token          T_XXXXX
 
 
@@ -144,7 +146,7 @@
 %token<df_unit> T_DF_UNIT "df unint like G or M of df_best"
 %token<age_unit>T_AGE_UNIT
 
-%token<temp_type>T_TEMP_TYPE "core/gpu"
+%token<temp_type>T_TEMP_TYPE "core/gpu/cpu/arm"
 %token<zzzzz>	T_ZZZZZ
 
 %type<ival>     rotate_arg
@@ -179,6 +181,8 @@
 %type<action>   temp
 %type<action>   throttle
 %type<action>   fan
+
+%type<action>   freq
 
 %type<action>   xxxxx
 
@@ -221,6 +225,7 @@ action: init
 | temp
 | throttle
 | fan
+| freq
 | xxxxx
 
 ;
@@ -270,6 +275,7 @@ identify_verb:   T_IDENTIFY    { verb = "identify";};
 temp_verb:       T_TEMP        { verb = "temp";};
 throttle_verb:   T_THROTTLE    { verb = "throttle";};
 fan_verb:        T_FAN         { verb = "fan";};
+freq_verb:       T_FREQ        { verb = "freq";};
 xxxxx_verb:      T_XXXXX       { verb = "xxxxx";};
 
 /*
@@ -295,6 +301,8 @@ xxxxx_verb:      T_XXXXX       { verb = "xxxxx";};
  *  TEMP      ( display, row, col, font, pathname, limit)
  *  THROTTLE  ( display, row, col, font)
  *  FAN       ( display, row, col, font, pathname, limit)
+ *  FREQ      ( display, row, col, font, measurement, limit)
+
  */
 
 
@@ -333,6 +341,8 @@ temp:       temp_verb      '(' T_INT  int_arg int_arg  int_arg string_arg int_ar
 temp:       temp_verb      '(' T_INT  int_arg int_arg  int_arg temp_arg int_arg ')'                          { $$=new_action_vcore_temp($3,$4,$5,$6,$7,$8);Debug("******TEMP    (%d;%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, str_temp($7),$8);} ;
 throttle:   throttle_verb  '(' T_INT  int_arg int_arg  int_arg ')'                                           { $$=new_action_throttle($3,$4,$5,$6);        Debug("******THROTTLE   (%d;%d;%d;%d)\n"		    ,  $3, $4, $5, $6); } ;
 fan:        fan_verb       '(' T_INT  int_arg int_arg  int_arg string_arg int_arg ')'                        { $$=new_action_fan($3,$4,$5,$6,$7,$8);       Debug("******FAN    (%d;%d;%d;%d;%s;%d)\n"       ,  $3, $4, $5, $6, $7,$8);} ;
+
+freq:       freq_verb      '(' T_INT  int_arg int_arg  int_arg temp_arg int_arg ')'                          { $$=new_action_freq($3,$4,$5,$6,$7,$8);Debug("******FREQ    (%d;%d;%d;%d;%s;%d)\n"      ,  $3, $4, $5, $6, str_temp($7),$8);} ;
 
 xxxxx:    xxxxx_verb       '(' ')'                                 { $$=new_action_xxxxx();                  Debug("******XXXXX    ()\n");};
 

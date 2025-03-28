@@ -1053,7 +1053,7 @@ int ga_linux_temp(int display, UWORD xstart, UWORD ystart, int fsize, char *path
 /*
  * I initially understood this allowed for multiple temperature readings (core, sdram_c sdram_i sdram_p)
  * but it turns out this only for voltages. We will leave the other types in grammar, in case sombody wants to
- * add voltage readings. Here we will igore the temp_type (as we only have the one)
+ * add voltage readings. Here we will ignore the temp_type (as we only have the one)
  */
 
 int ga_vcore_temp(int display, UWORD xstart, UWORD ystart, int fsize, enum temp_type   type, int limit)
@@ -1087,6 +1087,72 @@ int ga_vcore_temp(int display, UWORD xstart, UWORD ystart, int fsize, enum temp_
 
   return rc;
 }
+
+
+
+/*
+ * We (re)use some of the types defined for temperature , for frequency (maybe the enum should be renamed) 
+ */
+
+int ga_freq(int display, UWORD xstart, UWORD ystart, int fsize, enum temp_type   type, int limit)
+{
+  char *send;
+  char *name;
+  char  receive[STRING_SIZE];
+
+  char	buffer[32];
+
+  long	freq;  // In Hertz
+  int   mfreq;// In Mega Hertz
+  
+
+  enum  Eink_colour colour;
+  int   rc=0;
+
+  switch(type)  // If the value is incorrect now, it's too late for syntax errors etc.
+	{
+	deafult:
+	case(temp_cpu):
+	case(temp_arm):
+	  send="measure_clock arm";
+	  name="CPU";
+	  break;
+	case(temp_core):
+	case(temp_gpu):
+	  send="measure_clock core";
+	  name="GPU";
+	  break;
+	}
+  
+  if ((rc=mail_vcore(send, receive, STRING_SIZE)) !=0)
+	fprintf(stderr, "Non-Zero code (%d) from measure temp request\n", rc);
+  
+  Debug("get_freq result was %s\n", receive);
+
+
+  if (sscanf(receive, "%*[^=]=%ld", &freq) != 1)    // eg "temp=53.8'C"
+    fprintf(stderr, "Bad data in response from MBOX\n");
+
+  mfreq= freq/1000000;
+  
+  if (mfreq < limit)   // here limit is a lower limit (e.g. clock is too slow)
+	colour = is_red_on_grey;
+  else
+	colour = is_black_on_grey;
+  
+  snprintf(buffer, sizeof(buffer), "%s:%4.4dM", name, mfreq);
+
+  ga_text(display, xstart, ystart, fsize, buffer, colour);
+  
+  Debug("name=%s, freq=%ld, limit=%d, mfreq=%d\n", name, freq, limit, mfreq);
+
+  return rc;
+}
+
+
+
+
+
 
 /*--------------------------------------------------------
               Bit   Meaning
@@ -1124,12 +1190,12 @@ struct tstates { int mask; char c;};
 
 static struct tstates states[] = {
   {THROT,  'T'},
-  {OTEMP,  'H'},  // Heat
+  {ATEMP,  'H'},  // Heat
   {VOLT,   'V'},
   {FREQ,   'F'},
 
   {OTHROT, 't'},
-  {ATEMP,  'h'},  // Heat
+  {OTEMP,  'h'},  // Heat
   {OVOLT,  'v'},
   {OFREQ,  'f'},
 };
@@ -1156,7 +1222,7 @@ int  ga_throttle(int display, UWORD xstart, UWORD ystart, int fsize)
 
 	// for debug throttled=(1<<18)|(1<<17)|(1<<19);
 	
-	if (throttled & THROT || throttled & OTHROT ) // is now, or has every been ...
+	if (throttled & THROT || throttled & OTHROT ) // is now, or has ever been ...
 		colour = is_red_on_grey;
 	else
 		colour = is_black_on_grey;

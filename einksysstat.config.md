@@ -77,6 +77,7 @@ Actions:
 **TEMP**      ( display, <xstart>, <ystart>, <fsize>, <syspathname>,    <limit>)
 **THROTTLE**  ( display, <xstart>, <ystart>, <fsize>)
 **FAN**       ( display, <xstart>, <ystart>, <fsize>, <syspathname>,    <limit>)
+**FREQ**      ( display, <xstart>, <ystart>, <fsize>, <measurement>,    <limit>)
 
 Where:
 
@@ -111,7 +112,7 @@ limit:=< int >
 
 syspathname:= a file system path, typically in sys (as suggested by the tool eink-find-devices[.sh])
 
-measurement:= gpu | core
+measurement:= gpu | core | arm | cpu
 
 Semantics:
 ---------
@@ -173,6 +174,7 @@ Semantics:
 	temperature from the videocore. Using a path (e.g. in /sys) uses the Linux
 	version of temperature. Use the tool eink-find-devices(.sh) to help find the
 	correct paths. There could be multiple and you can choose (one in each verb)
+	if the temperature is higher than the limit, text will be in red.
 
 **THROTTLE**
 :   Diplays the throttled status of the Pi. The simplest case is 00000000 which is normal.
@@ -183,6 +185,12 @@ Semantics:
 **FAN**
 :  Displays the fan speed. Use the tool eink-find-devices(.sh) to help find the
    correct paths.
+
+**FREQ**
+:   Display a frequency, either ARM(AKA CPU) or CORE(AKA GPU)
+	from the videocore. The frequency is in MegaHertz
+	If the actual value is SMALLER than the limit, the text will be in red.
+
 
 FILES
 =====

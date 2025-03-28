@@ -40,6 +40,7 @@ enum verb
     do_vcore_temp,
     do_throttle,
     do_fan,
+    do_freq,
     do_xxxxx,
   };
 
@@ -172,6 +173,27 @@ struct args_fan
 };
 
 
+struct args_freq
+{
+  UWORD		   xstart;
+  UWORD		   ystart;
+  int		   fsize;
+  enum temp_type   type;
+  int		   limit;
+};
+
+
+struct args_xxxxx
+{
+  UWORD		   xstart;
+  UWORD		   ystart;
+  int		   fsize;
+  enum temp_type   type;
+  int		   limit;
+};
+
+
+
 
 struct action
 {
@@ -196,6 +218,8 @@ struct action
     struct args_vcore_temp vtemp;
     struct args_throttle   throttle;
     struct args_fan        fan;
+    struct args_freq       freq;
+    struct args_xxxxx      xxxxx;
   } args;
   
 };
@@ -393,6 +417,15 @@ struct action * new_action_fan		(int              display,
 					 char		  pathname[],
 					 int		  limit
 					 );
+
+struct action * new_action_freq         (int              display,
+					 UWORD		  xstart,
+					 UWORD		  ystart,
+					 int		  fsize,
+					 enum temp_type   type,
+					 int		  limit
+					 );
+
 
 
 struct action * new_action_xxxxx	();

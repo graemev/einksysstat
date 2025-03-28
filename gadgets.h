@@ -88,11 +88,14 @@ enum age_units
     age_days,
   };
 
+/* Notwithstanding the name, these can be used for temperature or frequency */
 enum temp_type
   {
     temp_none,
     temp_cpu,
     temp_gpu,
+    temp_arm,
+    temp_core,
     temp_sdram_c, /* these last 3 can't be measured(yet) so can't be used. */
     temp_sdram_i,
     temp_sdram_p,
@@ -148,6 +151,7 @@ extern void		ga_identify();
 
 extern int		ga_linux_temp(int display, UWORD xstart, UWORD ystart, int fsize, char            *pathname, int limit);
 extern int		ga_vcore_temp(int display, UWORD xstart, UWORD ystart, int fsize, enum temp_type   type,     int limit);
+extern int		ga_freq      (int display, UWORD xstart, UWORD ystart, int fsize, enum temp_type   type,     int limit);
 extern int		ga_throttle  (int display, UWORD xstart, UWORD ystart, int fsize);
 
 extern int		ga_fan       (int display, UWORD xstart, UWORD ystart, int fsize, char *pathname, int limit);

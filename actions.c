@@ -141,6 +141,11 @@ void do_action(struct action * action)
 		ga_fan(action->display,action->args.fan.xstart, action->args.fan.ystart, action->args.fan.fsize, action->args.fan.pathname, action->args.fan.limit);
       break;
 
+
+    case(do_freq):
+      ga_freq(action->display,action->args.freq.xstart, action->args.freq.ystart, action->args.freq.fsize, action->args.freq.type, action->args.freq.limit);
+      break;
+
     case(do_xxxxx):
       ga_xxxxx();
       break;
@@ -765,6 +770,39 @@ struct action * new_action_fan(int              display,
 
   return p;
 }
+
+
+/* ====== FREQ ====== */
+
+struct action * new_action_freq      (int              display,
+									  UWORD		       xstart,
+									  UWORD		       ystart,
+									  int		       fsize,
+									  enum temp_type   type,
+									  int			   limit
+									  )
+
+{
+  struct action * p;
+
+  if ((p = malloc(sizeof(struct action))) == NULL)
+    {
+      perror("Malloc action freq:");
+      exit(1);
+    }
+
+  p->verb = do_freq;
+  
+  p->args.freq.xstart=xstart;
+  p->args.freq.ystart=ystart;
+  p->args.freq.fsize =fsize;
+
+  p->args.freq.type  =type;
+  p->args.freq.limit =limit;
+
+  return p;
+}
+
 
 
 /* ====== XXXXX ====== */
