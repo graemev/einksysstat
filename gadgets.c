@@ -1019,31 +1019,39 @@ int ga_linux_temp(int display, UWORD xstart, UWORD ystart, int fsize, char *path
 	char			 *line = NULL;
 	int			      rc = 0;
 	float			  f;
+	_Bool			  missing = false;
 
 	if ((fp=fopen(pathname, "r")) == NULL)
 		{
 			perror(pathname);
-			exit(1);
+			missing=true;
 		}
 
-	if (getline(&line, &len, fp) > 0)
-		{
+	if (missing)
+	  {
+		colour = is_red_on_grey;
+		strcpy(buffer, "CPU:UNAV");
+	  }
+	else
+	  {
+		if (getline(&line, &len, fp) > 0)
+		  {
 			Debug("CPU TEMP says %s\n", line);
 			if (sscanf(line, "%d", &cputemp) != 1)
-				fprintf(stderr, "CPUTEMP: Bad data in %s\n", pathname);
-		}
-	fclose(fp);
-	free(line);
-		
+			  fprintf(stderr, "CPUTEMP: Bad data in %s\n", pathname);
+		  }
+		fclose(fp);
+		free(line);
 
-	f = (cputemp+500)/1000;
+		f = (cputemp+500)/1000;
 	
-	if (f > limit)   // So only whole degrees
-		colour = is_red_on_grey;
-	else
-		colour = is_black_on_grey;
+		if (f > limit)   // So only whole degrees
+		  colour = is_red_on_grey;
+		else
+		  colour = is_black_on_grey;
 
-	snprintf(buffer, sizeof(buffer), "CPU:%4.1f", f);
+		snprintf(buffer, sizeof(buffer), "CPU:%4.1f", f);
+	  }
 
 	ga_text(display, xstart, ystart, fsize, buffer, colour);
 	
@@ -1257,31 +1265,41 @@ int		ga_fan       (int display, UWORD xstart, UWORD ystart, int fsize, char *pat
 	size_t            len = 0;
 	char			 *line = NULL;
 	int			      rc = 0;
-
+	_Bool			  missing = false;
+	
 
 	if ((fp=fopen(pathname, "r")) == NULL)
 		{
 			perror(pathname);
-			exit(1);
+			missing=true;
 		}
 
-	if (getline(&line, &len, fp) > 0)
-		{
+	if (missing)
+	  {
+		colour = is_red_on_grey;
+		strcpy(buffer, "Fan:UNAV");
+	  }
+	else
+	  {
+
+		if (getline(&line, &len, fp) > 0)
+		  {
 			Debug("Fan says %s\n", line);
 			if (sscanf(line, "%d", &rpm) != 1)
-				fprintf(stderr, "FAN: Bad data in %s\n", pathname);
-		}
-	fclose(fp);
-	free(line);
+			  fprintf(stderr, "FAN: Bad data in %s\n", pathname);
+		  }
+		fclose(fp);
+		free(line);
 		
 	
-	if (rpm > limit)
-		colour = is_red_on_grey;
-	else
-		colour = is_black_on_grey;
+		if (rpm > limit)
+		  colour = is_red_on_grey;
+		else
+		  colour = is_black_on_grey;
 
-	snprintf(buffer, sizeof(buffer), "Fan:%05d", rpm);
-
+		snprintf(buffer, sizeof(buffer), "Fan:%05d", rpm);
+	  }
+	
 	ga_text(display, xstart, ystart, fsize, buffer, colour);
 	
 	return rc;
