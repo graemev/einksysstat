@@ -120,6 +120,7 @@ static struct
 } age_lookup[] =
   {
     {"age_none"   , age_none},
+    {"age_best"   , age_best},    /* sadly we can't have just best, while the LALR parser could cope, the MACRO only implementation could not */
 
     {"age_minutes", age_minutes},
     {"age_hours"  , age_hours},

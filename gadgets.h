@@ -62,7 +62,7 @@
 
 enum Eink_colour
   {
-    is_no_colour,
+    is_no_colour = 0 ,
     is_black_on_grey,	// Black Letters on a grey backgound (ie Normal)
     is_red_on_grey,	// Red Letters on a grey backgound (ie Alert)
     is_black_on_red,	// INVERTED Color ... a red background
@@ -72,7 +72,7 @@ enum Eink_colour
 /* how to show remaining free space */
 enum df_units
   {
-    df_none,
+    df_none = 0 ,
     df_meg,
     df_geg,
     df_tera,
@@ -82,7 +82,9 @@ enum df_units
 
 enum age_units
   {
-    age_none,
+    age_none = 0 ,
+    age_best,
+    age_seconds,
     age_minutes,
     age_hours,
     age_days,
@@ -91,7 +93,7 @@ enum age_units
 /* Notwithstanding the name, these can be used for temperature or frequency */
 enum temp_type
   {
-    temp_none,
+    temp_none = 0,
     temp_cpu,
     temp_gpu,
     temp_arm,

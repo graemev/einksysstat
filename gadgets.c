@@ -783,6 +783,7 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
   char	       buffer[32];
   int	       max_len=0;  // depends on font size and ystart
   char	       c;
+  _Bool        best = false;
   enum Eink_colour colour;
   _Bool missing = false;
 
@@ -801,10 +802,31 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
       age=now-statbuf.st_mtime;  // Mixes long and time_t (hope that's OK :-) 
     }
 
+  
+  /* Change. We will treat "none" as meaning "best"  ... sadly can't use the word "best" ... won't work in MACRO implementation */
+  if (units == age_best ||  units == age_none)
+	{
+	  best = true;			     /* we used "best" syntax, so sadly the cutoff must be in seconds (otherwise it's in the units we specified) */
+	  
+	  if       (age > 60 * 60* 24 * 2)  /* 2 days */
+		units=age_days;
+		else if  (age > 60 * 60* 2)       /* 2 hours */
+		units=age_hours;
+	  else if  (age > 60 * 2)           /* 2 minutes */
+		units=age_minutes;
+		else
+		  units=age_seconds;
+	}
+
+  
   switch(units)
     {
-    default:
+    default:    
     case(age_none):
+      nvalue = age;
+      c=' ';
+      break;
+    case(age_seconds):
       nvalue = age;
       c=' ';
       break;
@@ -834,12 +856,27 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
   
   buffer[max_len] = '\0';
 
-  if (nvalue > cutoff | missing)
-    colour = is_red_on_grey;
-  else
-    colour = is_black_on_grey;
+
+
+  if (best)
+	{
+
+	  /* sadly we must specify in seconds (ugly) because we can't know when we write the config file what units will be used */
+	  if (age > cutoff | missing)           /* age is always in seconds */
+		colour = is_red_on_grey;
+	  else
+		colour = is_black_on_grey;
+	} else {
+		  if (nvalue > cutoff | missing)    /* nvalue  is in the given units */
+		colour = is_red_on_grey;
+	  else
+		colour = is_black_on_grey;
+
+  }
   
 
+
+  
   ga_text(display, xstart, ystart, fsize, buffer, colour);
 
   return rc;
@@ -1019,31 +1056,39 @@ int ga_linux_temp(int display, UWORD xstart, UWORD ystart, int fsize, char *path
 	char			 *line = NULL;
 	int			      rc = 0;
 	float			  f;
+	_Bool			  missing = false;
 
 	if ((fp=fopen(pathname, "r")) == NULL)
 		{
 			perror(pathname);
-			exit(1);
+			missing=true;
 		}
 
-	if (getline(&line, &len, fp) > 0)
-		{
+	if (missing)
+	  {
+		colour = is_red_on_grey;
+		strcpy(buffer, "CPU:UNAV");
+	  }
+	else
+	  {
+		if (getline(&line, &len, fp) > 0)
+		  {
 			Debug("CPU TEMP says %s\n", line);
 			if (sscanf(line, "%d", &cputemp) != 1)
-				fprintf(stderr, "CPUTEMP: Bad data in %s\n", pathname);
-		}
-	fclose(fp);
-	free(line);
-		
+			  fprintf(stderr, "CPUTEMP: Bad data in %s\n", pathname);
+		  }
+		fclose(fp);
+		free(line);
 
-	f = (cputemp+500)/1000;
+		f = (cputemp+500)/1000;
 	
-	if (f > limit)   // So only whole degrees
-		colour = is_red_on_grey;
-	else
-		colour = is_black_on_grey;
+		if (f > limit)   // So only whole degrees
+		  colour = is_red_on_grey;
+		else
+		  colour = is_black_on_grey;
 
-	snprintf(buffer, sizeof(buffer), "CPU:%4.1f", f);
+		snprintf(buffer, sizeof(buffer), "CPU:%4.1f", f);
+	  }
 
 	ga_text(display, xstart, ystart, fsize, buffer, colour);
 	
@@ -1257,31 +1302,41 @@ int		ga_fan       (int display, UWORD xstart, UWORD ystart, int fsize, char *pat
 	size_t            len = 0;
 	char			 *line = NULL;
 	int			      rc = 0;
-
+	_Bool			  missing = false;
+	
 
 	if ((fp=fopen(pathname, "r")) == NULL)
 		{
 			perror(pathname);
-			exit(1);
+			missing=true;
 		}
 
-	if (getline(&line, &len, fp) > 0)
-		{
+	if (missing)
+	  {
+		colour = is_red_on_grey;
+		strcpy(buffer, "Fan:UNAV");
+	  }
+	else
+	  {
+
+		if (getline(&line, &len, fp) > 0)
+		  {
 			Debug("Fan says %s\n", line);
 			if (sscanf(line, "%d", &rpm) != 1)
-				fprintf(stderr, "FAN: Bad data in %s\n", pathname);
-		}
-	fclose(fp);
-	free(line);
+			  fprintf(stderr, "FAN: Bad data in %s\n", pathname);
+		  }
+		fclose(fp);
+		free(line);
 		
 	
-	if (rpm > limit)
-		colour = is_red_on_grey;
-	else
-		colour = is_black_on_grey;
+		if (rpm > limit)
+		  colour = is_red_on_grey;
+		else
+		  colour = is_black_on_grey;
 
-	snprintf(buffer, sizeof(buffer), "Fan:%05d", rpm);
-
+		snprintf(buffer, sizeof(buffer), "Fan:%05d", rpm);
+	  }
+	
 	ga_text(display, xstart, ystart, fsize, buffer, colour);
 	
 	return rc;

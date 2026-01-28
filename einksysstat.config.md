@@ -3,7 +3,7 @@
 NAME
 ====
 
-**einksysstat.conf** — Display system stats on an eInk display
+<b>einksysstat.conf</b> — Display system stats on an eInk display
 
 
 DESCRIPTION
@@ -45,39 +45,41 @@ and look at woodenman.c)
 
 Actions:
 
-**INIT**       (  < colour >,  < rotate > ); 
+~~~~~
 
-**HOSTNAME**   (  < xstart >,  < ystart >,  < fsize >  ); 
+INIT       (  < colour >,  < rotate > ); 
 
-**TIMESTAMP**  (  < xstart >,  < ystart >,  < fsize >  ); 
+HOSTNAME   (  < xstart >,  < ystart >,  < fsize >  ); 
 
-**UPTIME**     (  < xstart >,  < ystart >,  < fsize >  ); 
+TIMESTAMP  (  < xstart >,  < ystart >,  < fsize >  ); 
 
-**RENDER**     ();
+UPTIME     (  < xstart >,  < ystart >,  < fsize >  ); 
 
-**SLEEP**      (  < seconds > );
+RENDER     ();
 
-**CLEAR**      ();
+SLEEP      (  < seconds > );
 
-**LOOP**       ();
+CLEAR      ();
 
-**DF**         (            < ystart >, < fsize >, < device >, < label >  < df >  ,< cutoff > );
+LOOP       ();
 
-**AGE**        (  < xstart >, < ystart >, < fsize >, < filename >   ,< label >  < units >  ,< cutoff > );
+DF         (            < ystart >, < fsize >, < device >, < label >  < df >  ,< cutoff > );
 
-**FILE**       (  < xstart >, < ystart >, < fsize >, < filename >   ,< lines > );
+AGE        (  < xstart >, < ystart >, < fsize >, < filename >   ,< label >  < units >  ,< cutoff > );
 
-**METER**      (  < xstart >, < ystart >, < fsize >, < value >,  < colour > );
+FILE       (  < xstart >, < ystart >, < fsize >, < filename >   ,< lines > );
 
-**TEXT**       (  < xstart >, < ystart >, < fsize >, < text >,  < colour > );
+METER      (  < xstart >, < ystart >, < fsize >, < value >,  < colour > );
 
-**IDENTIFY**  ( )
+TEXT       (  < xstart >, < ystart >, < fsize >, < text >,  < colour > );
 
-**TEMP**      ( display, <xstart>, <ystart>, <fsize>, <measurement>,    <limit>)
-**TEMP**      ( display, <xstart>, <ystart>, <fsize>, <syspathname>,    <limit>)
-**THROTTLE**  ( display, <xstart>, <ystart>, <fsize>)
-**FAN**       ( display, <xstart>, <ystart>, <fsize>, <syspathname>,    <limit>)
-**FREQ**      ( display, <xstart>, <ystart>, <fsize>, <measurement>,    <limit>)
+IDENTIFY  ( )
+
+TEMP      ( display, <xstart>, <ystart>, <fsize>, <measurement>,    <limit>)
+TEMP      ( display, <xstart>, <ystart>, <fsize>, <syspathname>,    <limit>)
+THROTTLE  ( display, <xstart>, <ystart>, <fsize>)
+FAN       ( display, <xstart>, <ystart>, <fsize>, <syspathname>,    <limit>)
+FREQ      ( display, <xstart>, <ystart>, <fsize>, <measurement>,    <limit>)
 
 Where:
 
@@ -88,7 +90,7 @@ df:=   df\_meg | df\_geg | df\_gig | df\_best | df\_pcent |
         MB | GB |
         M | G
 
-units:= age\_minutes | age\_hours | age\_days | minutes | hours | days
+units:= age\_best | age\_seconds | age\_minutes | age\_hours | age\_days | seconds | minutes | hours | days
 
 rotate:= 0 | 90 | 180 | 270
 
@@ -114,34 +116,37 @@ syspathname:= a file system path, typically in sys (as suggested by the tool ein
 
 measurement:= gpu | core | arm | cpu
 
+
+~~~~~
+
 Semantics:
 ---------
 
-**INIT** 
+INIT 
 :	Needed at the start to setup the device.
 	
-**HOSTNAME**
+HOSTNAME
 :	Displays the hostname(1) 
 	
-**TIMESTAMP**
+TIMESTAMP
 :	Displays the current time of day as "%Y/%m/%d-%H:%M" see strftime(3)
 	
-**UPTIME**
+UPTIME
 	Displays uptime(1) in Days+hours+minutes
 
-**RENDER**
+RENDER
 :	Actually "paint" the display (takes quite a long time) Normally there is one of these at the end of each file.
 	
-**SLEEP**
+SLEEP
 :	Pause for < seconds > , useful if you want multiple "pages" to display
 	
-**CLEAR**
+CLEAR
 :	clears the display. Generally if the device will be stored fro long periods it should be cleared
 
-**LOOP**
+LOOP
 :	Not implemented (part of a more complex design where this command runs as a daemon)
 	
-**DF**
+DF
 :	Akin to the df(1) command. Output occupies the entire line (so there is no xstart)
 	queries the free-space of the file system where the given file (as described by the path < device >)
 	< label >  defines the "short name" used to describe it , so /lost&found  and "ROOT" might be
@@ -149,44 +154,48 @@ Semantics:
 	or a percentage. If the free space is below *< cutoff > percent free*, the meter is displayed in red
 	otherwise it is all in black.
 	
-**AGE**
-:	Check the age of a file < file > and displays it in Days, Hours or Minutes. If the value is older
-	than < cutoff > it will be displayed in red, else black. Typical use is a logfile used on a SUCCESSFUL
-	backup, if it is older than < cutoff > days that is a red warning.
+AGE
+:	Check the age of a file < file > and displays it in Days, Hours Minutes or
+	Seconds. If the value is older than < cutoff > it will be displayed in red,
+	else black. Typical use is a logfile used on a SUCCESSFUL backup, if it is
+	older than < cutoff > days that is a red warning.  If the units are minutes
+	the cutoff is measured in minutes, in hours, the cutoff is hours etc but if
+	the cutoff is **age_best** then the cutoff must be in seconds (because you can't
+	know what units will be displayed)
 
-**FILE**
+FILE
 :	Displays the first < lines > from a < file > . Typically this file will get updated by other jobs
 	e.g. a backup failure message.
 	
-**METER**
+METER
 :	This is the naked version of the meter from DF
 	
-**IDENTIFY**
+IDENTIFY
 :	Slightly different to other verbs, it does not need a render verb to display
      it. It puts fixed information on all screens (currently 1) about which display
 	 it is. See the -i option to einksysstat(1).
 	
-**TEXT**
+TEXT
 :	Just displays a line of fixed text (might be of use e.g with METER)
 
-**TEMP**
+TEMP
 :   Display a temperature, there are 2 types the keyword core or GPU gets the
 	temperature from the videocore. Using a path (e.g. in /sys) uses the Linux
 	version of temperature. Use the tool eink-find-devices(.sh) to help find the
 	correct paths. There could be multiple and you can choose (one in each verb)
 	if the temperature is higher than the limit, text will be in red.
 
-**THROTTLE**
+THROTTLE
 :   Diplays the throttled status of the Pi. The simplest case is 00000000 which is normal.
 	If throttling is active a T will appear, if it **has** been active a lower case t will appear
 	the text will be in red in these cases. If the frequency is being capped F is displayed
 	if it **has** been capped lowercase f will be shown. Similar for heat (H/h) or volts (V/v).
 
-**FAN**
+FAN
 :  Displays the fan speed. Use the tool eink-find-devices(.sh) to help find the
    correct paths.
 
-**FREQ**
+FREQ
 :   Display a frequency, either ARM(AKA CPU) or CORE(AKA GPU)
 	from the videocore. The frequency is in MegaHertz
 	If the actual value is SMALLER than the limit, the text will be in red.
@@ -204,11 +213,11 @@ EXAMPLE
 
 Note there are several example configuration files shipped with einksysstat distribution:
 
-einksysstat.conf.sizes  -- Shows various font sizes
-einksysstat.conf.rotate -- Shows the different screen rotations
-einksysstat.conf.id     -- Very similar to the -i option on einksysstat(1)
-einksysstat.conf.temps  -- Temperatures and fans
-einksysstat.conf.disks  -- Disk usage
+	einksysstat.conf.sizes  -- Shows various font sizes
+	einksysstat.conf.rotate -- Shows the different screen rotations
+	einksysstat.conf.id     -- Very similar to the -i option on einksysstat(1)
+	einksysstat.conf.temps  -- Temperatures and fans
+	einksysstat.conf.disks  -- Disk usage
 
 The samples attempt to exercise different styles and use all the verbs. It's
 unlikely you would use these "as is". You would probably take some ideas from each one:

@@ -26,7 +26,7 @@ EXTRA_DIST=$(top_srcdir)/einksysstat.md $(top_srcdir)/einksysstat.config.md \
 man1_MANS = einksysstat.1
 man5_MANS = einksysstat.config.5
 
-CLEANFILES = $(man1_MANS) $(man5_MANS)
+CLEANFILES = $(man1_MANS) $(man5_MANS) README.1  README.html
 
 
 BISON = bison
@@ -49,14 +49,13 @@ LIB_RPI += -llgpio -lm
 
 DEBUG_RPI = -D $(USELIB_RPI) -D RPI
 
+PANDOC = pandoc
 #
 #  I gather MD (markup) is cited for a future version of Autotools?
 #
 
 einksysstat.1: einksysstat.md
-	pandoc -f markdown -t plain --wrap=none $< -o $@
+	$(PANDOC) --standalone $(PANDOCFLAGS) --to man -V section=1  $< -o $@
 
 einksysstat.config.5: einksysstat.config.md
-	pandoc -f markdown -t plain --wrap=none $< -o $@
-
-
+	$(PANDOC) --standalone $(PANDOCFLAGS) --to man -V section=5  $< -o $@

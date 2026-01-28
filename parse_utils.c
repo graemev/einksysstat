@@ -204,11 +204,14 @@ struct
 } age_lookup[] =
   {
     {"age_none"   , age_none},
+    {"age_best"   , age_best},
 
+    {"age_seconds", age_seconds},
     {"age_minutes", age_minutes},
     {"age_hours"  , age_hours},
     {"age_days"   , age_days},
 
+    {"seconds"    , age_seconds},
     {"minutes"    , age_minutes},
     {"hours"      , age_hours},
     {"days"       , age_days},

@@ -22,30 +22,24 @@ doubt offer similar boards.
 Options
 -------
 
--V, --version
+    -V, --version     Prints the current version number and exits.
 
-:   Prints the current version number and exits.
+    -h, --help    Prints brief usage information.
 
--h, --help
+    -v, --verbose    Make output more verbose. (may be repeated)
 
-:   Prints brief usage information.
+    -i, --identify
 
--v, --verbose
+: Identify each display (currently only one) displaying configuration info on display.
+This can be used with or without a script file. Without a file it simply displays the info
+with a script file it displays the info twice. Before and after running the script. This has implications
+if the script defines more displays (currently not implemented) they appear in the latter output. After
+the first display of info the display is not cleared, so if the script does not clear the display
+it will overwrite the info display.
 
-:   Make output more verbose. (may be repeated)
+	-d, --debug
 
--i, --identify
-
-:   Identify each display (currently only one) displaying configuration info on display.
-    This can be used with or without a script file. Without a file it simply displays the info
-	with a script file it displays the info twice. Before and after running the script. This has implications
-	if the script defines more displays (currently not implemented) they appear in the latter output. After
-	the first display of info the display is not cleared, so if the script does not clear the display
-	it will overwrite the info display.
-
--d, --debug
-
-:   Developer option.  (may be repeated)
+   Developer option.  (may be repeated)
 
 
 The filename names a file which defines a series of verbs that define what is displayed.

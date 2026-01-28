@@ -183,10 +183,13 @@
 "T"				{yylval->df_unit=df_tera  ; return T_DF_UNIT;}
 
 
+"age_best"			{yylval->age_unit=age_best    ; return T_AGE_UNIT;}
+"age_seconds"			{yylval->age_unit=age_seconds ; return T_AGE_UNIT;}
 "age_minutes"			{yylval->age_unit=age_minutes ; return T_AGE_UNIT;}
 "age_hours"			{yylval->age_unit=age_hours   ; return T_AGE_UNIT;}
 "age_days"			{yylval->age_unit=age_days    ; return T_AGE_UNIT;}
 
+"seconds"			{yylval->age_unit=age_seconds ; return T_AGE_UNIT;}
 "minutes"			{yylval->age_unit=age_minutes ; return T_AGE_UNIT;}
 "hours"				{yylval->age_unit=age_hours   ; return T_AGE_UNIT;}
 "days"				{yylval->age_unit=age_days    ; return T_AGE_UNIT;}
