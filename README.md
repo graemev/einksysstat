@@ -1,4 +1,4 @@
-# einksysstat
+einksysstat
 
 A utility to display system stats on an eInk display, typically from a Raspberry Pi.
 
@@ -29,13 +29,13 @@ found at e.g. https://github.com/waveshareteam/e-Paper.
 
 
 
-# See:
+See:
 	manual pages: einksysstat(1)  einksysstat.config(5)
 
 
 
 
-# To INSTALL (from tarball):
+To INSTALL (from tarball):
 
 
 Read: https://www.waveshare.com/wiki/1.54inch_e-Paper_Module_(B)_Manual#Working_With_Raspberry_Pi
