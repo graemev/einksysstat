@@ -808,11 +808,11 @@ int ga_age(int display, UWORD xstart, UWORD ystart, int fsize, char *filename, c
 	{
 	  best = true;			     /* we used "best" syntax, so sadly the cutoff must be in seconds (otherwise it's in the units we specified) */
 	  
-	  if       (age > 60 * 60* 24 * 2)  /* 2 days */
+	  if       (age > 60 * 60* 24 * 2)  /* 2 days ... more than 48 hours, switch to days, could do longer but not nomal usage*/
 		units=age_days;
-		else if  (age > 60 * 60* 2)       /* 2 hours */
+		else if  (age > 60 * 90)        /* 90 minutes ... longer than 99 min, switch to hours */
 		units=age_hours;
-	  else if  (age > 60 * 2)           /* 2 minutes */
+	  else if  (age > 90 )              /* 90 seconds .. really only room for 2 digits */
 		units=age_minutes;
 		else
 		  units=age_seconds;
