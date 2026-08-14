@@ -15,7 +15,7 @@ fan      (0    0 ,80   16  "/sys/devices/platform/cooling_fan/hwmon/hwmon3/fan1_
 throttle (0    0,100   20)
 
 
-file     (0    0,136,  8 "/etc/motd" 0)
+file     (0    0,136,  8 "/etc/motm" 0)
 
 RENDER   (0)
 

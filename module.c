@@ -196,7 +196,45 @@ void watch_busy_pin(int e, lgGpioAlert_p evt, void *data)
   pthread_mutex_unlock(&eink_mutex);
 }
 
-  
+
+/*====================================================================
+ * It used to be the case that RPi.4 used /dev/gpiochip0 and RPi.5 used
+ * /dev/gpiochip4 * just today (14Aug2026) it jumped to /dev/gpiochip15 . But
+ * who can say when it * will jump again, so we work it out dynamiclaly
+ *  
+ * Scans available GPIO chips and returns the integer chip number
+ * matching the Raspberry Pi 5 "pinctrl-rp1" label. Returns -1 if not found.
+ * ==================================================================== */
+
+
+int get_rp1_chip_number(void)
+{
+  lgChipInfo_t chip_info;
+  int          target_chip = -1;
+
+  // Scan potential GPIO chip indexes (0 to 31)
+  for (int i = 0; i < 32; i++)
+    {
+      int handle = lgGpiochipOpen(i);
+      if (handle >= 0)
+	{
+	  // Read the chip details to check the label
+	  if (lgGpioGetChipInfo(handle, &chip_info) == 0)
+	    {
+	    if (chip_info.label && strcmp(chip_info.label, "pinctrl-rp1") == 0)
+	      {
+		target_chip = i; // Found the Raspberry Pi 5 RP1 southbridge index
+		lgGpiochipClose(handle);
+		break; 
+	      }
+	    }
+	  lgGpiochipClose(handle); // Close handles that don't match
+        }
+    }
+
+  return target_chip;
+}
+
 
 
 /******************************************************************************
@@ -231,10 +269,23 @@ UBYTE module_turn_on(void)
 
   if(fgets(buffer, sizeof(buffer), fp) != NULL)  // If it is a Raspberry PI5
     {
-      GPIO_Handle = lgGpiochipOpen(4);
+      /* 14Aug2026 ...it has become much more complex to work out what device to access*/
+
+      int chip = get_rp1_chip_number();
+
+      Debug( "/dev/gpiochip%d (Pi5) is chosen\n", chip);
+
+      if (chip < 0)
+        {
+	  Debug( "Pi5 , unable to determine which device is used to access GPIO chip");
+	  return -1;
+        }
+
+      
+      GPIO_Handle = lgGpiochipOpen(chip);
       if (GPIO_Handle < 0)
         {
-	  Debug( "/dev/gpiochip4 (Pi5) Export Failed (%s) look at permissions\n",lguErrorText(GPIO_Handle) );
+	  Debug( "/dev/gpiochip%d (Pi5) Export Failed (%s) look at permissions\n",chip, lguErrorText(GPIO_Handle) );
 	  return -1;
         }
     }
