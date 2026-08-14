@@ -8,10 +8,13 @@ einksysstat_LDADD=Fonts/libFonts.a GUI/libGUI.a                  -llgpio -lm -lp
 AM_LDFLAGS=-Wl,--gc-sections 
 
 bin_PROGRAMS = einksysstat
+# This forces all object files for this binary to depend on config.h
+$(eink_sysstat_OBJECTS): config.h
+
 dist_bin_scripts  = eink-find-devices
 
 
-BUILT_SOURCES=parser.h parser.c lexer.c einksysstat.1  einksysstat.config.5
+BUILT_SOURCES=config.h parser.h parser.c lexer.c einksysstat.1  einksysstat.config.5
 
 
 
